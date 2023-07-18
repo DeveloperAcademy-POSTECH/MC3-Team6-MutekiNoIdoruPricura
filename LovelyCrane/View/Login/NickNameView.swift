@@ -10,10 +10,10 @@ import Firebase
 import FirebaseFirestoreSwift
 class NickNameViewModel: ObservableObject {
     @Published var nickname: String = ""
-    func addmemeber() async throws {
-        let randommycode = String.createRandomStr(length: 10)
-        let uuid = String.createRandomStr(length: 13)
-        let infodata = Info(mycode: randommycode, nickname: nickname, partnerId: "", uuid: uuid)
+    func addmemeber(myuid: String) async throws {
+//        let randommycode = String.createRandomStr(length: 10)
+        let randommycode = UUID().uuidString
+        let infodata = Info(mycode: randommycode, nickname: nickname, partnerId: "", uuid: myuid)
         try await UserManager.shared.createNewUser(user: infodata)
     }
 }
@@ -21,6 +21,7 @@ class NickNameViewModel: ObservableObject {
 import SwiftUI
 struct NickNameView: View {
     @StateObject var viewModel = NickNameViewModel()
+    @Binding var myuid: String
     var body: some View {
         VStack {
             TextField("Enter your nickname", text: $viewModel.nickname)
@@ -29,7 +30,7 @@ struct NickNameView: View {
             Button(action: {
                 Task{
                     do {
-                        try await viewModel.addmemeber()
+                        try await viewModel.addmemeber(myuid: myuid)
                     }
                     catch{
                         print("error")

@@ -8,8 +8,8 @@
 import Foundation
 struct Info: Codable {
     let mycode: String
-    let nickname: String
-    let partnerId: String
+    let nickname: String?
+    let partnerId: String?
     let uuid: String
     var setMyCode: [String:Any] {
         return ["my_code": self.mycode]
