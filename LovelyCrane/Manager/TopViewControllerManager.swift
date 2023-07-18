@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: 최상단 뷰컨트롤러
 final class TopViewControllerManager {
     static let shared = TopViewControllerManager()
     private init() { }

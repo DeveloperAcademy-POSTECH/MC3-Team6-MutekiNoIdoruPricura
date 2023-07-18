@@ -20,11 +20,11 @@ final class AuthenticationManager {
     private init() { }
     
     // MARK: 현재 로그인 된 유저의 정보를 가져옵니다.(locally)
-    func getAuthenticatedUser() throws -> AuthDataResultModel {
+    func getAuthenticatedUser() throws -> AuthDataResult {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
-        return AuthDataResultModel(user: user)
+        return AuthDataResult(user: user)
     }
     
     // MARK: 로그아웃
@@ -61,13 +61,21 @@ extension AuthenticationManager {
     
     //MARK: ⭐️ 애플로그인 -> 파이어베이스 인증
     @discardableResult
-    func signInWithApple(tokens: SignInWithAppleResult) async throws -> AuthDataResultModel {
+    func signInWithApple(tokens: SignInWithAppleResult) async throws -> AuthDataResult {
         let credential = OAuthProvider.credential(withProviderID: AuthProviderOption.apple.rawValue, idToken: tokens.token, rawNonce: tokens.nonce)
         return try await signIn(credential: credential)
     }
     
-    func signIn(credential: AuthCredential) async throws -> AuthDataResultModel{
+    //MARK: ⭐️ 구글로그인 -> 파이어베이스 인증
+    @discardableResult
+    func signInWithGoogle(token: SignWithGoogleResult) async throws -> AuthDataResult {
+        let credential = GoogleAuthProvider.credential(withIDToken: token.idToken, accessToken: token.accessToken)
+
+        return try await signIn(credential: credential)
+    }
+    
+    func signIn(credential: AuthCredential) async throws -> AuthDataResult{
         let authDataResult = try await Auth.auth().signIn(with: credential)
-        return AuthDataResultModel(user: authDataResult.user)
+        return AuthDataResult(user: authDataResult.user)
     }
 }
