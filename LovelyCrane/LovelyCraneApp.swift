@@ -15,7 +15,7 @@ struct LovelyCraneApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NickNameView()
         }
     }
 }
