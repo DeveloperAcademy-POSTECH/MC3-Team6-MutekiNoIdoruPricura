@@ -24,20 +24,19 @@ final class UserManager {
 
         try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
     }
+
     func connectUsertoUser(to partnertoken: String) async throws {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         do{
             let document = try await userCollection.document(partnertoken).getDocument()
             guard document.exists else {return}
-            guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
             let currentUserData = self.userCollection.document(currentUserUid)
+            let partnerUserData = self.userCollection.document(partnertoken)
             try await currentUserData.updateData(["partner_id": partnertoken])
-            let loverUserData = self.userCollection.document(partnertoken)
-            try await loverUserData.updateData(["partner_id": currentUserUid])
+            try await partnerUserData.updateData(["partner_id": currentUserUid])
         }
         catch {
             print(error)
         }
     }
-
-
 }

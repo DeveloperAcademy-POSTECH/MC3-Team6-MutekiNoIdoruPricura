@@ -8,18 +8,20 @@
 // MARK: - 파이어베이스관련 연습코드. 필요한곳에서 사용하시면 됩니다.
 import Firebase
 import FirebaseFirestoreSwift
+import SwiftUI
+
 class NickNameViewModel: ObservableObject {
     @Published var nickname: String = ""
     func addmemeber() async throws {
         let infodata = Info(nickname: nickname, partnerId: "", uuid: "")
         try await UserManager.shared.createNewUser(user: infodata)
     }
+    
     func connectWithUser(partnertoken: String) async throws {
         try await UserManager.shared.connectUsertoUser(to: partnertoken)
     }
 }
 
-import SwiftUI
 struct NickNameView: View {
     @StateObject var viewModel = NickNameViewModel()
     @State var partnerToken: String = ""
