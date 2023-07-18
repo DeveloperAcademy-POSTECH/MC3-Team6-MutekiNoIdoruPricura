@@ -10,18 +10,19 @@ import Firebase
 import FirebaseFirestoreSwift
 class NickNameViewModel: ObservableObject {
     @Published var nickname: String = ""
-    func addmemeber(myuid: String) async throws {
-//        let randommycode = String.createRandomStr(length: 10)
-        let randommycode = UUID().uuidString
-        let infodata = Info(mycode: randommycode, nickname: nickname, partnerId: "", uuid: myuid)
+    func addmemeber() async throws {
+        let infodata = Info(nickname: nickname, partnerId: "", uuid: "")
         try await UserManager.shared.createNewUser(user: infodata)
+    }
+    func connectWithUser(partnertoken: String) async throws {
+        try await UserManager.shared.connectUsertoUser(to: partnertoken)
     }
 }
 
 import SwiftUI
 struct NickNameView: View {
     @StateObject var viewModel = NickNameViewModel()
-    @Binding var myuid: String
+    @State var partnerToken: String = ""
     var body: some View {
         VStack {
             TextField("Enter your nickname", text: $viewModel.nickname)
@@ -30,7 +31,7 @@ struct NickNameView: View {
             Button(action: {
                 Task{
                     do {
-                        try await viewModel.addmemeber(myuid: myuid)
+                        try await viewModel.addmemeber()
                     }
                     catch{
                         print("error")
@@ -38,8 +39,22 @@ struct NickNameView: View {
                 }
             }, label: {
                 Text("next view")
-            }
-            )
+            })
+            TextField("Enter your partnertoken", text: $partnerToken)
+                .padding()
+                .background(Color(uiColor: .secondarySystemBackground))
+            Button(action: {
+                Task{
+                    do {
+                        try await viewModel.connectWithUser(partnertoken: partnerToken)
+                    }
+                    catch{
+                        print("error")
+                    }
+                }
+            }, label: {
+                Text("연결해")
+            })
             Text("hello \(viewModel.nickname)")
         }
     }

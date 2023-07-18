@@ -6,25 +6,38 @@
 //
 
 import Foundation
+import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private let userCollection = Firestore.firestore().collection("Users")
     func createNewUser(user: Info) async throws{
-
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let userData: [String:Any] = [
-            "uuid" : user.uuid,
+            "uuid" : currentUserUid,
             "nickname" : user.nickname ?? "",
             "partner_id" : user.partnerId ?? "",
-            "my_code" : user.mycode
         ]
-        try await userCollection.document(user.uuid)
+        try await userCollection.document(currentUserUid)
             .setData(userData,merge: false)
 
-        try await userCollection.document(user.uuid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
+        try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
     }
-
+    func connectUsertoUser(to partnertoken: String) async throws {
+        do{
+            let document = try await userCollection.document(partnertoken).getDocument()
+            guard document.exists else {return}
+            guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+            let currentUserData = self.userCollection.document(currentUserUid)
+            try await currentUserData.updateData(["partner_id": partnertoken])
+            let loverUserData = self.userCollection.document(partnertoken)
+            try await loverUserData.updateData(["partner_id": currentUserUid])
+        }
+        catch {
+            print(error)
+        }
+    }
 
 
 }

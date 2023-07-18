@@ -10,10 +10,9 @@ import Foundation
 @MainActor
 final class AuthenticaitonViewModel: ObservableObject {
     
-    func signInApple() async throws -> String{
+    func signInApple() async throws{
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
         let data = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
-        return data.uid
     }
 }

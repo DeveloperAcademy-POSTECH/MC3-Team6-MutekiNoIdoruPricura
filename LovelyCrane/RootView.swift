@@ -11,14 +11,13 @@ import SwiftUI
 struct RootView: View {
     
     @State private var showSignInView: Bool = true
-    @State private var myuid: String = ""
 
     var body: some View {
         ZStack {
             if !showSignInView {
                 NavigationStack {
 //                    Text("메인 뷰")
-                    NickNameView(myuid: $myuid)
+                    NickNameView()
                 }
             }
         }
@@ -29,7 +28,7 @@ struct RootView: View {
 //        }
         .fullScreenCover(isPresented: $showSignInView) {
             NavigationStack {
-                AuthenticationView(myuid: $myuid, showSignInView: $showSignInView)
+                AuthenticationView( showSignInView: $showSignInView)
             }
         }
     }

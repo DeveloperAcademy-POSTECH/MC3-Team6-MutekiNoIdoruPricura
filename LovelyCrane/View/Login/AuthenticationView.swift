@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AuthenticationView: View {
     @StateObject private var vm = AuthenticaitonViewModel()
-    @Binding var myuid: String
+
     @Binding var showSignInView: Bool
     
     var body: some View {
@@ -18,7 +18,7 @@ struct AuthenticationView: View {
             Button {
                 Task {
                     do {
-                        myuid = try await vm.signInApple()
+                        try await vm.signInApple()
                         showSignInView = false
                     } catch {
                         print(error.localizedDescription)
