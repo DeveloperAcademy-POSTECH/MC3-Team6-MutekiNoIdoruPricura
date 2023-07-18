@@ -15,4 +15,10 @@ final class AuthenticaitonViewModel: ObservableObject {
         let tokens = try await helper.startSignInWithAppleFlow()
         let data = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
     }
+    
+    func signInGoogle() async throws {
+        let helper = SignInGoogleHelper()
+        let tokens = try await helper.signIn()
+        try await AuthenticationManager.shared.signInWithGoogle(token: tokens)
+    }
 }
