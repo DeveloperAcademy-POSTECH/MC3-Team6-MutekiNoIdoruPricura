@@ -13,3 +13,11 @@ struct WriteHistoryView: View {
         Text("hi")
     }
 }
+
+
+
+struct WriteView_Preview: PreviewProvider {
+    static var previews: some View {
+        WriteHistoryView()
+    }
+}
