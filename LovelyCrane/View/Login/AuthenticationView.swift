@@ -11,34 +11,44 @@ import GoogleSignInSwift
 
 struct AuthenticationView: View {
     @StateObject private var vm = AuthenticaitonViewModel()
+    @EnvironmentObject var viewRouter: ViewRouter
 
+    @State private var isLogginIn = false
+    
     @Binding var showSignInView: Bool
     
     var body: some View {
-        ZStack {
-            Color.gray.ignoresSafeArea()
-            
-            VStack {
-                Spacer()
-                
-                Image(systemName: "bird")
-                    .resizable()
-                    .foregroundColor(.white)
-                    .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width * 0.5)
-                Spacer()
+        NavigationView {
+            ZStack {
+                Color.gray.ignoresSafeArea()
                 
                 VStack {
-                    // MARK: 애플 로그인 버튼
-                    signInWithAppleButton()
-                    // MARK: 구글 로그인 버튼
-                    signInWithGoogleButton()
-                    // MARK: 구글 로그인 버튼(커스텀)
-                    customSignInWithGoogleButton()
+                    Spacer()
+                    
+                    Image(systemName: "bird")
+                        .resizable()
+                        .foregroundColor(.white)
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width * 0.5)
+                    Spacer()
+                    
+                    VStack {
+                        // MARK: 애플 로그인 버튼
+                        signInWithAppleButton()
+                        // MARK: 구글 로그인 버튼
+                        signInWithGoogleButton()
+                        // MARK: 구글 로그인 버튼(커스텀)
+                        customSignInWithGoogleButton()
+                    }
                 }
+                .padding()
+    //            .navigationTitle("사랑의 종이학")
             }
-            .padding()
-            .navigationTitle("사랑의 종이학")
+            .background (
+                NavigationLink(destination: NickNameView(showSignInView: $showSignInView).environmentObject(viewRouter), isActive: $isLogginIn) {
+
+                }
+        )
         }
     }
 }
@@ -51,6 +61,8 @@ extension AuthenticationView {
                 do {
                     try await vm.signInApple()
                     showSignInView = false
+                    isLogginIn = true
+//                    viewRouter.currentPage = "NickNameView"
                 } catch {
                     print(error.localizedDescription)
                 }

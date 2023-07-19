@@ -24,7 +24,10 @@ class NickNameViewModel: ObservableObject {
 
 struct NickNameView: View {
     @StateObject var viewModel = NickNameViewModel()
+    @EnvironmentObject var viewRouter: ViewRouter
+    @Binding var showSignInView: Bool
     @State var partnerToken: String = ""
+    
     var body: some View {
 
         VStack {
@@ -35,6 +38,8 @@ struct NickNameView: View {
                 Task{
                     do {
                         try await viewModel.addmemeber()
+                        showSignInView = false
+                        viewRouter.currentPage = "MainView"
                     }
                     catch{
                         print("error")
@@ -71,3 +76,4 @@ struct NickNameView: View {
     }
 }
 
+//stuct

@@ -9,9 +9,18 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+
 final class UserManager {
     static let shared = UserManager()
+    private init() { }
+    
     private let userCollection = Firestore.firestore().collection("Users")
+    
+    
+    func getUserDocument(userId: String) -> DocumentReference {
+        userCollection.document(userId)
+    }
+    
     func createNewUser(user: Info) async throws{
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let userData: [String:Any] = [

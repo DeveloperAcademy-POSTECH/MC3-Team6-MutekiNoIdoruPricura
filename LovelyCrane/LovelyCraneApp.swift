@@ -10,12 +10,16 @@ import FirebaseCore
 
 @main
 struct LovelyCraneApp: App {
+    @StateObject var viewRouter = ViewRouter()
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
-            RootView()
+//            NavigationStack {
+                ContentView()
+                    .environmentObject(viewRouter)
+//            }
         }
     }
 }

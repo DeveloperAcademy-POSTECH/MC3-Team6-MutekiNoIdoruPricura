@@ -11,7 +11,8 @@ struct SettingsView: View {
     
     @StateObject private var vm = SettingsViewModel()
     @Binding var showSignInView: Bool
-
+    @EnvironmentObject var viewRouter : ViewRouter
+    
     var body: some View {
         
         List {
@@ -20,6 +21,8 @@ struct SettingsView: View {
                     do {
                         try vm.logout()
                         showSignInView = true
+                        viewRouter.currentPage = "AuthenticationView"
+                        
                     } catch {
                         print(error.localizedDescription)
                     }
