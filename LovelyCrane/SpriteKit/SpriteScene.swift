@@ -25,7 +25,7 @@ final class SpriteScene: SKScene {
     }
     
     private func createCrane() {
-        let crane = SKSpriteNode(imageNamed: "favorite")
+        let crane = SKSpriteNode(imageNamed: Assets.inbox)
         crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
         crane.position = CGPoint(x: CGFloat.random(in: 0...size.width), y: size.height * 0.9)
         addChild(crane)

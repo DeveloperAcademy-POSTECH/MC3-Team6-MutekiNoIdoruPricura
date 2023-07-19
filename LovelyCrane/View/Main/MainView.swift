@@ -16,65 +16,99 @@ struct MainView: View {
     let coreMotionManager = MotionManager.shared
     @State var partnerName = "직녀"
     @State var letterCount = 912
+    @State var isWriteHistroyTapped = false
+    @State var isReceiveHistroyTapped = false
+    @State var isSettingTapped = false
+    @State var isWriteTapped = false
+    
     
     var body: some View {
         NavigationView {
             ZStack {
-                Color(Color.backGround)
-                    .ignoresSafeArea()
+                NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+                NavigationLink("", destination: SettingView(), isActive: $isSettingTapped)
+                NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
+                backGround()
                 VStack {
+                    Spacer()
                     Text("to. \(partnerName)")
                         .padding()
                         .foregroundColor(.fontGray)
                     Text("\(letterCount)")
                         .foregroundColor(.white)
-                    ZStack {
-                        GeometryReader { proxy in
-                            SpriteView(scene: makeScean())
-                        }
-                        .cornerRadius(20)
-                        .padding()
-                        Image(Assets.bottle)
-                            .resizable()
-                            .aspectRatio(CGSize(width: 1, height: 1.653), contentMode: .fit)
-                    }
-                    .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
+                        .font(.system(size: 40))
+                    spriteView()
                     Spacer()
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(width: CGSize.deviceWidth * 0.8)
-                        .offset(y: CGSize.deviceHeight * 0.1)
-                        .padding(.top)
-                        .ignoresSafeArea()
+                    bottomWriteButton()
                 }
                 .navigationTitle("")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Button {
-                            print("hi")
-                        } label: {
-                            Image(Assets.inbox)
-                        }
-
+                        inboxButton()
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            print("hi")
-                        } label: {
-                            Image(Assets.send)
-                        }
+                        sendButton()
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            print("hi")
-                        } label: {
-                            Image(Assets.setting)
-                        }
+                        settingButton()
                     }
                 }
             }
         }
     }
+
+//MARK: - Views
+    func backGround() -> some View {
+        Color(Color.backGround)
+            .ignoresSafeArea()
+    }
     
+    func settingButton() -> some View {
+        Button {
+            isSettingTapped.toggle()
+        } label: {
+            Image(Assets.setting)
+        }
+    }
+    
+    func sendButton() -> some View {
+        Button {
+            print("hi")
+        } label: {
+            Image(Assets.send)
+        }
+    }
+    func inboxButton() -> some View {
+        Button {
+            isReceiveHistroyTapped.toggle()
+        } label: {
+            Image(Assets.inbox)
+        }
+    }
+    
+    func spriteView() -> some View {
+        SpriteView(scene: makeScean())
+        .cornerRadius(20)
+        .padding()
+        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
+        .onTapGesture {
+            isWriteHistroyTapped.toggle()
+        }
+    }
+    
+    func bottomWriteButton() -> some View {
+        RoundedRectangle(cornerRadius: 20)
+            .frame(width: CGSize.deviceWidth * 0.8)
+            .offset(y: CGSize.deviceHeight * 0.048)
+            .ignoresSafeArea()
+            .onTapGesture {
+                isWriteTapped.toggle()
+            }
+            .fullScreenCover(isPresented: $isWriteTapped) {
+                WriteView(isShowingCurrentPage: $isWriteTapped)
+            }
+    }
+//MARK: - methods
     func makeScean() -> SKScene {
         let scene = SpriteScene()
         scene.motionManager = coreMotionManager
@@ -82,6 +116,8 @@ struct MainView: View {
         scene.scaleMode = .resizeFill
         return scene
     }
+    
+    
     
 }
 
