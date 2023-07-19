@@ -16,71 +16,100 @@ struct WriteView: View {
     
     @EnvironmentObject var vm: WriteViewModel
     
+    @FocusState private var isFocused: Bool
+    
+    //Model
     @State var letterText = ""
     @State var nowDate = getNowDate()
     @State var selectedImage : Image? = nil
     
+    @State var isOverLetterLimit: Bool = false
+    
+    @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
+    
     var body: some View {
-        ZStack{
-            backgroundColor
-                .ignoresSafeArea()
-            
-            VStack(alignment: .leading){
-                writeViewHeader()
+        GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
+            ZStack {
+                backgroundColor
+                    .ignoresSafeArea()
                 
-                Text(nowDate)
-                    .font(.system(size: 13.33, weight: .regular))
-                    .foregroundColor(.white)
-                    .padding(.top, 35)
-                
-                ZStack(alignment: .topLeading) {
-                    Text(placeHolder)
-                        .font(.system(size: 18.33, weight: .regular))
-                        .foregroundColor(fontGrayColor)
-                        .opacity( letterText.isEmpty ? 1 : 0)
-                    VStack {
-                        letterLimitTextField(letterLimit: letterLimit)
-                        Spacer()
-                        VStack(alignment: .leading) { // Pickerbutton + ImageView
-                            
-                            if let image = vm.image {
-                                pickedImage(image: image)
-                            } else { // 이미지가 pick 되지 않은 상태일 경우. 뷰가 뜨지 않는 구조.
-                                EmptyView()
-                            }
-                            
-                            HStack {
-                                // 현재까지 입력된 텍스트 자수 / 300을 표시.
-                                HStack(alignment: .bottom, spacing: 23.92) {
-                                    Button(action: {
-                                        vm.source = .camera
-                                        vm.showPhotoPicker()
-                                    }){
-                                       Image("galleryButton")
-                                    
-                                    }
-                                    Button(action: {
-                                        vm.source = .library
-                                        vm.showPhotoPicker()
-                                    }){
-                                       Image("cameraButton")
-                                    }
+                VStack(alignment: .leading){
+                    writeViewHeader()
+                    
+                    Text(nowDate)
+                        .font(.system(size: 13.33, weight: .regular))
+                        .foregroundColor(.white)
+                        .padding(.top, 35)
+                    
+                    ZStack(alignment: .topLeading) {
+                        Text(placeHolder)
+                            .font(.system(size: 18.33, weight: .regular))
+                            .foregroundColor(fontGrayColor)
+                            .opacity( letterText.isEmpty ? 1 : 0)
+                        VStack {
+                            letterLimitTextField(letterLimit: letterLimit)
+                            Spacer()
+                            VStack(alignment: .leading) { // Pickerbutton + ImageView
+                                
+                                if let image = vm.image {
+                                    pickedImage(image: image)
+                                } else { // 이미지가 pick 되지 않은 상태일 경우. 뷰가 뜨지 않는 구조.
+                                    EmptyView()
                                 }
                                 
-                                
-                                Spacer()
-                                
-                                letterLimitLabel(letterLimit: letterLimit)
+                                VStack { // Keyboard height를 반영하기 위한 Space를 표시하는 Vstack
+                                    HStack {
+                                        // picker buttons + 자수 label
+                                        HStack(alignment: .bottom, spacing: 23.92) {
+                                            Button(action: {
+                                                vm.source = .camera
+                                                vm.showPhotoPicker()
+                                            }){
+                                                Image("galleryButton")
+                                                
+                                            }
+                                            Button(action: {
+                                                vm.source = .library
+                                                vm.showPhotoPicker()
+                                            }){
+                                                Image("cameraButton")
+                                            }
+                                        }
+                                        
+                                        
+                                        Spacer()
+                                        
+                                        letterLimitLabel(letterLimit: letterLimit)
+                                    }
+                                    .offset(y: isFocused ? -keyboard.height+100 : 0)
+                                    .padding(.bottom)
+                                    
+                                }
                             }
                         }
                     }
+                    .padding(.top, 23.93)
+                    
+                    Spacer()
                 }
-                .padding(.top, 23.93)
+                .padding(.top, 26)
+                .padding(.horizontal, 27)
+                .onAppear{
+                    //keyboard Observer
+                    self.keyboard.addObserver()
+                }
+                .onDisappear{
+                    self.keyboard.removeObserver()
+                }
                 
-                Spacer()
             }
-            .padding(.top, 26)
-            .padding(.horizontal, 27)
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            .onTapGesture {
+                isFocused = false
+            }
+            .alert(isPresented: $isOverLetterLimit ) {
+                Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
+            }
         }
     }
     
@@ -134,16 +163,20 @@ struct WriteView: View {
     /// 글자 제한이 있는 TextField를 추가
     /// - Parameters:
     ///   - letterLimit: 글자 수 제한의 글자수.
-    /// - Returns: VStack을 return. (TextField View)
+    /// - Returns: TextField View
     func letterLimitTextField(letterLimit: Int) -> some View {
             TextField("", text: $letterText, axis: .vertical)
-                    .lineLimit((Int(letterLimit/20) >= 5) ? Int(letterLimit/20) : 5, reservesSpace: true)
+                    .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
                     .onReceive($letterText.wrappedValue.publisher.collect()) {
+                        if $letterText.wrappedValue.count > 300 {
+                            isOverLetterLimit = true
+                        }
                         $letterText.wrappedValue = String($0.prefix(letterLimit))
                     }
+                    .focused($isFocused)
     }
 }
 

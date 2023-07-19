@@ -45,6 +45,7 @@
 		C37461C22A67ABD60078C457 /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C12A67ABD60078C457 /* DateManager.swift */; };
 		C37461C42A67AD220078C457 /* WriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C32A67AD220078C457 /* WriteModel.swift */; };
 		C37461C62A67AFE60078C457 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C52A67AFE60078C457 /* ImagePicker.swift */; };
+		C37461C82A67C76C0078C457 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C72A67C76C0078C457 /* KeyboardObserver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		C37461C12A67ABD60078C457 /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		C37461C32A67AD220078C457 /* WriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteModel.swift; sourceTree = "<group>"; };
 		C37461C52A67AFE60078C457 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		C37461C72A67C76C0078C457 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				86428B9E2A666ABC00B2CA7D /* TopViewControllerManager.swift */,
 				C37461C12A67ABD60078C457 /* DateManager.swift */,
 				C37461C52A67AFE60078C457 /* ImagePicker.swift */,
+				C37461C72A67C76C0078C457 /* KeyboardObserver.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				86428BA32A666ABD00B2CA7D /* AuthenticationView.swift in Sources */,
 				86428BA82A666B3900B2CA7D /* AppleLoginButton.swift in Sources */,
 				86428B8D2A65AD8700B2CA7D /* LoginView.swift in Sources */,
+				C37461C82A67C76C0078C457 /* KeyboardObserver.swift in Sources */,
 				865773202A65A18B00D40B59 /* LovelyCraneApp.swift in Sources */,
 				86428B902A65AD8700B2CA7D /* User.swift in Sources */,
 				86428BA62A666ABD00B2CA7D /* SignInAppleHelper.swift in Sources */,

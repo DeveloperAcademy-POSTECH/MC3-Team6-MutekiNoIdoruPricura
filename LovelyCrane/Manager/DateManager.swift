@@ -7,7 +7,7 @@
 
 import Foundation
 
-func getNowDate(dayInterval: Double = 0) -> String{
+func getNowDate(dayInterval: Double = 0) -> String {
     let now = Date(timeIntervalSinceNow: dayInterval * 86400)
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy.MM.dd"

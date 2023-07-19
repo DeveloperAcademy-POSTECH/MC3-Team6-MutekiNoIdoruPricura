@@ -16,6 +16,7 @@ struct LovelyCraneApp: App {
     var body: some Scene {
         WindowGroup {
             WriteView()
+                .environmentObject(WriteViewModel())
         }
     }
 }
