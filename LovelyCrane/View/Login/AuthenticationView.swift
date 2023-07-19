@@ -11,7 +11,7 @@ import GoogleSignInSwift
 
 struct AuthenticationView: View {
     @StateObject private var vm = AuthenticaitonViewModel()
-    
+
     @Binding var showSignInView: Bool
     
     var body: some View {

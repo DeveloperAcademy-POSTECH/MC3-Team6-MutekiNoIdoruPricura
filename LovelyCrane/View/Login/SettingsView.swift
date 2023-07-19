@@ -11,8 +11,9 @@ struct SettingsView: View {
     
     @StateObject private var vm = SettingsViewModel()
     @Binding var showSignInView: Bool
-    
+
     var body: some View {
+        
         List {
             Button {
                 Task {
@@ -45,11 +46,11 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            SettingsView(showSignInView: .constant(false))
-        }
-    }
-}
-
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            SettingsView(showSignInView: .constant(false))
+//        }
+//    }
+//}
+//
