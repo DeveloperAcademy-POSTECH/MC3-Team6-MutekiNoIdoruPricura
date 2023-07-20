@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct WriteModel {
-    let image: String // image stoarge에 저장후 url 저장    
+    let image: String // image stoarge에 저장후 url 저장
     let date: Date
     let index: Int
     let text: String

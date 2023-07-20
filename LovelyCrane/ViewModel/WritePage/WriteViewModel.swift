@@ -8,6 +8,7 @@
 import SwiftUI
 
 class WriteViewModel : ObservableObject {
+    
     // photo picker 관련.
     // launch screen의 Image - 선택 / 촬영된 이미지가 있을경우 표시해주는 UIImage => 없을 수도 있기 때문에 optional type
     @Published var image: UIImage?

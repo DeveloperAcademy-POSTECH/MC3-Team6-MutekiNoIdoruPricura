@@ -11,6 +11,8 @@ struct WriteView: View {
     
     let backgroundColor = Color(#colorLiteral(red: 0.1930334568, green: 0.1931923628, blue: 0.1980533898, alpha: 1))
     let fontGrayColor = Color(#colorLiteral(red: 0.6358334422, green: 0.6358334422, blue: 0.6358334422, alpha: 1))
+    let imageDisselectCircleColor = Color(#colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1))
+    let imageDisselectXmarkColor = Color(#colorLiteral(red: 0.5292983651, green: 0.5335732102, blue: 0.5482189059, alpha: 1))
     let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
     let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
@@ -49,12 +51,15 @@ struct WriteView: View {
                         VStack {
                             letterLimitTextField(letterLimit: letterLimit)
                             Spacer()
-                            VStack(alignment: .leading) { // Pickerbutton + ImageView
+                            VStack(alignment: .leading, spacing: 45) { // Pickerbutton + ImageView
                                 
-                                if let image = vm.image {
-                                    pickedImage(image: image)
+                                if let image = vm.image { // 이미지가 첨부되었을 경우
+                                    ZStack {
+                                        imageDisselectButton()
+                                        pickedImage(image: image)
+                                        
+                                    }
                                 } else { // 이미지가 pick 되지 않은 상태일 경우. 뷰가 뜨지 않는 구조.
-                                    EmptyView()
                                 }
                                 
                                 VStack { // Keyboard height를 반영하기 위한 Space를 표시하는 Vstack
@@ -149,6 +154,24 @@ struct WriteView: View {
             .clipShape(
                 RoundedRectangle(cornerRadius: 10)
             )
+    }
+    
+    func imageDisselectButton() -> some View {
+        return Button(action: {
+            // disselect photo
+            
+        }){
+                Circle()
+                    .fill(imageDisselectCircleColor)
+                    .frame(width: 36, height: 36)
+                    .overlay(
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .regular))
+                            .foregroundColor(imageDisselectXmarkColor)
+                        )
+                    
+        }
+
     }
     
     func letterLimitLabel(letterLimit: Int) -> some View {
