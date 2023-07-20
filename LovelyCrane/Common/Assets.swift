@@ -13,4 +13,5 @@ struct Assets {
     static let send = "send"
     static let setting = "setting"
     static let bottle = "bottle"
+    static let couplingpaper = "couplingpaper"
 }

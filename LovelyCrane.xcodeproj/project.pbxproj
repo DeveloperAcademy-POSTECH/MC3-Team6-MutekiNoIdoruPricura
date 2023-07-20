@@ -57,6 +57,8 @@
 		C7553CB72A666E4C00C2104B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C7553CB62A666E4C00C2104B /* FirebaseFirestore */; };
 		C7553CB92A666E4C00C2104B /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C7553CB82A666E4C00C2104B /* FirebaseFirestoreCombine-Community */; };
 		C7553CBB2A666E4C00C2104B /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C7553CBA2A666E4C00C2104B /* FirebaseFirestoreSwift */; };
+		C7607B502A6857D400565D62 /* CouplingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7607B4F2A6857D400565D62 /* CouplingView.swift */; };
+		C7607B522A69010600565D62 /* InputCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7607B512A69010600565D62 /* InputCodeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +110,8 @@
 		86E5029B2A6691CF0001D88A /* SignWithGoogleResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignWithGoogleResult.swift; sourceTree = "<group>"; };
 		C7553CAF2A65E5C100C2104B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		C7553CB12A65E5F100C2104B /* NickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameView.swift; sourceTree = "<group>"; };
+		C7607B4F2A6857D400565D62 /* CouplingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouplingView.swift; sourceTree = "<group>"; };
+		C7607B512A69010600565D62 /* InputCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCodeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				86428B672A65AD8700B2CA7D /* ReciveHistoryView.swift */,
+				C7607B4F2A6857D400565D62 /* CouplingView.swift */,
+				C7607B512A69010600565D62 /* InputCodeView.swift */,
 			);
 			path = ReceiveHistory;
 			sourceTree = "<group>";
@@ -513,6 +519,7 @@
 				86428BB12A666E7500B2CA7D /* SettingsViewModel.swift in Sources */,
 				86428B912A65AD8700B2CA7D /* Font.swift in Sources */,
 				C7553CB22A65E5F100C2104B /* NickNameView.swift in Sources */,
+				C7607B522A69010600565D62 /* InputCodeView.swift in Sources */,
 				86428B932A65AD8700B2CA7D /* WirteHistoryViewModel.swift in Sources */,
 				0D46EB502A66AE8800C65A7B /* Color.swift in Sources */,
 				86428B892A65AD8700B2CA7D /* ReciveHistoryView.swift in Sources */,
@@ -523,6 +530,7 @@
 				86428BA82A666B3900B2CA7D /* AppleLoginButton.swift in Sources */,
 				0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */,
 				86428B8D2A65AD8700B2CA7D /* LoginView.swift in Sources */,
+				C7607B502A6857D400565D62 /* CouplingView.swift in Sources */,
 				865773202A65A18B00D40B59 /* LovelyCraneApp.swift in Sources */,
 				86428B902A65AD8700B2CA7D /* Info.swift in Sources */,
 				86E5029C2A6691CF0001D88A /* SignWithGoogleResult.swift in Sources */,
@@ -658,7 +666,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LovelyCrane/Preview Content\"";
-				DEVELOPMENT_TEAM = 27567HRR46;
+				DEVELOPMENT_TEAM = NG2NLR2Z86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LovelyCrane/Info.plist;
@@ -693,7 +701,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LovelyCrane/Preview Content\"";
-				DEVELOPMENT_TEAM = 27567HRR46;
+				DEVELOPMENT_TEAM = NG2NLR2Z86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LovelyCrane/Info.plist;

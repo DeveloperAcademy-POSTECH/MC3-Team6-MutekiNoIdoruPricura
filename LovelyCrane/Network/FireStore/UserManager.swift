@@ -12,6 +12,9 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private let userCollection = Firestore.firestore().collection("Users")
+    func getmyUUId() -> String {
+        return Auth.auth().currentUser?.uid ?? ""
+    }
     func createNewUser(user: Info) async throws{
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let userData: [String:Any] = [
@@ -25,11 +28,11 @@ final class UserManager {
         try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
     }
 
-    func connectUsertoUser(to partnertoken: String) async throws {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+    func connectUsertoUser(to partnertoken: String) async throws -> Bool {
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return false}
         do{
             let document = try await userCollection.document(partnertoken).getDocument()
-            guard document.exists else {return}
+            guard document.exists else {return false}
             let currentUserData = self.userCollection.document(currentUserUid)
             let partnerUserData = self.userCollection.document(partnertoken)
             try await currentUserData.updateData(["partner_id": partnertoken])
@@ -38,5 +41,6 @@ final class UserManager {
         catch {
             print(error)
         }
+        return true
     }
 }
