@@ -8,5 +8,12 @@
 import Foundation
 
 class ViewRouter: ObservableObject {
-    @Published var currentPage: String = "AuthenticationView"
+    @Published var currentPage: CurrentPage = .AuthenticationView
+}
+
+
+enum CurrentPage {
+    case AuthenticationView
+    case MainView
+    case NicknameView
 }

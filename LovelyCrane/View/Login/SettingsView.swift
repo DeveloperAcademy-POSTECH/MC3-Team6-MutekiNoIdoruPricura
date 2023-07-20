@@ -21,7 +21,7 @@ struct SettingsView: View {
                     do {
                         try vm.logout()
                         showSignInView = true
-                        viewRouter.currentPage = "AuthenticationView"
+                        viewRouter.currentPage = .AuthenticationView
                         
                     } catch {
                         print(error.localizedDescription)
@@ -35,8 +35,11 @@ struct SettingsView: View {
             Button(role: .destructive) {
                 Task {
                     do {
+                        
                         try await vm.deleteUser()
+                        try vm.logout()
                         showSignInView = true
+                        viewRouter.currentPage = .AuthenticationView
                     } catch {
                         print(error.localizedDescription)
                     }
@@ -49,11 +52,10 @@ struct SettingsView: View {
     }
 }
 
-//struct SettingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationStack {
-//            SettingsView(showSignInView: .constant(false))
-//        }
-//    }
-//}
-//
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            SettingsView(showSignInView: .constant(false))
+        }
+    }
+}

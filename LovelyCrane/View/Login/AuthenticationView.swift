@@ -20,26 +20,42 @@ struct AuthenticationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.gray.ignoresSafeArea()
+                Color(uiColor: Color.backGround).ignoresSafeArea()
                 
                 VStack {
                     Spacer()
                     
-                    Image(systemName: "bird")
-                        .resizable()
+                    VStack {
+                        Image("AuthenticationViewImage")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: CGSize.deviceWidth * 0.7)
+                        
+                        VStack(alignment: .center, spacing: 8) {
+                            Text("사랑의 종이학")
+                                .font(.title)
+                            Text("사랑하는 마음을 차곡차곡 모아")
+                                .font(.callout)
+                            Text("상대방에게 선물해요")
+                                .font(.callout)
+                        }
                         .foregroundColor(.white)
-                        .scaledToFit()
-                        .frame(width: UIScreen.main.bounds.width * 0.5)
+                    }
+                    .padding(.bottom, 20)
+                    
                     Spacer()
                     
                     VStack {
                         // MARK: 애플 로그인 버튼
                         signInWithAppleButton()
                         // MARK: 구글 로그인 버튼
-                        signInWithGoogleButton()
+//                        signInWithGoogleButton()
                         // MARK: 구글 로그인 버튼(커스텀)
                         customSignInWithGoogleButton()
                     }
+//                    Spacer()
+//                    Spacer()
+//                    Spacer()
                 }
                 .padding()
     //            .navigationTitle("사랑의 종이학")
@@ -117,9 +133,15 @@ extension AuthenticationView {
 
 
 struct AuthenticationView_Previews: PreviewProvider {
+
     static var previews: some View {
-        NavigationStack {
+        
+        let viewRouter = ViewRouter()
+        
+        NavigationView {
             AuthenticationView(showSignInView: .constant(false))
+                .environmentObject(viewRouter)
         }
+
     }
 }
