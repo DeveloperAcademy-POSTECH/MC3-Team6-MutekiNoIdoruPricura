@@ -45,7 +45,7 @@ struct WriteHistoryView: View {
             Text("97마리의 종이학을 발송했어요")
                 .foregroundColor(.white)
             //텍스트랑 동일한 사이즈로 설정해줘야함.
-        }.frame(width: .infinity, height: 18)
+        }.frame(height: 18)
             .padding(.vertical)
     }
     
