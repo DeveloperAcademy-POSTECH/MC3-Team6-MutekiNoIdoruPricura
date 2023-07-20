@@ -19,16 +19,20 @@ final class SpriteScene: SKScene {
 
     override func didMove(to view: SKView) {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-        backgroundColor = .red
         motionManager?.setCoreMotionManager()
-        createCrane()
+        backgroundColor = .backGround
+        for _ in 0...40 {
+            createCrane()
+        }
     }
     
     private func createCrane() {
-        let crane = SKSpriteNode(imageNamed: Assets.inbox)
-        crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
-        crane.position = CGPoint(x: CGFloat.random(in: 0...size.width), y: size.height * 0.9)
-        addChild(crane)
+        if let randomCrane = Assets.crans.randomElement()?.rawValue {
+            let crane = SKSpriteNode(imageNamed: randomCrane)
+            crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
+            crane.position = CGPoint(x: CGFloat.random(in: 0...size.width), y: size.height * 0.9)
+            addChild(crane)
+        }
     }
     
     //해당 메소드는 없어도 됩니다.
