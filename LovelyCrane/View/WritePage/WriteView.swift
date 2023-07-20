@@ -67,21 +67,18 @@ struct WriteView: View {
                                         // picker buttons + 자수 label
                                         HStack(alignment: .bottom, spacing: 23.92) {
                                             Button(action: {
-                                                vm.source = .camera
+                                                vm.source = .library
                                                 vm.showPhotoPicker()
                                             }){
                                                 Image("galleryButton")
-                                                
                                             }
                                             Button(action: {
-                                                vm.source = .library
+                                                vm.source = .camera
                                                 vm.showPhotoPicker()
                                             }){
                                                 Image("cameraButton")
                                             }
                                         }
-                                        
-                                        
                                         Spacer()
                                         
                                         letterLimitLabel(letterLimit: letterLimit)
@@ -94,7 +91,6 @@ struct WriteView: View {
                         }
                     }
                     .padding(.top, 23.93)
-                    
                     Spacer()
                 }
                 .padding(.top, 26)
@@ -115,7 +111,13 @@ struct WriteView: View {
             .alert(isPresented: $isOverLetterLimit ) {
                 Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
             }
+            .sheet(isPresented: $vm.showPicker) {
+                ImagePicker(sourceType: vm.source == .library ? .photoLibrary : .camera, selectedImage: $vm.image)
+                    .ignoresSafeArea()
+            }
         }
+
+
     }
     
     func writeViewHeader() -> some View {
@@ -137,6 +139,8 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
+                FirebaseStoargeManager.shared.uploadImage(img: vm.image!)
+                print("button")
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
