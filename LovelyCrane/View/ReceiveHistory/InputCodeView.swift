@@ -54,6 +54,12 @@ struct InputCodeView: View {
             }
             .padding(.top,140)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("상대방 코드 입력하기")
+                    .foregroundColor(.white)
+            }
+        }
     }
 }
 class InputCodeViewModel: ObservableObject {

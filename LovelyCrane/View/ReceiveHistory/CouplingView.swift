@@ -73,9 +73,7 @@ struct CouplingView: View {
         .cornerRadius(18)
     }
     func inputPartnerCodeButton() -> some View {
-        Button {
-            print("touch")
-        } label: {
+        NavigationLink(destination: InputCodeView()) {
             Text("상대방 코드 입력하기")
                 .foregroundColor(.pink)
                 .padding(.vertical,16)

@@ -27,7 +27,7 @@ struct MainView: View {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
                 NavigationLink("", destination: SettingView(), isActive: $isSettingTapped)
-                NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
+                NavigationLink("", destination: CouplingView(), isActive: $isReceiveHistroyTapped)
                 backGround()
                 VStack {
                     Spacer()
