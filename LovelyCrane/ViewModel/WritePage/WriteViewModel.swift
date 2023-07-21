@@ -24,4 +24,12 @@ class WriteViewModel : ObservableObject {
         }
         showPicker = true
     }
+    func saveImageStoarge() {
+        Task{
+            guard let image = image else {return}
+            let (path, name) = try await StoargeManager.shared.uploadImage(img: image)
+            print(path,name)
+            try await 
+        }
+    }
 }

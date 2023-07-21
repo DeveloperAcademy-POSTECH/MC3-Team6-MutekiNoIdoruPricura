@@ -139,7 +139,7 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
-                FirebaseStoargeManager.shared.uploadImage(img: vm.image!)
+                vm.saveImageStoarge()
                 print("button")
             }){
                 Text("저장")
