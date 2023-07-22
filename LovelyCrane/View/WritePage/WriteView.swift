@@ -147,7 +147,8 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
-                Task{if(await vm.saveImageStoarge()){
+                Task{
+                    if(await vm.saveImageStoarge()){
                     isShowingCurrentPage.toggle()
                 }}
 
