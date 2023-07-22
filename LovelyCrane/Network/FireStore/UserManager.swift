@@ -21,20 +21,32 @@ final class UserManager {
         ]
         try await userCollection.document(currentUserUid)
             .setData(userData,merge: false)
-
-        try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
     }
+
     func updateletterData(letter: WriteModel) async throws {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+//        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let letterdata: [String:Any] = [
             "image": letter.image,
             "text": letter.text,
             "date": letter.date,
             "is_byme": letter.is_byme,
             "is_read":letter.is_read,
-            "is_sent": letter.is_sent
+            "is_sent": letter.is_sent,
+            "id": letter.id
         ]
-        try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: letterdata)
+        try await userCollection.document("Uv0BWkYYZTlTJ").collection("letter_lists").addDocument(data: letterdata)
+    }
+
+    func getletterData(letterid: String) async throws {
+        userCollection.document("Uv0BWkYYZTlTJ").collection("letter_lists").document(letterid).getDocument{(document,error) in
+            guard error == nil else{return}
+            if let document = document, document.exists {
+                let data = document.data()
+                if let data = data {
+                    print(data)
+                }
+            }
+        }
     }
     func connectUsertoUser(to partnertoken: String) async throws {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }

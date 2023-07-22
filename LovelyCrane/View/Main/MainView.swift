@@ -73,7 +73,9 @@ struct MainView: View {
     
     func sendButton() -> some View {
         Button {
-            print("hi")
+            Task{
+                try await UserManager.shared.getletterData(letterid: "yoQS2X8dlinyM18ftniK")
+            }
         } label: {
             Image(Assets.send)
         }
@@ -105,7 +107,7 @@ struct MainView: View {
                 isWriteTapped.toggle()
             }
             .fullScreenCover(isPresented: $isWriteTapped) {
-                WriteView()
+                WriteView(isShowingCurrentPage: $isWriteTapped)
             }
     }
 //MARK: - methods

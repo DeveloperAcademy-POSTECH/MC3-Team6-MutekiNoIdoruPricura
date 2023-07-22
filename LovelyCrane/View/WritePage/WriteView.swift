@@ -25,7 +25,7 @@ struct WriteView: View {
     let nowDate = getNowDate()
 
     @State var isOverLetterLimit: Bool = false
-//    @Binding var isShowingCurrentPage: Bool
+    @Binding var isShowingCurrentPage: Bool
     
     @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
     
@@ -131,7 +131,7 @@ struct WriteView: View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
-//                isShowingCurrentPage.toggle()
+                isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(fontGrayColor)
@@ -147,7 +147,10 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
-                vm.saveImageStoarge()
+                Task{if(await vm.saveImageStoarge()){
+                    isShowingCurrentPage.toggle()
+                }}
+
                 print("button")
             }){
                 Text("저장")
