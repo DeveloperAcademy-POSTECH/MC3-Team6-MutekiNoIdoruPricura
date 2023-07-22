@@ -10,7 +10,7 @@ import SwiftUI
 @MainActor
 final class SettingsViewModel: ObservableObject {
     @Published var authProviders: [AuthProviderOption] = []
-    @Published var authUser: AuthDataResultModel?
+    @Published var authUser: AuthDataResult?
     
     func loadAuthProvider() {
         if let provider = try? AuthenticationManager.shared.getProviders() {

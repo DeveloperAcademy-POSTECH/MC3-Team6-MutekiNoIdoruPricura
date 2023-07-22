@@ -25,12 +25,5 @@ class StoargeManager {
             throw URLError(.badServerResponse)
         }
         return (returnedPath, returnedName)
-//        stoarge.child(filepath).putData(data, metadata: metaData){(metaData,err) in
-//            if let err = err{
-//                return
-//            }else{
-//                print("성공")
-//            }
-//        }
     }
 }

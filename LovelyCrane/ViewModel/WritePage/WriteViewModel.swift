@@ -12,6 +12,7 @@ class WriteViewModel : ObservableObject {
     // photo picker 관련.
     // launch screen의 Image - 선택 / 촬영된 이미지가 있을경우 표시해주는 UIImage => 없을 수도 있기 때문에 optional type
     @Published var image: UIImage?
+    @Published var letterText = ""
     @Published var showPicker = false
     @Published var source : Picker.Source = .library
     
@@ -28,8 +29,8 @@ class WriteViewModel : ObservableObject {
         Task{
             guard let image = image else {return}
             let (path, name) = try await StoargeManager.shared.uploadImage(img: image)
-            print(path,name)
-            try await 
+            let data = WriteModel(image: path, date: Date(), text: letterText, is_byme: true, is_sent: true, is_read: true)
+            try await UserManager.shared.updateletterData(letter: data)
         }
     }
 }
