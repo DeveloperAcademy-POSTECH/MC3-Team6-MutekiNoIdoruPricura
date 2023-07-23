@@ -20,13 +20,7 @@ struct InputCodeView: View {
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 80)
                     .padding(.bottom,80)
-                TextField("코드를 입력해주세요",text: $vm.inputcode)
-                    .padding(.vertical,16)
-                    .multilineTextAlignment(.center)
-                    .background(Color.fontGray)
-                    .cornerRadius(8)
-                    .padding(.horizontal,24)
-                    .padding(.bottom,20)
+                inputCodeField()
                 Button {
                     Task {
                         connectFail = try await vm.connectPartner()
@@ -36,21 +30,20 @@ struct InputCodeView: View {
                         .foregroundColor(vm.inputcode.isEmpty ? Color.secondary : Color.black)
                         .padding(.vertical,16)
                         .frame(maxWidth: .infinity)
-                }.disabled(vm.inputcode.isEmpty)
-                    .background(RoundedRectangle(cornerRadius: 8)
-                        .fill(vm.inputcode.isEmpty ? Color.black : Color.pink))
-                    .padding(.horizontal,24)
+                }
+                .disabled(vm.inputcode.isEmpty)
+                .background(RoundedRectangle(cornerRadius: 8)
+                .fill(vm.inputcode.isEmpty ? Color.black : Color.pink))
+                .padding(.horizontal,24)
                 Spacer()
-                Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(.vertical,17)
-                    .frame(maxWidth: .infinity)
-                    .background(RoundedRectangle(cornerRadius: 8))
-                    .padding(.bottom,10)
-                    .padding(.horizontal,25)
-                    .animation(.easeInOut, value: 2)
-
+                if connectFail {
+                    connectFailureMessage()
+                        .onAppear{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                connectFail = false
+                            }
+                        }
+                }
             }
             .padding(.top,140)
         }
@@ -61,13 +54,35 @@ struct InputCodeView: View {
             }
         }
     }
+    private func connectFailureMessage() -> some View {
+        Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .padding(.vertical,17)
+            .frame(maxWidth: .infinity)
+            .background(RoundedRectangle(cornerRadius: 8))
+            .padding(.bottom,10)
+            .padding(.horizontal,25)
+    }
+    private func inputCodeField() -> some View {
+        TextField("코드를 입력해주세요",text: $vm.inputcode)
+            .padding(.vertical,16)
+            .multilineTextAlignment(.center)
+            .background(Color.fontGray)
+            .cornerRadius(8)
+            .padding(.horizontal,24)
+            .padding(.bottom,20)
+    }
 }
 class InputCodeViewModel: ObservableObject {
     @Published var inputcode: String = ""
     func connectPartner() async throws -> Bool{
-        let result = try await UserManager.shared.connectUsertoUser(to: inputcode)
-        print(result)
-        return result
+        let failconnect = try await UserManager.shared.connectUsertoUser(to: inputcode)
+        if failconnect {
+            return false
+        }
+        inputcode = ""
+        return true
     }
 
 }
