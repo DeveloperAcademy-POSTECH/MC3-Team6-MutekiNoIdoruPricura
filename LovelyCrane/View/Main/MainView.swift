@@ -21,7 +21,7 @@ struct MainView: View {
     @State var isSettingTapped = false
     @State var isWriteTapped = false
     
-    @Binding var showSignInView: Bool
+//    @Binding var showSignInView: Bool
     
     @EnvironmentObject var viewRouter : ViewRouter
     
@@ -29,7 +29,7 @@ struct MainView: View {
         NavigationView {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
-                NavigationLink("", destination: SettingsView(showSignInView: $showSignInView), isActive: $isSettingTapped).environmentObject(viewRouter)
+                NavigationLink("", destination: SettingsView(), isActive: $isSettingTapped).environmentObject(viewRouter)
                 NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
                 backGround()
                 VStack {
@@ -128,6 +128,6 @@ struct MainView: View {
 
 struct MainView_Preview: PreviewProvider {
     static var previews: some View {
-        MainView(showSignInView: .constant(false))
+        MainView()
     }
 }

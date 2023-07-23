@@ -14,9 +14,7 @@ struct AuthenticationView: View {
     @EnvironmentObject var viewRouter: ViewRouter
 
     @State private var isLogginIn = false
-    
-    @Binding var showSignInView: Bool
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -46,25 +44,19 @@ struct AuthenticationView: View {
                     Spacer()
                     
                     VStack {
-                        // MARK: 애플 로그인 버튼
                         signInWithAppleButton()
-                        // MARK: 구글 로그인 버튼
-//                        signInWithGoogleButton()
-                        // MARK: 구글 로그인 버튼(커스텀)
                         customSignInWithGoogleButton()
                     }
-//                    Spacer()
-//                    Spacer()
-//                    Spacer()
                 }
                 .padding()
-    //            .navigationTitle("사랑의 종이학")
             }
             .background (
-                NavigationLink(destination: NickNameView(showSignInView: $showSignInView).environmentObject(viewRouter), isActive: $isLogginIn) {
-
-                }
-        )
+                NavigationLink(
+                    destination: NicknameView().environmentObject(viewRouter),
+                    isActive: $isLogginIn,
+                    label: {}
+                )
+            )
         }
     }
 }
@@ -76,9 +68,7 @@ extension AuthenticationView {
             Task {
                 do {
                     try await vm.signInApple()
-                    showSignInView = false
                     isLogginIn = true
-//                    viewRouter.currentPage = "NickNameView"
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -95,7 +85,7 @@ extension AuthenticationView {
             Task {
                 do {
                     try await vm.signInGoogle()
-                    showSignInView = false
+                    isLogginIn = true
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -108,7 +98,7 @@ extension AuthenticationView {
             Task {
                 do {
                     try await vm.signInGoogle()
-                    showSignInView = false
+                    isLogginIn = true
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -131,7 +121,6 @@ extension AuthenticationView {
     }
 }
 
-
 struct AuthenticationView_Previews: PreviewProvider {
 
     static var previews: some View {
@@ -139,9 +128,10 @@ struct AuthenticationView_Previews: PreviewProvider {
         let viewRouter = ViewRouter()
         
         NavigationView {
-            AuthenticationView(showSignInView: .constant(false))
+            AuthenticationView()
                 .environmentObject(viewRouter)
         }
-
     }
 }
+
+// refactored _ +

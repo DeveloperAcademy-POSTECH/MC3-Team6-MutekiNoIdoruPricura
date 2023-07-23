@@ -55,8 +55,6 @@ final class UserManager {
     func createNewUser(user: DBUser) async throws {
         try getUserDocument(userId: user.uuid).setData(from: user, merge: false)
         try await getUserDocument(userId: user.uuid).collection("letter_lists").addDocument(data: ["isSent": "none"])
-        //콜렉션만 추가하고 문서는 이후 편지 작성 시에 추가하는게?
-//        try await getUserDocument(userId: user.uuid).collection("letter_lists").addDocument(data: ["isSent": "none"])
     }
     
     func createNewUser(user: Info) async throws{
@@ -77,7 +75,7 @@ final class UserManager {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         
         do {
-            guard let partnerDocument = try? await userCollection.document(partnertoken).getDocument() else { return }
+            guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
 //            guard partnerDocument.exists else { return }
             let currentUserDocument = self.userCollection.document(currentUserUid)
             let partnerUserDocument = self.userCollection.document(partnertoken)
@@ -89,4 +87,12 @@ final class UserManager {
             print(error.localizedDescription)
         }
     }
+}
+
+
+enum FieldNames: String {
+    case Users
+    case letter_lists
+    case partner_id
+    case nickname
 }

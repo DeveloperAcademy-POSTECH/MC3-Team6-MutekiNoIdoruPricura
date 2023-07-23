@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     
     @StateObject private var vm = SettingsViewModel()
-    @Binding var showSignInView: Bool
+//    @Binding var showSignInView: Bool
     @EnvironmentObject var viewRouter : ViewRouter
     
     var body: some View {
@@ -20,7 +20,7 @@ struct SettingsView: View {
                 Task {
                     do {
                         try vm.logout()
-                        showSignInView = true
+//                        showSignInView = true
                         viewRouter.currentPage = .AuthenticationView
                         
                     } catch {
@@ -38,7 +38,7 @@ struct SettingsView: View {
                         
                         try await vm.deleteUser()
                         try vm.logout()
-                        showSignInView = true
+//                        showSignInView = true
                         viewRouter.currentPage = .AuthenticationView
                     } catch {
                         print(error.localizedDescription)
@@ -55,7 +55,8 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            SettingsView(showSignInView: .constant(false))
+//            SettingsView(showSignInView: .constant(false))
+            SettingsView()
         }
     }
 }
