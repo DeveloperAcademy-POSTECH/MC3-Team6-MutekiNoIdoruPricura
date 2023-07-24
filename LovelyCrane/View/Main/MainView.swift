@@ -36,7 +36,7 @@ struct MainView: View {
                     Spacer()
                     Text("to. \(partnerName)")
                         .padding()
-                        .foregroundColor(.fontGray)
+                        .foregroundColor(Color(Color.fontGray))
                     Text("\(letterCount)")
                         .foregroundColor(.white)
                         .font(.system(size: 40))

@@ -8,13 +8,12 @@
 import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
+import Firebase
 
 struct AuthenticationView: View {
     @StateObject private var vm = AuthenticaitonViewModel()
     @EnvironmentObject var viewRouter: ViewRouter
-
-    @State private var isLogginIn = false
-
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -50,13 +49,6 @@ struct AuthenticationView: View {
                 }
                 .padding()
             }
-            .background (
-                NavigationLink(
-                    destination: NicknameView().environmentObject(viewRouter),
-                    isActive: $isLogginIn,
-                    label: {}
-                )
-            )
         }
     }
 }
@@ -67,8 +59,13 @@ extension AuthenticationView {
         Button {
             Task {
                 do {
-                    try await vm.signInApple()
-                    isLogginIn = true
+                    let authUser = try await vm.signInApple()
+                    let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
+                    guard
+                        let myDocument = try? await userCollection.document(authUser.uid).getDocument(),
+                        let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
+                    
+                    viewRouter.currentPage = myNickname.isEmpty ? .nicknameView : .mainView
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -85,7 +82,6 @@ extension AuthenticationView {
             Task {
                 do {
                     try await vm.signInGoogle()
-                    isLogginIn = true
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -97,8 +93,13 @@ extension AuthenticationView {
         Button {
             Task {
                 do {
-                    try await vm.signInGoogle()
-                    isLogginIn = true
+                    let authUser = try await vm.signInGoogle()
+                    let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
+                    guard
+                        let myDocument = try? await userCollection.document(authUser.uid).getDocument(),
+                        let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
+                    
+                    viewRouter.currentPage = myNickname.isEmpty ? .nicknameView : .mainView
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -133,5 +134,3 @@ struct AuthenticationView_Previews: PreviewProvider {
         }
     }
 }
-
-// refactored _ +

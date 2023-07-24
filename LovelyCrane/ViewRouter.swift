@@ -7,13 +7,13 @@
 
 import Foundation
 
-class ViewRouter: ObservableObject {
-    @Published var currentPage: CurrentPage = .AuthenticationView
+final class ViewRouter: ObservableObject {
+    @Published var currentPage: CurrentPage = .launchsScreenView
 }
 
-
 enum CurrentPage {
-    case AuthenticationView
-    case MainView
-    case NicknameView
+    case launchsScreenView
+    case authenticationView
+    case mainView
+    case nicknameView
 }

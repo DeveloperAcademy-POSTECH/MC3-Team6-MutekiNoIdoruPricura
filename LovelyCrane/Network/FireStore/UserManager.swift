@@ -66,17 +66,16 @@ final class UserManager {
         ]
         try await userCollection.document(currentUserUid)
             .setData(userData,merge: false)
-
+        
         try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
     }
-
+    
     func connectUsertoUser(to partnertoken: String) async throws {
-        //현재 로그인 상태 확인
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         
         do {
             guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
-//            guard partnerDocument.exists else { return }
+            
             let currentUserDocument = self.userCollection.document(currentUserUid)
             let partnerUserDocument = self.userCollection.document(partnertoken)
             
@@ -88,7 +87,6 @@ final class UserManager {
         }
     }
 }
-
 
 enum FieldNames: String {
     case Users

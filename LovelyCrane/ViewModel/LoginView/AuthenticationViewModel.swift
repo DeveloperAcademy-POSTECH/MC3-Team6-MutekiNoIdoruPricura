@@ -11,20 +11,23 @@ import FirebaseFirestore
 @MainActor
 final class AuthenticaitonViewModel: ObservableObject {
     
-    func signInApple() async throws {
+    func signInApple() async throws -> AuthDataResult {
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
         let authDataResult = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
         
         try await checkUserDocumentExistence(auth: authDataResult)
+        return authDataResult
     }
     
-    func signInGoogle() async throws {
+    @discardableResult
+    func signInGoogle() async throws -> AuthDataResult {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.signIn()
         let authDataResult = try await AuthenticationManager.shared.signInWithGoogle(token: tokens)
         
         try await checkUserDocumentExistence(auth: authDataResult)
+        return authDataResult
     }
     
     func checkUserDocumentExistence(auth: AuthDataResult) async throws {
@@ -36,4 +39,3 @@ final class AuthenticaitonViewModel: ObservableObject {
         }
     }
 }
-//refactored

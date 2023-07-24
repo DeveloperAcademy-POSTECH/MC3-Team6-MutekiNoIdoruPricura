@@ -10,44 +10,72 @@ import SwiftUI
 
 struct NicknameView: View {
     
-    @StateObject var viewModel = NicknameViewModel()
+    @StateObject private var viewModel = NicknameViewModel()
     @EnvironmentObject var viewRouter: ViewRouter
     
-    @State var partnerToken: String = ""
-    
+    @FocusState private var nicknameInFocus: Bool
+
     var body: some View {
         
         ZStack {
             Color(uiColor: Color.backGround).ignoresSafeArea()
             
-            VStack(alignment: .center, spacing: 20) {
-                VStack {
-                    TextField("Enter your nickname", text: $viewModel.nickname)
-                        .padding()
-                        .background(Color(uiColor: .secondarySystemBackground))
+            VStack(alignment: .center, spacing: 50) {
+                Spacer()
+                
+                VStack(spacing: 5) {
+                    Image("NicknameViewImage")
                     
-                    Text("닉네임은 8자 이하로 입력해주세요")
-                        .foregroundColor(.gray)
+                    Text("사용하실 닉네임을 알려주세요")
+                        .foregroundColor(.white)
                 }
-                updateNicknameButton()
+
+                VStack {
+                    TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
+                        .focused($nicknameInFocus)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(TextAlignment.center)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background (
+                            ZStack {
+                                Color(Color.textFieldGray)
+                                if viewModel.nickname.count == 0 {
+                                    Text("닉네임을 입력해주세요")
+                                        .foregroundColor(Color(Color.fontGray))
+                                }
+                            }
+                        )
+                        .cornerRadius(10)
+                    
+                    HStack {
+                        Image("exclamationMark")
+                            .opacity(viewModel.nickname.count > 8 ? 1 : 0)
+                        Text("닉네임은 8자 이하로 입력해주세요")
+                            .foregroundColor(viewModel.nickname.count > 8 ? Color(Color.fontYellow) : Color(Color.fontGray))
+                    }
+                }
+                Spacer()
+                makeUpdateNicknameButton()
+                    .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
+                    .padding(.bottom, 12)
             }
             .padding(.horizontal, 20)
-            .onAppear {
-                checkNickname()
-            }
+        }
+        .onAppear {
+            nicknameInFocus = true
         }
     }
 }
 
 extension NicknameView {
     
-    func updateNicknameButton() -> some View {
+    func makeUpdateNicknameButton() -> some View {
         Button(action: {
             Task{
                 do {
                     try await viewModel.updateNickName(nickName: viewModel.nickname)
-                    
-                    viewRouter.currentPage = .MainView
+                    viewRouter.currentPage = .mainView
                 }
                 catch{
                     print("error")
@@ -55,26 +83,14 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.isValidNickName() ? Color(Color.fontBrown) : Color(Color.darkFontGray))
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
-                .background(Color.pink)
+                .background(
+                    viewModel.isValidNickName() ? Color(Color.buttonPink) : Color(Color.buttonGray)
+                )
                 .cornerRadius(10)
         })
-    }
-    
-    func checkNickname() {
-        if let authUser = try? AuthenticationManager.shared.getAuthenticatedUser() {
-            Task {
-                let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
-                guard let myDocument = try? await userCollection.document(authUser.uid).getDocument() else { return }
-                guard let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
-                
-                if !myNickname.isEmpty {
-                    viewRouter.currentPage = .MainView
-                }
-            }
-        }
     }
 }
 
@@ -85,43 +101,4 @@ struct NicknameView_Previews: PreviewProvider {
         }
     }
 }
-// refactored_ 추가 개선 필요
 
-
-
-
-// MARK: 커플링 관련 코드
-
-// MARK: - 내UUID클립보드로 옮긴후 복붙.
-//            Button {
-//                UIPasteboard.general.string = Auth.auth().currentUser?.uid ?? ""
-//            } label: {
-//                Label(Auth.auth().currentUser?.uid ?? "", systemImage: "doc.on.doc")
-//            }
-//            .buttonStyle(.bordered)
-//            // MARK: - 파트너토큰을 입력하고 클릭을 하게되면 실제 있는 uuid면 서로연결이됨.
-//            TextField("Enter your partnertoken", text: $partnerToken)
-//                .padding()
-//                .background(Color(uiColor: .secondarySystemBackground))
-//            Button(action: {
-//                Task{
-//                    do {
-//                        try await viewModel.connectWithUser(partnertoken: partnerToken)
-//                    }
-//                    catch{
-//                        print("error")
-//                    }
-//                }
-//            }, label: {
-//                Text("연결해")
-//            })
-//            Text("hello \(viewModel.nickname)")
-
-//    func addmemeber() async throws {
-//        let infodata = Info(nickname: nickname, partnerId: "", uuid: "")
-//        try await UserManager.shared.createNewUser(user: infodata)
-//    }
-
-//func connectWithUser(partnertoken: String) async throws {
-//    try await UserManager.shared.connectUsertoUser(to: partnertoken)
-//}

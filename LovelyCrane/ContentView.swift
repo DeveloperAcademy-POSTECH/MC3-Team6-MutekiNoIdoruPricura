@@ -5,33 +5,37 @@
 //  Created by Toughie on 2023/07/18.
 //
 
-import SwiftUI
 import FirebaseFirestore
+import SwiftUI
 
 struct ContentView: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
+    var currentNickname: String? = UserDefaults.standard.string(forKey: "nickname") ?? ""
+    
     var body: some View {
         
         ZStack {
             switch viewRouter.currentPage {
-            case .AuthenticationView:
+            case .launchsScreenView:
+                LaunchScreenView()
+                    .onAppear {
+                        checkAuthenticationStatus()
+                    }
+                    .transition(AnyTransition.opacity)
+            case .authenticationView:
                 AuthenticationView()
                     .transition(AnyTransition.opacity)
-            case .MainView:
+            case .mainView:
                 MainView()
                     .transition(AnyTransition.opacity)
-            case .NicknameView:
+            case .nicknameView:
                 NicknameView()
                     .transition(AnyTransition.opacity)
             }
         }
         .environmentObject(viewRouter)
-        
-        .onAppear {
-            checkAuthenticationStatus()
-        }
     }
 }
 
@@ -39,23 +43,20 @@ extension ContentView {
     
     func checkAuthenticationStatus() {
         if let authUser = try? AuthenticationManager.shared.getAuthenticatedUser() {
-            checkDocumentNickname(auth: authUser)
+            checkDocumentNickName(auth: authUser)
         } else {
-            viewRouter.currentPage = .AuthenticationView
+            viewRouter.currentPage = .authenticationView
         }
     }
     
-    func checkDocumentNickname(auth: AuthDataResult) {
+    func checkDocumentNickName(auth: AuthDataResult) {
         Task {
             let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
             guard
-                let myDocument = try? await userCollection.document(auth.uid).getDocument(),
-                let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
-            if myNickname.isEmpty {
-                viewRouter.currentPage = .NicknameView
-            } else {
-                viewRouter.currentPage = .MainView
-            }
+                let _ = try? await userCollection.document(auth.uid).getDocument(),
+                let nickName = currentNickname else { return }
+            
+            viewRouter.currentPage = nickName.isEmpty ? .nicknameView : .mainView
         }
     }
 }
@@ -65,4 +66,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-//refactored

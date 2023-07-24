@@ -9,16 +9,16 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 
-class NicknameViewModel: ObservableObject {
+final class NicknameViewModel: ObservableObject {
     
     @Published var nickname: String = ""
-
-//    func addmemeber() async throws {
-//        guard let user = Auth.auth().currentUser else { return }
-//        let authDataResult =  AuthDataResult(user: user)
-//        let dbUser = DBUser(auth: authDataResult)
-//        try await UserManager.shared.createNewUser(user: dbUser)
-//    }
+    
+    func isValidNickName() -> Bool {
+        if nickname.isEmpty || nickname.count > 8 {
+            return false
+        }
+        return true
+    }
     
     func updateNickName(nickName: String) async throws {
         guard let user = Auth.auth().currentUser else { return }
@@ -27,8 +27,7 @@ class NicknameViewModel: ObservableObject {
         
         let data: [String: Any] = [DBUser.CodingKeys.nickname.rawValue : nickname]
         try await document.updateData(data)
+        
+        UserDefaults.standard.set(nickName, forKey: "nickname")
     }
-
-    //TODO: TextField 
 }
-//refactored

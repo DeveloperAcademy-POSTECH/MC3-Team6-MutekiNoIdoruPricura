@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseFirestore
 
 @main
 struct LovelyCraneApp: App {
@@ -16,10 +17,8 @@ struct LovelyCraneApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            NavigationStack {
                 ContentView()
                     .environmentObject(viewRouter)
-//            }
         }
     }
 }
