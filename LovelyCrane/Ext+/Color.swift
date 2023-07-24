@@ -9,7 +9,7 @@ import SwiftUI
 
 
 extension Color {
-    static let fontGray = UIColor(hexCode: "8F8F8F")
+    static let fontGray = Color(UIColor(hexCode: "8F8F8F"))
     static let white = UIColor(hexCode: "#FFFFFF")
     static let backGround = UIColor(hexCode: "#252526")
     

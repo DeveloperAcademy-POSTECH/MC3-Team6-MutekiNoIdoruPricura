@@ -42,7 +42,7 @@ struct NicknameView: View {
                                 Color(Color.textFieldGray)
                                 if viewModel.nickname.count == 0 {
                                     Text("닉네임을 입력해주세요")
-                                        .foregroundColor(Color(Color.fontGray))
+                                        .foregroundColor(.fontGray)
                                 }
                             }
                         )
@@ -52,7 +52,7 @@ struct NicknameView: View {
                         Image("exclamationMark")
                             .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                         Text("닉네임은 8자 이하로 입력해주세요")
-                            .foregroundColor(viewModel.nickname.count > 8 ? Color(Color.fontYellow) : Color(Color.fontGray))
+                            .foregroundColor(viewModel.nickname.count > 8 ? Color(Color.fontYellow) : Color.fontGray)
                     }
                 }
                 Spacer()

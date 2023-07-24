@@ -10,14 +10,13 @@ import SpriteKit
 import CoreMotion
 
 
-
-
 struct MainView: View {
     let coreMotionManager = MotionManager.shared
     @State var partnerName = "직녀"
     @State var letterCount = 912
     @State var isWriteHistroyTapped = false
     @State var isWriteTapped = false
+    @State var isSettingTapped = false
     @State var selection = 0
     
 //    @Binding var showSignInView: Bool
@@ -29,38 +28,38 @@ struct MainView: View {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
                 NavigationLink("", destination: SettingsView(), isActive: $isSettingTapped).environmentObject(viewRouter)
-                NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
                 VStack {
                     Spacer()
                     Text("to. \(partnerName)")
                         .padding()
-                        .foregroundColor(Color(Color.fontGray))
+                        .foregroundColor(.fontGray)
                     Text("\(letterCount)")
                         .foregroundColor(.white)
                         .font(.system(size: 40))
                     spriteView()
                     Spacer()
                     bottomWriteButton()
-                BackGroundView()
-                TabView {
-                    mainBottle()
-                        .tag(0)
-                    presentedBottle()
-                        .tag(1)
-                }
-                .ignoresSafeArea()
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .menuIndicator(.hidden)
-                .navigationTitle("")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        inboxButton()
+                    BackGroundView()
+                    TabView {
+                        mainBottle()
+                            .tag(0)
+                        presentedBottle()
+                            .tag(1)
                     }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        sendButton()
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        settingButton()
+                    .ignoresSafeArea()
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+                    .menuIndicator(.hidden)
+                    .navigationTitle("")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            inboxButton()
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            sendButton()
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            settingButton()
+                        }
                     }
                 }
             }
