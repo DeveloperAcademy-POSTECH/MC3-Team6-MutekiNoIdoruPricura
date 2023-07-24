@@ -51,9 +51,14 @@ struct WriteView: View {
                                     .onReceive(vm.letterText.publisher.collect()) { collectionText in
                                         let trimmedText = String(collectionText.prefix(letterLimit))
                                         if vm.letterText != trimmedText {
+                                            if vm.letterText.count > letterLimit {
+                                                isOverLetterLimit = true
+                                            } else {
+                                                isOverLetterLimit = false
+                                            }
                                             vm.letterText = trimmedText
                                         }
-                                        isOverLetterLimit = vm.letterText.count > letterLimit
+                                        //isOverLetterLimit = vm.letterText.count > letterLimit
                                     }
                             }
                         }
