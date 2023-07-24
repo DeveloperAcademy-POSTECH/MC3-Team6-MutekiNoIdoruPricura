@@ -9,108 +9,122 @@ import SwiftUI
 
 struct WriteView: View {
     
-    let backgroundColor = Color(#colorLiteral(red: 0.1930334568, green: 0.1931923628, blue: 0.1980533898, alpha: 1))
-    let fontGrayColor = Color(#colorLiteral(red: 0.6358334422, green: 0.6358334422, blue: 0.6358334422, alpha: 1))
-    let imageDisselectCircleColor = Color(#colorLiteral(red: 0.8797428608, green: 0.8797428012, blue: 0.8797428608, alpha: 1))
-    let imageDisselectXmarkColor = Color(#colorLiteral(red: 0.5292983651, green: 0.5335732102, blue: 0.5482189059, alpha: 1))
     let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
     let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
-    @EnvironmentObject var vm: WriteViewModel
+    @StateObject var vm = WriteViewModel()
     
     @FocusState private var isFocused: Bool
     
-    //Model
-    @State var letterText = ""
     let nowDate = getNowDate()
-    @State var selectedImage : Image? = nil
-    
+
     @State var isOverLetterLimit: Bool = false
+    // ⛔️ @Binding var isShowingCurrentPage: Bool
+    @State var showPhotoPickerActionSheet = false
     
     @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
     
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
             ZStack {
-                backgroundColor
+                Color.backgroundColor
                     .ignoresSafeArea()
                 
-                VStack(alignment: .leading){
+                VStack(alignment: .leading) { // 가장 큰 VStack
+                    // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
                     writeViewHeader()
+                        .padding(.bottom, 16)
                     
-                    Text(nowDate)
-                        .font(.system(size: 13.33, weight: .regular))
-                        .foregroundColor(.white)
-                        .padding(.top, 35)
-                    
-                    ZStack(alignment: .topLeading) {
-                        Text(placeHolder)
-                            .font(.system(size: 18.33, weight: .regular))
-                            .foregroundColor(fontGrayColor)
-                            .opacity( letterText.isEmpty ? 1 : 0)
-                        VStack {
-                            letterLimitTextField(letterLimit: letterLimit)
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 45) { // Pickerbutton + ImageView
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
+                            Text(nowDate)
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundColor(.white)
+                            
+                            ZStack(alignment: .topLeading){ // 플레이스홀더 + 텍스트필드
+                                Text(placeHolder)
+                                    .font(.system(size: 18, weight: .regular))
+                                    .foregroundColor(Color.fontGrayColor)
+                                    .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 
-                                if let image = vm.image { // 이미지가 첨부되었을 경우
-                                    ZStack {
-                                        imageDisselectButton()
-                                        pickedImage(image: image)
-                                        
-                                    }
-                                } else { // 이미지가 pick 되지 않은 상태일 경우. 뷰가 뜨지 않는 구조.
-                                }
-                                
-                                VStack { // Keyboard height를 반영하기 위한 Space를 표시하는 Vstack
-                                    HStack {
-                                        // picker buttons + 자수 label
-                                        HStack(alignment: .bottom, spacing: 23.92) {
-                                            Button(action: {
-                                                vm.source = .camera
-                                                vm.showPhotoPicker()
-                                            }){
-                                                Image("galleryButton")
-                                                
-                                            }
-                                            Button(action: {
-                                                vm.source = .library
-                                                vm.showPhotoPicker()
-                                            }){
-                                                Image("cameraButton")
-                                            }
+                                letterLimitTextField(letterLimit: letterLimit)
+                                    .onReceive(vm.letterText.publisher.collect()) { collectionText in
+                                        let trimmedText = String(collectionText.prefix(letterLimit))
+                                        if vm.letterText != trimmedText {
+                                            vm.letterText = trimmedText
                                         }
-                                        
-                                        
-                                        Spacer()
-                                        
-                                        letterLimitLabel(letterLimit: letterLimit)
+                                        isOverLetterLimit = vm.letterText.count > letterLimit
                                     }
-                                    .offset(y: isFocused ? -keyboard.height+100 : 0)
-                                    .padding(.bottom)
-                                    
-                                }
                             }
                         }
+                        .padding(.top, 30)
                     }
-                    .padding(.top, 23.93)
+                    .frame(height: 280) // ScrollView의 Height Fix
                     
                     Spacer()
+                    
+                    HStack(alignment: .bottom) {
+                        if let image = vm.image { // 이미지가 첨부되었을 경우
+                            ZStack(alignment: .topTrailing) {
+                                pickedImage(image: image)
+                                imageDisselectButton()
+                            }
+                        } else { // 이미지가 pick 되지 않은 상태일 경우. 디폴트 이미지
+                                Image("galleryButton")
+                                    .frame(width: 82, height: 82)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 4.5)
+                                            .fill(Color.defaultImageBackgroundGray)
+                                    )
+                                    .onTapGesture {
+                                        showPhotoPickerActionSheet = true
+                                    }
+                        }
+                        
+                        Spacer()
+                        
+                        letterLimitLabel(letterLimit: letterLimit)
+                        
+                    }
+                    .offset(y: isFocused ? -keyboard.height+100 : 0)
+                    .padding(.bottom)
+                    
                 }
-                .padding(.top, 26)
-                .padding(.horizontal, 27)
-                .onAppear{
-                    //keyboard Observer
-                    self.keyboard.addObserver()
-                }
-                .onDisappear{
-                    self.keyboard.removeObserver()
-                }
-                
+                .padding(.top, 20)
+                .padding(.horizontal, 28)
             }
+
+            .onAppear{
+                //keyboard Observer
+                self.keyboard.addObserver()
+            }
+            .onDisappear{
+                self.keyboard.removeObserver()
+            }
+            
             .ignoresSafeArea(.keyboard, edges: .bottom)
             .onTapGesture {
                 isFocused = false
+            }
+            
+//            .alert(isPresented: $isOverLetterLimit ) {
+//                Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
+//            }
+            .sheet(isPresented: $vm.showPicker) {
+                ImagePicker(sourceType: vm.source == .library ? .photoLibrary : .camera, selectedImage: $vm.image)
+                    .ignoresSafeArea()
+            }
+            //actionSheet
+            .confirmationDialog("", isPresented: $showPhotoPickerActionSheet, titleVisibility: .hidden) {
+                Button("갤러리") {
+                    vm.source = .library
+                    vm.showPhotoPicker()
+                }
+                Button("카메라") {
+                    vm.source = .camera
+                    vm.showPhotoPicker()
+                }
+                Button("취소", role: .cancel) {}
             }
         }
     }
@@ -119,9 +133,10 @@ struct WriteView: View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
+               //⛔️isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
-                    .foregroundColor(fontGrayColor)
+                    .foregroundColor(Color.fontGrayColor)
                     .font(.system(size: 25, weight: .regular))
             }
             
@@ -134,47 +149,53 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
+                Task{
+                    if(await vm.saveImageStoarge()){
+                    //⛔️isShowingCurrentPage.toggle()
+                }}
+
+                print("button")
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
-                    .foregroundColor(fontGrayColor)
+                    .foregroundColor(Color.fontGrayColor)
             }
         }
     }
     
     func pickedImage(image: UIImage) -> some View {
-        self.selectedImage = Image(uiImage: image)
         return Image(uiImage: image) // uiImage를 Image 뷰에 할당.
             .resizable()
             .scaledToFill()
-            .frame(width: 90, height: 90)
+            .frame(width: 82, height: 82)
             .clipShape(
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: 4.5)
             )
     }
     
     func imageDisselectButton() -> some View {
         return Button(action: {
-            // disselect photo
-            
+            // Image disselect
+            vm.image = nil
         }){
-                Circle()
-                    .fill(imageDisselectCircleColor)
-                    .frame(width: 36, height: 36)
-                    .overlay(
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .regular))
-                            .foregroundColor(imageDisselectXmarkColor)
-                        )
-                    
+            Image(systemName: "xmark")
+                .font(.system(size: 10, weight: .bold))
+                .foregroundColor(.imageDisselectForegroundColor)
+                .frame(width: 20, height: 20)
+                .background(
+                    Circle()
+                        .fill(Color.imageDisselectButtonGray.opacity(0.8))
+                )
         }
+        .offset(y: -10)
+        .offset(x: 10)
 
     }
     
     func letterLimitLabel(letterLimit: Int) -> some View {
-        return Text("\($letterText.wrappedValue.count)")
+        return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($letterText.wrappedValue.count < 300 ? .white : .red) : .white)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : .red) : .white)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
             .foregroundColor(.white)
@@ -185,19 +206,14 @@ struct WriteView: View {
     ///   - letterLimit: 글자 수 제한의 글자수.
     /// - Returns: TextField View
     func letterLimitTextField(letterLimit: Int) -> some View {
-            TextField("", text: $letterText, axis: .vertical)
+        TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
-                    .onReceive($letterText.wrappedValue.publisher.collect()) {
-                        if $letterText.wrappedValue.count > 300 {
-                            isOverLetterLimit = true
-                        }
-                        $letterText.wrappedValue = String($0.prefix(letterLimit))
-                    }
                     .focused($isFocused)
     }
+    
 }
 
 extension WriteView {

@@ -7,7 +7,6 @@
 
 // UIKit의 UIViewControllerRepresentable을 활용한 카메라 / 포토피커 연동
 
-import UIKit
 import SwiftUI
 
 struct ImagePicker : UIViewControllerRepresentable {
