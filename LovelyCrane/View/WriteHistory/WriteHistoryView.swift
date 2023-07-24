@@ -9,17 +9,26 @@ import SwiftUI
 
 
 struct WriteHistoryView: View {
+    @State var isCellTapped = false
+    
     var body: some View {
         ZStack {
+            NavigationLink("", destination: DetailView(), isActive: $isCellTapped)
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading) {
                         LazyVStack {
-                            NotReadHistoryListCell()
+                            HistoryListCell(isRead: true)
+                                .onTapGesture {
+                                    isCellTapped.toggle()
+                            }
                         }
                         header()
                         LazyVStack {
-                            ReadHistoryListCell()
+                            HistoryListCell(isRead: false)
+                                .onTapGesture {
+                                    isCellTapped.toggle()
+                            }
                         }
                         Spacer()
                     }

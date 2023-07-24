@@ -7,11 +7,13 @@
 
 import SwiftUI
 
-struct ReadHistoryListCell: View {
+struct HistoryListCell: View {
+    var isRead: Bool
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(.readCell)
+                .foregroundColor(isRead ? .notReadCell : .readCell)
                 .frame(maxHeight: 130)
             VStack(alignment: .leading) {
                 Text("7월 15일 수요일")
@@ -35,8 +37,3 @@ struct ReadHistoryListCell: View {
 }
 
 
-struct ReadListCell_Preview: PreviewProvider {
-    static var previews: some View {
-        ReadHistoryListCell()
-    }
-}

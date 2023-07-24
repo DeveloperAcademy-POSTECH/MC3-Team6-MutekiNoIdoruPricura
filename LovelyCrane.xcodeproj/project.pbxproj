@@ -13,9 +13,8 @@
 		0D46EB502A66AE8800C65A7B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D46EB4F2A66AE8800C65A7B /* Color.swift */; };
 		0D46EB522A66AE9400C65A7B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D46EB512A66AE9400C65A7B /* UIColor.swift */; };
 		0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D46EB532A66AEBB00C65A7B /* Assets.swift */; };
-		0D6D44F72A69064900CF6ECA /* ReadHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D6D44F62A69064900CF6ECA /* ReadHistoryCell.swift */; };
 		0DB89B5C2A67C5130055FD93 /* BackGroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */; };
-		0DB89B602A67C8D30055FD93 /* NotReadHistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB89B5F2A67C8D30055FD93 /* NotReadHistoryListCell.swift */; };
+		0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */; };
 		86428B862A65AD8700B2CA7D /* WriteHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B612A65AD8700B2CA7D /* WriteHistoryView.swift */; };
 		86428B872A65AD8700B2CA7D /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B632A65AD8700B2CA7D /* DetailView.swift */; };
 		86428B882A65AD8700B2CA7D /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B652A65AD8700B2CA7D /* WriteView.swift */; };
@@ -64,9 +63,8 @@
 		0D46EB4F2A66AE8800C65A7B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0D46EB512A66AE9400C65A7B /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		0D46EB532A66AEBB00C65A7B /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
-		0D6D44F62A69064900CF6ECA /* ReadHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadHistoryCell.swift; sourceTree = "<group>"; };
 		0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackGroundView.swift; sourceTree = "<group>"; };
-		0DB89B5F2A67C8D30055FD93 /* NotReadHistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotReadHistoryListCell.swift; sourceTree = "<group>"; };
+		0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
 		86428B612A65AD8700B2CA7D /* WriteHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteHistoryView.swift; sourceTree = "<group>"; };
 		86428B632A65AD8700B2CA7D /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		86428B652A65AD8700B2CA7D /* WriteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
@@ -145,8 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */,
-				0DB89B5F2A67C8D30055FD93 /* NotReadHistoryListCell.swift */,
-				0D6D44F62A69064900CF6ECA /* ReadHistoryCell.swift */,
+				0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -504,11 +501,10 @@
 				865773222A65A18B00D40B59 /* ContentView.swift in Sources */,
 				86428B8E2A65AD8700B2CA7D /* FirebaseNetwork.swift in Sources */,
 				86E502942A6690060001D88A /* SignInGoogleHelper.swift in Sources */,
-				0DB89B602A67C8D30055FD93 /* NotReadHistoryListCell.swift in Sources */,
+				0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */,
 				86428BA32A666ABD00B2CA7D /* AuthenticationView.swift in Sources */,
 				86428BA82A666B3900B2CA7D /* AppleLoginButton.swift in Sources */,
 				0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */,
-				0D6D44F72A69064900CF6ECA /* ReadHistoryCell.swift in Sources */,
 				86428B8D2A65AD8700B2CA7D /* LoginView.swift in Sources */,
 				865773202A65A18B00D40B59 /* LovelyCraneApp.swift in Sources */,
 				86428B902A65AD8700B2CA7D /* User.swift in Sources */,

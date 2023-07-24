@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Crans: String, CaseIterable {
+enum Cran: String, CaseIterable {
     case blue, yellow, green, white, pink, purple
 }
 
@@ -22,5 +22,5 @@ struct Assets {
     static let sendBottle = "sendBottle"
     static let conceptCrane = "conceptCrane"
     static let bottleIn = "bottleIn"
-    static let crans: [Crans] = Crans.allCases
+    static let crans: [Cran] = Cran.allCases
 }

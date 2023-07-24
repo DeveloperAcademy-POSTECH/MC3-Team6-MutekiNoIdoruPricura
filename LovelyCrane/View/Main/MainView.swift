@@ -18,6 +18,7 @@ struct MainView: View {
     @State var letterCount = 912
     @State var isWriteHistroyTapped = false
     @State var isWriteTapped = false
+    @State var selection = 0
     
     
     var body: some View {
@@ -25,17 +26,15 @@ struct MainView: View {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
                 BackGroundView()
-                VStack {
-                    Text("to. \(partnerName)")
-                        .foregroundColor(.fontGray)
-                        .padding(.top)
-                    Text("\(letterCount)")
-                        .foregroundColor(.white)
-                        .font(.system(size: 50))
-                    spriteView()
-                    Spacer()
-                    bottomWriteButton()
+                TabView {
+                    mainBottle()
+                        .tag(0)
+                    presentedBottle()
+                        .tag(1)
                 }
+                .ignoresSafeArea()
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .menuIndicator(.hidden)
                 .navigationTitle("")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -58,6 +57,32 @@ struct MainView: View {
             SettingView()
         } label: {
             Image(Assets.setting)
+        }
+    }
+    private func presentedBottle() -> some View {
+        VStack {
+            Text("to. \(partnerName)")
+                .foregroundColor(.fontGray)
+                .padding(.top)
+            Text("\(letterCount)")
+                .foregroundColor(.white)
+                .font(.system(size: 50))
+            spriteView()
+            Spacer()
+        }
+    }
+    
+    private func mainBottle() -> some View {
+        VStack {
+            Text("to. \(partnerName)")
+                .foregroundColor(.fontGray)
+                .padding(.top)
+            Text("\(letterCount)")
+                .foregroundColor(.white)
+                .font(.system(size: 50))
+            spriteView()
+            Spacer()
+            bottomWriteButton()
         }
     }
     
