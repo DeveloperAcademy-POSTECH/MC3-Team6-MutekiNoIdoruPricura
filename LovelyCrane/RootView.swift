@@ -10,25 +10,25 @@ import SwiftUI
 // MARK: 로그인 여부를 확인하고, 메인뷰로 진입하기 위한 루트뷰입니다.
 struct RootView: View {
     
-    @State private var showSignInView: Bool = false
-    
+    @State private var showSignInView: Bool = true
+
     var body: some View {
-        
         ZStack {
             if !showSignInView {
                 NavigationStack {
 //                    Text("메인 뷰")
-                    SettingsView(showSignInView: $showSignInView)
+                    NickNameView()
                 }
             }
         }
-        .onAppear {
-            let authUser = try? AuthenticationManager.shared.getAuthenticatedUser()
-            self.showSignInView = authUser == nil ? true : false
-        }
+//        .onAppear {
+//            let authUser = try? AuthenticationManager.shared.getAuthenticatedUser()
+//            //이미있는 경우
+//            self.showSignInView = authUser == nil ? true : false
+//        }
         .fullScreenCover(isPresented: $showSignInView) {
             NavigationStack {
-                AuthenticationView(showSignInView: $showSignInView)
+                AuthenticationView( showSignInView: $showSignInView)
             }
         }
     }

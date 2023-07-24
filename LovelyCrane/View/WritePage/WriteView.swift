@@ -16,16 +16,16 @@ struct WriteView: View {
     let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
     let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
-    @EnvironmentObject var vm: WriteViewModel
+    @StateObject var vm = WriteViewModel()
     
     @FocusState private var isFocused: Bool
     
     //Model
-    @State var letterText = ""
-    @State var nowDate = getNowDate()
-    @State var selectedImage : Image? = nil
     
+    let nowDate = getNowDate()
+
     @State var isOverLetterLimit: Bool = false
+    @Binding var isShowingCurrentPage: Bool
     
     @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
     
@@ -47,9 +47,16 @@ struct WriteView: View {
                         Text(placeHolder)
                             .font(.system(size: 18.33, weight: .regular))
                             .foregroundColor(fontGrayColor)
-                            .opacity( letterText.isEmpty ? 1 : 0)
+                            .opacity(vm.letterText.isEmpty ? 1 : 0)
                         VStack {
                             letterLimitTextField(letterLimit: letterLimit)
+                                .onReceive(vm.letterText.publisher.collect()) { collectionText in
+                                    let trimmedText = String(collectionText.prefix(letterLimit))
+                                    if vm.letterText != trimmedText {
+                                        vm.letterText = trimmedText
+                                   }
+                                    isOverLetterLimit = vm.letterText.count > letterLimit
+                                }
                             Spacer()
                             VStack(alignment: .leading, spacing: 45) { // Pickerbutton + ImageView
                                 
@@ -67,21 +74,18 @@ struct WriteView: View {
                                         // picker buttons + 자수 label
                                         HStack(alignment: .bottom, spacing: 23.92) {
                                             Button(action: {
-                                                vm.source = .camera
+                                                vm.source = .library
                                                 vm.showPhotoPicker()
                                             }){
                                                 Image("galleryButton")
-                                                
                                             }
                                             Button(action: {
-                                                vm.source = .library
+                                                vm.source = .camera
                                                 vm.showPhotoPicker()
                                             }){
                                                 Image("cameraButton")
                                             }
                                         }
-                                        
-                                        
                                         Spacer()
                                         
                                         letterLimitLabel(letterLimit: letterLimit)
@@ -94,7 +98,6 @@ struct WriteView: View {
                         }
                     }
                     .padding(.top, 23.93)
-                    
                     Spacer()
                 }
                 .padding(.top, 26)
@@ -115,13 +118,20 @@ struct WriteView: View {
             .alert(isPresented: $isOverLetterLimit ) {
                 Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
             }
+            .sheet(isPresented: $vm.showPicker) {
+                ImagePicker(sourceType: vm.source == .library ? .photoLibrary : .camera, selectedImage: $vm.image)
+                    .ignoresSafeArea()
+            }
         }
+
+
     }
     
     func writeViewHeader() -> some View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
+                isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(fontGrayColor)
@@ -137,6 +147,12 @@ struct WriteView: View {
             
             Button(action: {
                 // 쪽지 저장
+                Task{
+                    if(await vm.saveImageStoarge()){
+                    isShowingCurrentPage.toggle()
+                }}
+
+                print("button")
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
@@ -146,7 +162,6 @@ struct WriteView: View {
     }
     
     func pickedImage(image: UIImage) -> some View {
-        self.selectedImage = Image(uiImage: image)
         return Image(uiImage: image) // uiImage를 Image 뷰에 할당.
             .resizable()
             .scaledToFill()
@@ -175,7 +190,7 @@ struct WriteView: View {
     }
     
     func letterLimitLabel(letterLimit: Int) -> some View {
-        return Text("\($letterText.wrappedValue.count)")
+        return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
             .foregroundColor(.white)
         + Text("/\(letterLimit)")
@@ -188,17 +203,11 @@ struct WriteView: View {
     ///   - letterLimit: 글자 수 제한의 글자수.
     /// - Returns: TextField View
     func letterLimitTextField(letterLimit: Int) -> some View {
-            TextField("", text: $letterText, axis: .vertical)
+        TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.leading)
-                    .onReceive($letterText.wrappedValue.publisher.collect()) {
-                        if $letterText.wrappedValue.count > 300 {
-                            isOverLetterLimit = true
-                        }
-                        $letterText.wrappedValue = String($0.prefix(letterLimit))
-                    }
                     .focused($isFocused)
     }
 }
@@ -218,9 +227,9 @@ extension WriteView {
      }
 }
 
-struct WriteView_Previews: PreviewProvider {
-    static var previews: some View {
-        WriteView()
-            .environmentObject(WriteViewModel())
-    }
-}
+//struct WriteView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WriteView(isShowingCurrentPage: <#Binding<Bool>#>)
+//            .environmentObject(WriteViewModel())
+//    }
+//}
