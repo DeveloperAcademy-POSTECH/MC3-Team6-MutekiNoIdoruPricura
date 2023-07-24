@@ -47,17 +47,16 @@ struct CouplingView: View {
     func codeSharingView() -> some View {
         VStack(spacing: 30){
             Text("나의 코드")
-//            Text(UserManager.shared.getmyUUId())
-            Text("efjqwofiqewjfoqqo")
+            Text(UserManager.shared.getmyUUId())
             Button {
                 UIPasteboard.general.string = UserManager.shared.getmyUUId()
             } label: {
                 Text("복사하기")
                     .foregroundColor(.pink)
             }
-            ShareLink(item: "내코드1234143", preview: SharePreview(
+            // TODO: item에 나의 코드 넣어주기!
+            ShareLink(item: UserManager.shared.getmyUUId(), preview: SharePreview(
                     Text("사랑의 종이학")
-
             )) {
                 Text("링크로 알려주기")
                     .foregroundColor(.white)

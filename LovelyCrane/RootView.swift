@@ -21,11 +21,11 @@ struct RootView: View {
                 }
             }
         }
-//        .onAppear {
-//            let authUser = try? AuthenticationManager.shared.getAuthenticatedUser()
-//            //이미있는 경우
-//            self.showSignInView = authUser == nil ? true : false
-//        }
+        .onAppear {
+            let authUser = try? AuthenticationManager.shared.getAuthenticatedUser()
+            //이미있는 경우
+            self.showSignInView = authUser == nil ? true : false
+        }
         .fullScreenCover(isPresented: $showSignInView) {
             NavigationStack {
                 AuthenticationView( showSignInView: $showSignInView)

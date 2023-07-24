@@ -47,10 +47,14 @@ struct InputCodeView: View {
             }
             .padding(.top,140)
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Text("상대방 코드 입력하기")
-                    .foregroundColor(.white)
+                HStack{
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(.white)
+                    Text("상대방 코드 입력하기")
+                    .foregroundColor(.white)}
             }
         }
     }
@@ -73,18 +77,6 @@ struct InputCodeView: View {
             .padding(.horizontal,24)
             .padding(.bottom,20)
     }
-}
-class InputCodeViewModel: ObservableObject {
-    @Published var inputcode: String = ""
-    func connectPartner() async throws -> Bool{
-        let failconnect = try await UserManager.shared.connectUsertoUser(to: inputcode)
-        if failconnect {
-            return false
-        }
-        inputcode = ""
-        return true
-    }
-
 }
 struct InputCodeView_Previews: PreviewProvider {
     static var previews: some View {
