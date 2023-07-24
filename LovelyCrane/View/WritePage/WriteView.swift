@@ -22,7 +22,7 @@ struct WriteView: View {
     
     //Model
     @State var letterText = ""
-    @State var nowDate = getNowDate()
+    let nowDate = getNowDate()
     @State var selectedImage : Image? = nil
     
     @State var isOverLetterLimit: Bool = false
@@ -112,9 +112,6 @@ struct WriteView: View {
             .onTapGesture {
                 isFocused = false
             }
-            .alert(isPresented: $isOverLetterLimit ) {
-                Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
-            }
         }
     }
     
@@ -177,7 +174,7 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(.white)
+            .foregroundColor(isOverLetterLimit ? ($letterText.wrappedValue.count < 300 ? .white : .red) : .white)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
             .foregroundColor(.white)
