@@ -27,14 +27,13 @@ final class SpriteScene: SKScene {
     }
     
     private func createCrane() {
-        if let randomCrane = Assets.crans.randomElement()?.rawValue {
-            let crane = SKSpriteNode(imageNamed: randomCrane)
-            crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
-            crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: CGFloat.random(in: size.height * 0.1...size.width * 0.9))
-            addChild(crane)
-        }
+        guard let randomCrane = Assets.crans.randomElement()?.rawValue else { return }
+        let crane = SKSpriteNode(imageNamed: randomCrane)
+        crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
+        crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: CGFloat.random(in: size.height * 0.1...size.width * 0.9))
+        addChild(crane)
     }
-    
+
     //해당 메소드는 없어도 됩니다.
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         createCrane()
