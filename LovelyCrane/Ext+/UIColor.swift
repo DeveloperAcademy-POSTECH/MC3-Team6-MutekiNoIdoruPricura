@@ -26,4 +26,6 @@ extension UIColor {
                   blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
                   alpha: alpha)
     }
+    
+    static let backGround = UIColor(hexCode: "#252526")
 }

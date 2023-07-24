@@ -17,9 +17,8 @@ struct MainView: View {
     @State var partnerName = "직녀"
     @State var letterCount = 912
     @State var isWriteHistroyTapped = false
-    @State var isReceiveHistroyTapped = false
-    @State var isSettingTapped = false
     @State var isWriteTapped = false
+    @State var selection = 0
     
 //    @Binding var showSignInView: Bool
     
@@ -31,7 +30,6 @@ struct MainView: View {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
                 NavigationLink("", destination: SettingsView(), isActive: $isSettingTapped).environmentObject(viewRouter)
                 NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
-                backGround()
                 VStack {
                     Spacer()
                     Text("to. \(partnerName)")
@@ -43,7 +41,16 @@ struct MainView: View {
                     spriteView()
                     Spacer()
                     bottomWriteButton()
+                BackGroundView()
+                TabView {
+                    mainBottle()
+                        .tag(0)
+                    presentedBottle()
+                        .tag(1)
                 }
+                .ignoresSafeArea()
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                .menuIndicator(.hidden)
                 .navigationTitle("")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
@@ -61,48 +68,76 @@ struct MainView: View {
     }
 
 //MARK: - Views
-    func backGround() -> some View {
-        Color(Color.backGround)
-            .ignoresSafeArea()
-    }
-    
-    func settingButton() -> some View {
-        Button {
-            isSettingTapped.toggle()
+    private func settingButton() -> some View {
+        NavigationLink {
+            SettingView()
         } label: {
             Image(Assets.setting)
         }
     }
+    private func presentedBottle() -> some View {
+        VStack {
+            Text("to. \(partnerName)")
+                .foregroundColor(.fontGray)
+                .padding(.top)
+            Text("\(letterCount)")
+                .foregroundColor(.white)
+                .font(.system(size: 50))
+            spriteView()
+            Spacer()
+        }
+    }
     
-    func sendButton() -> some View {
+    private func mainBottle() -> some View {
+        VStack {
+            Text("to. \(partnerName)")
+                .foregroundColor(.fontGray)
+                .padding(.top)
+            Text("\(letterCount)")
+                .foregroundColor(.white)
+                .font(.system(size: 50))
+            spriteView()
+            Spacer()
+            bottomWriteButton()
+        }
+    }
+    
+    private func sendButton() -> some View {
         Button {
             print("hi")
         } label: {
             Image(Assets.send)
         }
     }
-    func inboxButton() -> some View {
-        Button {
-            isReceiveHistroyTapped.toggle()
+    private func inboxButton() -> some View {
+        NavigationLink {
+            ReciveHistoryView()
         } label: {
             Image(Assets.inbox)
         }
+        
     }
     
-    func spriteView() -> some View {
-        SpriteView(scene: makeScean())
-        .cornerRadius(20)
-        .padding()
-        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
-        .onTapGesture {
-            isWriteHistroyTapped.toggle()
+    private func spriteView() -> some View {
+        ZStack(alignment: .bottom) {
+            Image(Assets.bottle)
+                .resizable()
+            SpriteView(scene: makeScean())
+                .cornerRadius(20)
+                .padding()
+                .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.5)
+                .mask(Image(Assets.bottleIn).resizable().frame(height: CGSize.deviceHeight * 0.51))
+                .onTapGesture {
+                    isWriteHistroyTapped.toggle()
+                }
         }
+        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
     }
     
-    func bottomWriteButton() -> some View {
+    private func bottomWriteButton() -> some View {
         RoundedRectangle(cornerRadius: 20)
             .frame(width: CGSize.deviceWidth * 0.8)
-            .offset(y: CGSize.deviceHeight * 0.048)
+            .offset(y: CGSize.deviceHeight * 0.08)
             .ignoresSafeArea()
             .onTapGesture {
                 isWriteTapped.toggle()
@@ -112,7 +147,7 @@ struct MainView: View {
             }
     }
 //MARK: - methods
-    func makeScean() -> SKScene {
+    private func makeScean() -> SKScene {
         let scene = SpriteScene()
         scene.motionManager = coreMotionManager
         scene.size = CGSize(width: CGSize.deviceWidth * 0.7, height: CGSize.deviceHeight * 0.7)

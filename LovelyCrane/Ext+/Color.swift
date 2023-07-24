@@ -20,4 +20,9 @@ extension Color {
     static let buttonGray = UIColor(hexCode: "3A3838")
     static let darkFontGray = UIColor(hexCode: "665F5F")
     static let fontBrown = UIColor(hexCode: "524343")
+
+    static let notReadCell = Color(UIColor(hexCode: "#444444"))
+    static let readCell = Color(UIColor(hexCode: "#303030"))
+    static let blue = Color(.blue)
+
 }
