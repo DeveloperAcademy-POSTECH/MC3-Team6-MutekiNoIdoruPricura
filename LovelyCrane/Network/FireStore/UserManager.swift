@@ -12,19 +12,21 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private let userCollection = Firestore.firestore().collection("Users")
+    private var cuurentUserUid: String {
+        return Auth.auth().currentUser?.uid ?? "none"
+    }
     func createNewUser(user: Info) async throws{
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         let userData: [String:Any] = [
-            "uuid" : currentUserUid,
+            "uuid" : cuurentUserUid,
             "nickname" : user.nickname ?? "",
             "partner_id" : user.partnerId ?? "",
         ]
-        try await userCollection.document(currentUserUid)
+        try await userCollection.document(cuurentUserUid)
             .setData(userData,merge: false)
     }
 
-    func updateletterData(letter: WriteModel) async throws {
-//        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+    func updateletterData(letter: WriteModel) {
+        let idString = letter.id.uuidString
         let letterdata: [String:Any] = [
             "image": letter.image,
             "text": letter.text,
@@ -32,13 +34,13 @@ final class UserManager {
             "is_byme": letter.is_byme,
             "is_read":letter.is_read,
             "is_sent": letter.is_sent,
-            "id": letter.id
+            "id": idString
         ]
-        try await userCollection.document("Uv0BWkYYZTlTJ").collection("letter_lists").addDocument(data: letterdata)
+        userCollection.document(cuurentUserUid).collection("letter_lists").addDocument(data: letterdata)
     }
 
     func getletterData(letterid: String) async throws {
-        userCollection.document("Uv0BWkYYZTlTJ").collection("letter_lists").document(letterid).getDocument{(document,error) in
+        userCollection.document(cuurentUserUid).collection("letter_lists").document(letterid).getDocument{(document,error) in
             guard error == nil else{return}
             if let document = document, document.exists {
                 let data = document.data()
@@ -49,16 +51,14 @@ final class UserManager {
         }
     }
     func connectUsertoUser(to partnertoken: String) async throws {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         do{
             let document = try await userCollection.document(partnertoken).getDocument()
             guard document.exists else {return}
-            let currentUserData = self.userCollection.document(currentUserUid)
+            let currentUserData = self.userCollection.document(cuurentUserUid)
             let partnerUserData = self.userCollection.document(partnertoken)
             try await currentUserData.updateData(["partner_id": partnertoken])
-            try await partnerUserData.updateData(["partner_id": currentUserUid])
-        }
-        catch {
+            try await partnerUserData.updateData(["partner_id": cuurentUserUid])
+        } catch {
             print(error)
         }
     }

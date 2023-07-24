@@ -29,8 +29,8 @@ class WriteViewModel : ObservableObject {
         do{
             guard let image = image else {return false}
             let path = try await StoargeManager.shared.uploadImage(img: image)
-            let data = WriteModel(image: path, date: Date(), text: letterText, is_byme: true, is_sent: true, is_read: true)
-            try await UserManager.shared.updateletterData(letter: data)
+            let data = WriteModel(image: path, date: Date(), text: letterText, is_byme: true, is_sent: false, is_read: false)
+            UserManager.shared.updateletterData(letter: data)
             return true
         }
         catch{
