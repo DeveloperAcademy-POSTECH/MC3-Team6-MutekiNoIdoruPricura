@@ -7,15 +7,18 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseFirestore
 
 @main
 struct LovelyCraneApp: App {
+    @StateObject var viewRouter = ViewRouter()
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+                ContentView()
+                    .environmentObject(viewRouter)
         }
     }
 }

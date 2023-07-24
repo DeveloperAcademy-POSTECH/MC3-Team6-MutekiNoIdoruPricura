@@ -20,11 +20,27 @@ struct MainView: View {
     @State var isWriteTapped = false
     @State var selection = 0
     
+//    @Binding var showSignInView: Bool
+    
+    @EnvironmentObject var viewRouter : ViewRouter
     
     var body: some View {
         NavigationView {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+                NavigationLink("", destination: SettingsView(), isActive: $isSettingTapped).environmentObject(viewRouter)
+                NavigationLink("", destination: ReciveHistoryView(), isActive: $isReceiveHistroyTapped)
+                VStack {
+                    Spacer()
+                    Text("to. \(partnerName)")
+                        .padding()
+                        .foregroundColor(Color(Color.fontGray))
+                    Text("\(letterCount)")
+                        .foregroundColor(.white)
+                        .font(.system(size: 40))
+                    spriteView()
+                    Spacer()
+                    bottomWriteButton()
                 BackGroundView()
                 TabView {
                     mainBottle()
