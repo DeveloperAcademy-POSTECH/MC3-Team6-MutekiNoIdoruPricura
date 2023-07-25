@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>156166079586-o0l975hrch5r2ci8csosvauko2vv9ejv.apps.googleusercontent.com</string>
+	<string>15843927970-4079lm1peq72kitfhnmo26fdlsk0hfe4.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.156166079586-o0l975hrch5r2ci8csosvauko2vv9ejv</string>
+	<string>com.googleusercontent.apps.15843927970-4079lm1peq72kitfhnmo26fdlsk0hfe4</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCX-kk7SVLmhFU3QE6h-P0xAv3SzLPjOVM</string>
+	<string>AIzaSyDZltXse1n_DGvZnLELw52vOBYuZ8fHUTw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>156166079586</string>
+	<string>15843927970</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>MutekiNoIdoruPricura.LoveCrane</string>
+	<string>com.muteki.LovelyCrane</string>
 	<key>PROJECT_ID</key>
-	<string>lovecrane-133b0</string>
+	<string>lovelycrane-eca51</string>
 	<key>STORAGE_BUCKET</key>
-	<string>lovecrane-133b0.appspot.com</string>
+	<string>lovelycrane-eca51.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:156166079586:ios:eee8f0ceae296e05817d3b</string>
+	<string>1:15843927970:ios:358cc37859d3fce6bf34fb</string>
 </dict>
 </plist>

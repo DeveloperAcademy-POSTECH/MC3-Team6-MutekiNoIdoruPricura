@@ -8,13 +8,34 @@
 import SwiftUI
 
 struct EnlargedImageView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var image: UIImage?
 
-struct EnlargedImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        EnlargedImageView()
+    var body: some View {
+        ZStack(alignment: .leading){
+            Image(uiImage: image!)
+                .resizable()
+                .scaledToFit()
+
+            VStack() {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }){
+                    Image(systemName: "xmark")
+                        .foregroundColor(.fontGrayColor)
+                        .frame(width: 20, height: 20)
+                }
+                .padding(.top, 16)
+                .padding(.leading, 28)
+
+                Spacer()
+            }
+        }
     }
 }
+//
+//struct EnlargedImageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EnlargedImageView()
+//    }
+//}
