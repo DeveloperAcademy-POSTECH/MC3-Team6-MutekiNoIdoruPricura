@@ -17,9 +17,7 @@ struct MainView: View {
     @State var isWriteHistroyTapped = false
     @State var isWriteTapped = false
     @State var isSettingTapped = false
-    @State var selection = 0
     
-//    @Binding var showSignInView: Bool
     
     @EnvironmentObject var viewRouter : ViewRouter
     
@@ -27,6 +25,7 @@ struct MainView: View {
         NavigationView {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+                    BackGroundView()
                     TabView {
                         mainBottle()
                             .tag(0)
@@ -48,7 +47,6 @@ struct MainView: View {
                             settingButton()
                         }
                     }
-
             }
         }
     }
@@ -122,8 +120,10 @@ struct MainView: View {
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
     }
     
+    //Todo: 랜덤하게 fill 컬러 추가해주고, 해당 컬러에 맞는 크레인 명을 color로 보내주어야 함
     private func bottomWriteButton() -> some View {
         RoundedRectangle(cornerRadius: 20)
+            .fill(Color.red)
             .frame(width: CGSize.deviceWidth * 0.8)
             .offset(y: CGSize.deviceHeight * 0.08)
             .ignoresSafeArea()
@@ -131,7 +131,11 @@ struct MainView: View {
                 isWriteTapped.toggle()
             }
             .fullScreenCover(isPresented: $isWriteTapped) {
-                WriteView(isShowingCurrentPage: $isWriteTapped)
+                WriteView(isShowingCurrentPage: $isWriteTapped, color: "pink")
+            }
+            .overlay {
+                Text("+ 새로운 쪽지 작성하기")
+                    .offset(y: CGSize.deviceHeight * 0.03)
             }
     }
 //MARK: - methods

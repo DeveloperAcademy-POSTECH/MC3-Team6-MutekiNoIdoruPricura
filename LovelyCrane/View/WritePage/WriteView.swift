@@ -22,7 +22,7 @@ struct WriteView: View {
     @Binding var isShowingCurrentPage: Bool
     @State var showPhotoPickerActionSheet = false
     @State var showEnlargedImageView = false
-    
+    var color: String
     @ObservedObject var keyboard = KeyboardObserver()
     
     var body: some View {
@@ -150,6 +150,7 @@ struct WriteView: View {
                 Task{
                     if(await vm.saveImageStoarge()){
                     isShowingCurrentPage.toggle()
+                    NotificationCenter.default.post(name: NSNotification.Name("write"), object: color)
                 }}
 
                 print("button")

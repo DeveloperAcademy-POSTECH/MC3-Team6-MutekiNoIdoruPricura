@@ -15,16 +15,25 @@ import SwiftUI
 final class SpriteScene: SKScene {
 
     var motionManager: MotionManager?
-    
 
     override func didMove(to view: SKView) {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         motionManager?.setCoreMotionManager()
         backgroundColor = .backGround
+        NotificationCenter.default.addObserver(self, selector: #selector(addNewCrane), name: NSNotification.Name("write"), object: nil)
         for _ in 0...40 {
             createCrane()
         }
     }
+    
+    @objc func addNewCrane(_ notification: NSNotification) {
+        let newCrane = notification.object as! String
+        let crane = SKSpriteNode(imageNamed: newCrane)
+        crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
+        crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: size.width * 1)
+        addChild(crane)
+    }
+    
     
     private func createCrane() {
         guard let randomCrane = Assets.crans.randomElement()?.rawValue else { return }
@@ -32,11 +41,6 @@ final class SpriteScene: SKScene {
         crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
         crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: CGFloat.random(in: size.height * 0.1...size.width * 0.9))
         addChild(crane)
-    }
-
-    //해당 메소드는 없어도 됩니다.
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        createCrane()
     }
     
     override func update(_ currentTime: TimeInterval) {
