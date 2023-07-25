@@ -6,6 +6,18 @@
 //
 
 import SwiftUI
+// imagPicker Model
+enum Picker {
+    enum Source: String {
+        // Picker의 타입에 따른 (라이브러리 / 카메라) 시나리오 분류
+        case library
+        case camera
+    }
+
+    static func checkPermissions() -> Bool {
+        UIImagePickerController.isSourceTypeAvailable(.camera)
+    }
+}
 
 class WriteViewModel : ObservableObject {
     
@@ -29,8 +41,8 @@ class WriteViewModel : ObservableObject {
         do{
             guard let image = image else {return false}
             let path = try await StorageManager.shared.uploadImage(img: image)
-            let data = WriteModel(image: path, date: Date(), text: letterText, is_byme: true, is_sent: false, is_read: false)
-            UserManager.shared.updateletterData(letter: data)
+            let data = LetterModel(id: <#String?#>, image: path, date: Date(), text: letterText, isByme: true, isSent: false, isRead: false)
+            UserManager.shared.postletterData(letter: data)
             return true
         }
         catch{
