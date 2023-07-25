@@ -16,7 +16,7 @@ final class StorageManager {
     }
     func uploadImage(img: UIImage) async throws -> (String){
         var data = Data()
-        data = img.jpegData(compressionQuality: 0.4)!
+        guard let data = img.jpegData(compressionQuality: 0.3) else { return "" }
         let metaData = StorageMetadata()
         metaData.contentType = "image/png"
         let path = "\(Date()).png"
