@@ -543,12 +543,8 @@
 				86428BB12A666E7500B2CA7D /* SettingsViewModel.swift in Sources */,
 				86428B912A65AD8700B2CA7D /* Font.swift in Sources */,
 				C7553CB22A65E5F100C2104B /* NickNameView.swift in Sources */,
-<<<<<<< HEAD
 				C37461CC2A6FC3560078C457 /* Date.swift in Sources */,
 				C7EB0EE72A69D9F200AAC2F4 /* StoargeManager.swift in Sources */,
-=======
-				C7EB0EE72A69D9F200AAC2F4 /* StorageManager.swift in Sources */,
->>>>>>> 649c4ba8e3faf9862783344d72600172e4fc17d8
 				86428B932A65AD8700B2CA7D /* WirteHistoryViewModel.swift in Sources */,
 				0D46EB502A66AE8800C65A7B /* Color.swift in Sources */,
 				86428B892A65AD8700B2CA7D /* ReciveHistoryView.swift in Sources */,
