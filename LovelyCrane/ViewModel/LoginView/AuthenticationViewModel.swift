@@ -6,19 +6,36 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 @MainActor
 final class AuthenticaitonViewModel: ObservableObject {
     
-    func signInApple() async throws {
+    func signInApple() async throws -> AuthDataResult {
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
-        try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+        let authDataResult = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+        
+        try await checkUserDocumentExistence(auth: authDataResult)
+        return authDataResult
     }
     
-    func signInGoogle() async throws {
+    @discardableResult
+    func signInGoogle() async throws -> AuthDataResult {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.signIn()
-        try await AuthenticationManager.shared.signInWithGoogle(token: tokens)
+        let authDataResult = try await AuthenticationManager.shared.signInWithGoogle(token: tokens)
+        
+        try await checkUserDocumentExistence(auth: authDataResult)
+        return authDataResult
+    }
+    
+    func checkUserDocumentExistence(auth: AuthDataResult) async throws {
+        let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
+        if try await userCollection.document(auth.uid).getDocument().exists { return
+        } else {
+            let user = DBUser(auth: auth)
+            try await UserManager.shared.createNewUser(user: user)
+        }
     }
 }
