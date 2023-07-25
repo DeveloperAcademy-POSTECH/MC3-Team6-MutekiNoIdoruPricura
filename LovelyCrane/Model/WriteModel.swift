@@ -10,11 +10,9 @@ import UIKit
 
 struct WriteModel {
     let id = UUID()
-    let image: String // image stoarge에 저장후 url 저장
+    let image: String 
     let date: Date
-//    let index: Int
     let text: String
-
     let is_byme: Bool // true=작성히스토리 false= 수신히스토리
     let is_sent: Bool // true=보내짐. false아직안보내짐.
     let is_read: Bool
@@ -30,10 +28,6 @@ enum Picker {
     }
     
     static func checkPermissions() -> Bool {
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            return true
-        } else {
-            return false
-        }
+        UIImagePickerController.isSourceTypeAvailable(.camera)
     }
 }

@@ -27,19 +27,6 @@ struct MainView: View {
         NavigationView {
             ZStack {
                 NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
-                NavigationLink("", destination: SettingsView(), isActive: $isSettingTapped).environmentObject(viewRouter)
-                VStack {
-                    Spacer()
-                    Text("to. \(partnerName)")
-                        .padding()
-                        .foregroundColor(.fontGray)
-                    Text("\(letterCount)")
-                        .foregroundColor(.white)
-                        .font(.system(size: 40))
-                    spriteView()
-                    Spacer()
-                    bottomWriteButton()
-                    BackGroundView()
                     TabView {
                         mainBottle()
                             .tag(0)
@@ -61,7 +48,7 @@ struct MainView: View {
                             settingButton()
                         }
                     }
-                }
+
             }
         }
     }

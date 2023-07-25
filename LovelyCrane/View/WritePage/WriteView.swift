@@ -41,13 +41,11 @@ struct WriteView: View {
                             Text(nowDate)
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundColor(.white)
-                            
-                            ZStack(alignment: .topLeading){ // 플레이스홀더 + 텍스트필드
+                            ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
                                     .font(.system(size: 18, weight: .regular))
                                     .foregroundColor(Color.fontGrayColor)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
-                                
                                 letterLimitTextField(letterLimit: letterLimit)
                                     .onReceive(vm.letterText.publisher.collect()) { collectionText in
                                         let trimmedText = String(collectionText.prefix(letterLimit))
@@ -61,7 +59,7 @@ struct WriteView: View {
                         }
                         .padding(.top, 30)
                     }
-                    .frame(height: 280) // ScrollView의 Height Fix
+                    // ScrollView의 Height Fix
                     
                     Spacer()
                     
@@ -84,7 +82,6 @@ struct WriteView: View {
                         }
                         
                         Spacer()
-                        
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }

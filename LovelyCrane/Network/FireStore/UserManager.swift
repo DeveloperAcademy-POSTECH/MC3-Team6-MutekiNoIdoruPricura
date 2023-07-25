@@ -78,12 +78,10 @@ final class UserManager {
 
     func getletterData(letterid: String) async throws {
         userCollection.document(cuurentUserUid).collection("letter_lists").document(letterid).getDocument{(document,error) in
-            guard error == nil else{return}
-            if let document = document, document.exists {
-                let data = document.data()
-                if let data = data {
-                    print(data)
-                }
+            guard error == nil, let document = document, document.exists else{return}
+            let data = document.data()
+            if let data = data {
+                print(data)
             }
         }
     }

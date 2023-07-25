@@ -23,10 +23,10 @@ class KeyboardObserver: ObservableObject {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         isShowing = true
-        guard let userInfo = notification.userInfo as? [String: Any] else {
-            return
-        }
-        guard let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+        guard 
+            let userInfo = notification.userInfo as? [String: Any],
+            let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue 
+        else {
             return
         }
         let keyboardSize = keyboardInfo.cgRectValue.size
