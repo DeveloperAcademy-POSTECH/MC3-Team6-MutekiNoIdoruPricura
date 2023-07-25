@@ -21,10 +21,20 @@ final class SpriteScene: SKScene {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         motionManager?.setCoreMotionManager()
         backgroundColor = .backGround
+        NotificationCenter.default.addObserver(self, selector: #selector(addNewCrane), name: NSNotification.Name("write"), object: nil)
         for _ in 0...40 {
             createCrane()
         }
     }
+    
+    @objc func addNewCrane(_ notification: NSNotification) {
+        let newCrane = notification.object as! String
+        let crane = SKSpriteNode(imageNamed: newCrane)
+        crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
+        crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: size.width * 1)
+        addChild(crane)
+    }
+    
     
     private func createCrane() {
         guard let randomCrane = Assets.crans.randomElement()?.rawValue else { return }
