@@ -21,4 +21,5 @@ extension Color {
     static let defaultImageBackgroundGray = Color(#colorLiteral(red: 0.3364975452, green: 0.3364975452, blue: 0.3364975452, alpha: 1)) // #44444
     static let imageDisselectButtonGray = Color(#colorLiteral(red: 0.9341433644, green: 0.9341433644, blue: 0.9341433644, alpha: 1))
     static let imageDisselectForegroundColor = Color(#colorLiteral(red: 0.2924708128, green: 0.2924708128, blue: 0.2924708128, alpha: 1)) // #3A3A3A
+    static let textOverLimitWarningRed = Color(#colorLiteral(red: 1, green: 0.231372549, blue: 0.1882352941, alpha: 1)) //#FF3B30
 }

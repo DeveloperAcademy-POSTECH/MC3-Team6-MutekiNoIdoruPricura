@@ -107,7 +107,7 @@ struct MainView: View {
                 isWriteTapped.toggle()
             }
             .fullScreenCover(isPresented: $isWriteTapped) {
-                //⛔️ WriteView(isShowingCurrentPage: $isWriteTapped)
+                WriteView(isShowingCurrentPage: $isWriteTapped)
             }
     }
 //MARK: - methods

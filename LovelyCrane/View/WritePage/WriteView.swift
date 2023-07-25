@@ -19,8 +19,9 @@ struct WriteView: View {
     let nowDate = getNowDate()
 
     @State var isOverLetterLimit: Bool = false
-    // ⛔️ @Binding var isShowingCurrentPage: Bool
+    @Binding var isShowingCurrentPage: Bool
     @State var showPhotoPickerActionSheet = false
+    @State var showEnlargedImageView = false
     
     @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
     
@@ -106,15 +107,12 @@ struct WriteView: View {
             .onDisappear{
                 self.keyboard.removeObserver()
             }
-            
+            //Keyboard 관련
             .ignoresSafeArea(.keyboard, edges: .bottom)
             .onTapGesture {
                 isFocused = false
             }
-            
-//            .alert(isPresented: $isOverLetterLimit ) {
-//                Alert(title: Text("글자수 제한 초과"), message: Text("쪽지는 300자 이하로 작성가능해요 :("), dismissButton: .default(Text("돌아가기")))
-//            }
+            //photoPickerSheet
             .sheet(isPresented: $vm.showPicker) {
                 ImagePicker(sourceType: vm.source == .library ? .photoLibrary : .camera, selectedImage: $vm.image)
                     .ignoresSafeArea()
@@ -131,6 +129,10 @@ struct WriteView: View {
                 }
                 Button("취소", role: .cancel) {}
             }
+            //fullScreenView (= EnlargedImageView)
+            .fullScreenCover(isPresented: $showEnlargedImageView) {
+                EnlargedImageView(image: $vm.image)
+            }
         }
     }
     
@@ -138,7 +140,7 @@ struct WriteView: View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
-               //⛔️isShowingCurrentPage.toggle()
+                isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(Color.fontGrayColor)
@@ -156,7 +158,7 @@ struct WriteView: View {
                 // 쪽지 저장
                 Task{
                     if(await vm.saveImageStoarge()){
-                    //⛔️isShowingCurrentPage.toggle()
+                    isShowingCurrentPage.toggle()
                 }}
 
                 print("button")
@@ -176,6 +178,10 @@ struct WriteView: View {
             .clipShape(
                 RoundedRectangle(cornerRadius: 4.5)
             )
+            .onTapGesture {
+                // 확대된 이미지 풀스크린 뷰
+                showEnlargedImageView = true
+            }
     }
     
     func imageDisselectButton() -> some View {
@@ -200,7 +206,7 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : .red) : .white)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.textOverLimitWarningRed) : .white)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
             .foregroundColor(.white)
@@ -236,9 +242,9 @@ extension WriteView {
      }
 }
 
-struct WriteView_Previews: PreviewProvider {
-    static var previews: some View {
-        WriteView()
-            .environmentObject(WriteViewModel())
-    }
-}
+//struct WriteView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WriteView(isShowingCurrentPage: <#Binding<Bool>#>)
+//            .environmentObject(WriteViewModel())
+//    }
+//}
