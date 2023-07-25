@@ -92,19 +92,35 @@ final class UserManager {
         try await getUserDocument().collection("letter_lists").document(letterid).delete()
     }
 
-
-
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         do {
             guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
 
-            let currentUserDocument = self.userCollection.document(currentUserUid)
+            let currentUserDocument = self.userCollection.document(currentUserUID)
             let partnerUserDocument = self.userCollection.document(partnertoken)
 
             try await currentUserDocument.updateData(["partner_id": partnertoken])
-            try await partnerUserDocument.updateData(["partner_id": currentUserUid])
+            try await partnerUserDocument.updateData(["partner_id": currentUserUID])
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    func sendletterLists() async throws{
+        do{
+            let currentUserDocument = userCollection.document(currentUserUID)
+            let partnerField = FieldNames.partner_id.rawValue
+            guard let currentUserData = try await currentUserDocument.getDocument().data(), let partnerId = currentUserData[partnerField] as? String else {return}
+            let partnerUserDocument = userCollection.document(partnerId)
+            guard let partnerUserData = try await partnerUserDocument.getDocument().data(), partnerUserData[partnerField] as? String == currentUserUID else{ return}
+            let snapshot = try await currentUserDocument.collection(FieldNames.letter_lists.rawValue)
+                .whereField("is_sent", isEqualTo: false).getDocuments()
+            for document in snapshot.documents {
+                let letterData = document.data()
+                try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue).addDocument(data: letterData)
+                try await document.reference.updateData(["is_sent":true])
+            }
         }
         catch {
             print(error.localizedDescription)
