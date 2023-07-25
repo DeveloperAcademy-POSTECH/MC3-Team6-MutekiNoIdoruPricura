@@ -60,7 +60,7 @@ final class UserManager {
         try await getUserDocument(userId: user.uuid).collection("letter_lists").addDocument(data: ["isSent": "none"])
     }
     
-    }
+
 
     func updateletterData(letter: WriteModel) {
         let idString = letter.id.uuidString
