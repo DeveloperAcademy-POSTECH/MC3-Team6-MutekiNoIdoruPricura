@@ -17,9 +17,7 @@ struct MainView: View {
     @State var isWriteHistroyTapped = false
     @State var isWriteTapped = false
     @State var isSettingTapped = false
-    @State var selection = 0
     
-//    @Binding var showSignInView: Bool
     
     @EnvironmentObject var viewRouter : ViewRouter
     
