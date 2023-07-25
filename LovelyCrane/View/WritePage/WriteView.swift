@@ -18,12 +18,12 @@ struct WriteView: View {
     
     let nowDate = getNowDate()
 
-    @State var isOverLetterLimit: Bool = false
+    @State var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
     @State var showPhotoPickerActionSheet = false
     @State var showEnlargedImageView = false
     
-    @ObservedObject var keyboard: KeyboardObserver = KeyboardObserver()
+    @ObservedObject var keyboard = KeyboardObserver()
     
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
@@ -33,7 +33,7 @@ struct WriteView: View {
                 
                 VStack(alignment: .leading) { // 가장 큰 VStack
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
-                    writeViewHeader()
+                    showWriteViewHeader()
                         .padding(.bottom, 16)
                     
                     ScrollView {
@@ -52,11 +52,7 @@ struct WriteView: View {
                                     .onReceive(vm.letterText.publisher.collect()) { collectionText in
                                         let trimmedText = String(collectionText.prefix(letterLimit))
                                         if vm.letterText != trimmedText {
-                                            if vm.letterText.count > letterLimit {
-                                                isOverLetterLimit = true
-                                            } else {
-                                                isOverLetterLimit = false
-                                            }
+                                            isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
                                             vm.letterText = trimmedText
                                         }
                                         //isOverLetterLimit = vm.letterText.count > letterLimit
@@ -76,15 +72,15 @@ struct WriteView: View {
                                 imageDisselectButton()
                             }
                         } else { // 이미지가 pick 되지 않은 상태일 경우. 디폴트 이미지
-                                Image("galleryButton")
-                                    .frame(width: 82, height: 82)
-                                    .background(
+                            Image("galleryButton")
+                                .frame(width: 82, height: 82)
+                                .background(
                                         RoundedRectangle(cornerRadius: 4.5)
                                             .fill(Color.defaultImageBackgroundGray)
-                                    )
-                                    .onTapGesture {
+                                )
+                                .onTapGesture {
                                         showPhotoPickerActionSheet = true
-                                    }
+                                }
                         }
                         
                         Spacer()
@@ -136,7 +132,7 @@ struct WriteView: View {
         }
     }
     
-    func writeViewHeader() -> some View {
+    func showWriteViewHeader() -> some View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
@@ -151,9 +147,7 @@ struct WriteView: View {
                 .font(.system(size: 20, weight: .regular))
                 .foregroundColor(.white)
                 .padding(.leading, 5.03)
-            
             Spacer()
-            
             Button(action: {
                 // 쪽지 저장
                 Task{

@@ -58,6 +58,7 @@
 		C37461C62A67AFE60078C457 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C52A67AFE60078C457 /* ImagePicker.swift */; };
 		C37461C82A67C76C0078C457 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C72A67C76C0078C457 /* KeyboardObserver.swift */; };
 		C37461CA2A6F1E3E0078C457 /* EnlargedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461C92A6F1E3E0078C457 /* EnlargedImageView.swift */; };
+		C37461CC2A6FC3560078C457 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37461CB2A6FC3560078C457 /* Date.swift */; };
 		C7553CB02A65E5C100C2104B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7553CAF2A65E5C100C2104B /* UserManager.swift */; };
 		C7553CB22A65E5F100C2104B /* NickNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7553CB12A65E5F100C2104B /* NickNameView.swift */; };
 		C7553CB92A666E4C00C2104B /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C7553CB82A666E4C00C2104B /* FirebaseFirestoreCombine-Community */; };
@@ -120,6 +121,7 @@
 		C37461C52A67AFE60078C457 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		C37461C72A67C76C0078C457 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		C37461C92A6F1E3E0078C457 /* EnlargedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargedImageView.swift; sourceTree = "<group>"; };
+		C37461CB2A6FC3560078C457 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		C7553CAF2A65E5C100C2104B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		C7553CB12A65E5F100C2104B /* NickNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameView.swift; sourceTree = "<group>"; };
 		C782106E2A6F9638002C0407 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				0D46EB4D2A66AE7F00C65A7B /* CGSize.swift */,
 				0D46EB4F2A66AE8800C65A7B /* Color.swift */,
 				0D46EB512A66AE9400C65A7B /* UIColor.swift */,
+				C37461CB2A6FC3560078C457 /* Date.swift */,
 			);
 			path = "Ext+";
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				86428BB12A666E7500B2CA7D /* SettingsViewModel.swift in Sources */,
 				86428B912A65AD8700B2CA7D /* Font.swift in Sources */,
 				C7553CB22A65E5F100C2104B /* NickNameView.swift in Sources */,
+				C37461CC2A6FC3560078C457 /* Date.swift in Sources */,
 				C7EB0EE72A69D9F200AAC2F4 /* StoargeManager.swift in Sources */,
 				86428B932A65AD8700B2CA7D /* WirteHistoryViewModel.swift in Sources */,
 				0D46EB502A66AE8800C65A7B /* Color.swift in Sources */,
