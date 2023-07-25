@@ -37,6 +37,7 @@ final class AuthenticationManager {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badURL)
         }
+        UserManager.shared.deleteDocument(uid: user.uid)
         try await user.delete()
     }
     

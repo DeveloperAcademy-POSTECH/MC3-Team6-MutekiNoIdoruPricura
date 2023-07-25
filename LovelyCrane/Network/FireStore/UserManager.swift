@@ -86,6 +86,11 @@ final class UserManager {
             print(error.localizedDescription)
         }
     }
+    
+    func deleteDocument(uid: String) {
+        let document = getUserDocument(userId: uid)
+        document.delete()
+    }
 }
 
 enum FieldNames: String {

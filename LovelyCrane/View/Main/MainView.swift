@@ -69,7 +69,7 @@ struct MainView: View {
 //MARK: - Views
     private func settingButton() -> some View {
         NavigationLink {
-            SettingView()
+            SettingsView()
         } label: {
             Image(Assets.setting)
         }

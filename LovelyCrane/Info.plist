@@ -18,9 +18,6 @@
 	<key>GIDClientID</key>
 	<string>15843927970-4079lm1peq72kitfhnmo26fdlsk0hfe4.apps.googleusercontent.com</string>
 	<key>UILaunchScreen</key>
-	<dict>
-		<key>UIImageName</key>
-		<string>LaunchScreen</string>
-	</dict>
+	<dict/>
 </dict>
 </plist>
