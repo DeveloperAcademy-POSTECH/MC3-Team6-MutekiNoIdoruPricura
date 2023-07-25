@@ -8,8 +8,8 @@
 import SwiftUI
 import FirebaseStorage
 import Firebase
-class StoargeManager {
-    static let shared = StoargeManager()
+final class StorageManager {
+    static let shared = StorageManager()
     let stoarge = Storage.storage().reference()
     private var imageReference: StorageReference {
         stoarge.child("users").child(Auth.auth().currentUser?.uid ?? "id1")

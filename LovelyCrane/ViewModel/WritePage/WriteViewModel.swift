@@ -28,7 +28,7 @@ class WriteViewModel : ObservableObject {
     func saveImageStoarge() async -> Bool {
         do{
             guard let image = image else {return false}
-            let path = try await StoargeManager.shared.uploadImage(img: image)
+            let path = try await StorageManager.shared.uploadImage(img: image)
             let data = WriteModel(image: path, date: Date(), text: letterText, is_byme: true, is_sent: false, is_read: false)
             UserManager.shared.updateletterData(letter: data)
             return true
