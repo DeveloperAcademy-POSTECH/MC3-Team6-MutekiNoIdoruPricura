@@ -19,6 +19,7 @@ final class UserManager {
     private var currentUserUID: String {
         return Auth.auth().currentUser?.uid ?? "none"
     }
+
     /// 내 UID를 통해 document 찾기.
     func getUserDocument() -> DocumentReference {
         userCollection.document(currentUserUID)
@@ -56,7 +57,9 @@ final class UserManager {
         }
         return letterLists
     }
-    func getSendLetterData() async throws {
+    // 보낼편지들을 get
+    func getSendLetterData() async throws -> [LetterModel]{
+        var letterLists: [LetterModel] = []
         let snapshot = try await getUserDocument().collection("letter_lists").whereField("is_byme",isEqualTo: 0).getDocuments()
         for document in snapshot.documents {
             guard let stamp = document["date"] as? Timestamp,
@@ -67,18 +70,20 @@ final class UserManager {
                   let is_read = document["is_read"] as? Bool else{continue }
             let date = stamp.dateValue()
             let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read)
+            letterLists.append(letterData)
         }
+        return letterLists
     }
-    /// 상세페이지로 넘어갈때 사용할 예정 id값을 받아서.
-    func getOneletterData(letterid: String) async throws {
-        userCollection.document(currentUserUID).collection("letter_lists").document(letterid).getDocument{(document,error) in
-            guard error == nil, let document = document, document.exists else{return}
-            let data = document.data()
-            if let data = data {
-                print(data)
-            }
-        }
-    }
+    // TODO - 상세페이지로 넘어갈때 사용할 예정 id값을 받아서.
+//    func getOneletterData(letterid: String) async throws {
+//        userCollection.document(currentUserUID).collection("letter_lists").document(letterid).getDocument{(document,error) in
+//            guard error == nil, let document = document, document.exists else{return}
+//            let data = document.data()
+//            if let data = data {
+//                print(data)
+//            }
+//        }
+//    }
     // 읽었으면 해당 도큐멘트 is_read변경
     func updateisRead(letterid: String) async throws {
         try await getUserDocument().collection("letter_lists").document(letterid).updateData(["is_read": true])
@@ -107,6 +112,7 @@ final class UserManager {
             print(error.localizedDescription)
         }
     }
+    //상대에게 편지보내기
     func sendletterLists() async throws{
         do{
             let currentUserDocument = userCollection.document(currentUserUID)

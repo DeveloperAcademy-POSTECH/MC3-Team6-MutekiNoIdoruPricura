@@ -89,8 +89,7 @@ struct MainView: View {
     private func sendButton() -> some View {
         Button {
             Task{
-                let data = try await UserManager.shared.sendletterLists()
-                print(data)
+                try await LetterLists.shared.getAllLetterLists()
             }
         } label: {
             Image(Assets.send)
