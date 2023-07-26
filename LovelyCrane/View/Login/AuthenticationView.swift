@@ -17,7 +17,7 @@ struct AuthenticationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(uiColor: Color.backGround).ignoresSafeArea()
+                Color(.backGround).ignoresSafeArea()
                 
                 VStack {
                     Spacer()

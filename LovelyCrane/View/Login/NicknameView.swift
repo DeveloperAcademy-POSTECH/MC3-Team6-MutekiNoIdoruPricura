@@ -18,7 +18,7 @@ struct NicknameView: View {
     var body: some View {
         
         ZStack {
-            Color(uiColor: Color.backGround).ignoresSafeArea()
+            Color(uiColor: .backGround).ignoresSafeArea()
             
             VStack(alignment: .center, spacing: 50) {
                 Spacer()
@@ -39,7 +39,7 @@ struct NicknameView: View {
                         .frame(maxWidth: .infinity)
                         .background (
                             ZStack {
-                                Color(Color.textFieldGray)
+                                Color.textFieldGray
                                 if viewModel.nickname.count == 0 {
                                     Text("닉네임을 입력해주세요")
                                         .foregroundColor(.fontGray)
@@ -52,7 +52,7 @@ struct NicknameView: View {
                         Image("exclamationMark")
                             .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                         Text("닉네임은 8자 이하로 입력해주세요")
-                            .foregroundColor(viewModel.nickname.count > 8 ? Color(Color.fontYellow) : Color.fontGray)
+                            .foregroundColor(viewModel.nickname.count > 8 ? Color.fontYellow : Color.fontGray)
                     }
                 }
                 Spacer()
@@ -83,11 +83,11 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? Color(Color.fontBrown) : Color(Color.darkFontGray))
+                .foregroundColor(viewModel.isValidNickName() ? .fontBrown : .darkFontGray)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.isValidNickName() ? Color(Color.buttonPink) : Color(Color.buttonGray)
+                    viewModel.isValidNickName() ? Color.buttonPink : Color.buttonGray
                 )
                 .cornerRadius(10)
         })
