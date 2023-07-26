@@ -22,36 +22,34 @@ struct MainView: View {
     @EnvironmentObject var viewRouter : ViewRouter
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
-                    BackGroundView()
-                    TabView {
-                        mainBottle()
-                            .tag(0)
-                        presentedBottle()
-                            .tag(1)
-                    }
-                    .ignoresSafeArea()
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .menuIndicator(.hidden)
-                    .navigationTitle("")
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            inboxButton()
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            sendButton()
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            settingButton()
-                        }
-                    }
+        ZStack {
+            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+            BackGroundView()
+            TabView {
+                mainBottle()
+                    .tag(0)
+                presentedBottle()
+                    .tag(1)
+            }
+            .ignoresSafeArea()
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .menuIndicator(.hidden)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    inboxButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    sendButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    settingButton()
+                }
             }
         }
+
     }
 
-//MARK: - Views
+    //MARK: - Views
     private func settingButton() -> some View {
         NavigationLink {
             SettingView()
@@ -139,7 +137,7 @@ struct MainView: View {
                     .offset(y: CGSize.deviceHeight * 0.03)
             }
     }
-//MARK: - methods
+    //MARK: - methods
     private func makeScean() -> SKScene {
         let scene = SpriteScene()
         scene.motionManager = coreMotionManager

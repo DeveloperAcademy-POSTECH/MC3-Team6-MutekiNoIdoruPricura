@@ -34,6 +34,7 @@ final class AuthenticaitonViewModel: ObservableObject {
         let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
         if try await userCollection.document(auth.uid).getDocument().exists { return
         } else {
+            print(auth)
             let user = DBUser(auth: auth)
             try await UserManager.shared.createNewUser(user: user)
         }

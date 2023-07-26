@@ -15,27 +15,29 @@ struct ContentView: View {
     var currentNickname: String? = UserDefaults.standard.string(forKey: "nickname") ?? ""
     
     var body: some View {
-        
-        ZStack {
-            switch viewRouter.currentPage {
-            case .launchsScreenView:
-                LaunchScreenView()
-                    .onAppear {
-                        checkAuthenticationStatus()
-                    }
-                    .transition(AnyTransition.opacity)
-            case .authenticationView:
-                AuthenticationView()
-                    .transition(AnyTransition.opacity)
-            case .mainView:
-                MainView()
-                    .transition(AnyTransition.opacity)
-            case .nicknameView:
-                NicknameView()
-                    .transition(AnyTransition.opacity)
+        NavigationView {
+            ZStack {
+                switch viewRouter.currentPage {
+                case .launchsScreenView:
+                    LaunchScreenView()
+                        .onAppear {
+                            checkAuthenticationStatus()
+                        }
+                        .transition(AnyTransition.opacity)
+                case .authenticationView:
+                    AuthenticationView()
+                        .transition(AnyTransition.opacity)
+                case .mainView:
+                    MainView()
+                        .transition(AnyTransition.opacity)
+
+                case .nicknameView:
+                    NicknameView()
+                        .transition(AnyTransition.opacity)
+                }
             }
+            .environmentObject(viewRouter)
         }
-        .environmentObject(viewRouter)
     }
 }
 
@@ -63,6 +65,7 @@ extension ContentView {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let view = ViewRouter()
+        ContentView().environmentObject(view)
     }
 }
