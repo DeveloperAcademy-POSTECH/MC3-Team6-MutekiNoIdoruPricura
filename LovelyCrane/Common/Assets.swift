@@ -14,4 +14,5 @@ struct Assets {
     static let setting = "setting"
     static let bottle = "bottle"
     static let couplingpaper = "couplingpaper"
+    static let connectbottle = "connectbottle"
 }
