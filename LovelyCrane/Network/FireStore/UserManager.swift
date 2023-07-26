@@ -47,6 +47,9 @@ final class UserManager {
     private init() { }
     
     private let userCollection = Firestore.firestore().collection("Users")
+    private var cuurentUserUid: String {
+        return Auth.auth().currentUser?.uid ?? "none"
+    }
     
     func getUserDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
@@ -57,19 +60,32 @@ final class UserManager {
         try await getUserDocument(userId: user.uuid).collection("letter_lists").addDocument(data: ["isSent": "none"])
     }
     
-    func createNewUser(user: Info) async throws{
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        let userData: [String:Any] = [
-            "uuid" : currentUserUid,
-            "nickname" : user.nickname ?? "",
-            "partner_id" : user.partnerId ?? "",
+
+
+    func updateletterData(letter: WriteModel) {
+        let idString = letter.id.uuidString
+        let letterdata: [String:Any] = [
+            "image": letter.image,
+            "text": letter.text,
+            "date": letter.date,
+            "is_byme": letter.is_byme,
+            "is_read":letter.is_read,
+            "is_sent": letter.is_sent,
+            "id": idString
         ]
-        try await userCollection.document(currentUserUid)
-            .setData(userData,merge: false)
-        
-        try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
+        userCollection.document(cuurentUserUid).collection("letter_lists").addDocument(data: letterdata)
     }
-    
+
+    func getletterData(letterid: String) async throws {
+        userCollection.document(cuurentUserUid).collection("letter_lists").document(letterid).getDocument{(document,error) in
+            guard error == nil, let document = document, document.exists else{return}
+            let data = document.data()
+            if let data = data {
+                print(data)
+            }
+        }
+    }
+
     func connectUsertoUser(to partnertoken: String) async throws {
         guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         
