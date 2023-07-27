@@ -28,7 +28,7 @@ struct WriteView: View {
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
             ZStack {
-                Color.backgroundColor
+                Color.backGround
                     .ignoresSafeArea()
                 
                 VStack(alignment: .leading) { // 가장 큰 VStack
@@ -74,7 +74,7 @@ struct WriteView: View {
                                 .frame(width: 82, height: 82)
                                 .background(
                                         RoundedRectangle(cornerRadius: 4.5)
-                                            .fill(Color.defaultImageBackgroundGray)
+                                            .fill(Color.gray4)
                                 )
                                 .onTapGesture {
                                         showPhotoPickerActionSheet = true
@@ -136,7 +136,7 @@ struct WriteView: View {
                 isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
-                    .foregroundColor(Color.tertiary)
+                    .foregroundColor(Color.tertiaryLabel)
                     .font(.system(size: 25, weight: .regular))
             }
             
@@ -187,7 +187,7 @@ struct WriteView: View {
                 .frame(width: 20, height: 20)
                 .background(
                     Circle()
-                        .fill(Color.imageDisselectButtonGray.opacity(0.8))
+                        .fill(Color.fill.opacity(0.8))
                 )
         }
         .offset(y: -10)

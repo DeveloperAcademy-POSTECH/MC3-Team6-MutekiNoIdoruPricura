@@ -13,7 +13,7 @@ struct HistoryListCell: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(isRead ? .notReadCell : .readCell)
+                .foregroundColor(.gray3)
                 .frame(maxHeight: 130)
             VStack(alignment: .leading) {
                 Text("7월 15일 수요일")
@@ -31,7 +31,7 @@ struct HistoryListCell: View {
                 }.padding(.bottom)
                     .padding(.horizontal, 10)
             }
-            .foregroundColor(.white)
+            .foregroundColor(.primary)
         }
     }
 }

@@ -33,7 +33,7 @@ struct NicknameView: View {
                 VStack {
                     TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
                         .focused($nicknameInFocus)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primaryLabel)
                         .multilineTextAlignment(TextAlignment.center)
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -42,7 +42,7 @@ struct NicknameView: View {
                                 Color.gray4
                                 if viewModel.nickname.count == 0 {
                                     Text("닉네임을 입력해주세요")
-                                        .foregroundColor(Color.tertiary)
+                                        .foregroundColor(Color.tertiaryLabel)
                                 }
                             }
                         )
@@ -52,7 +52,7 @@ struct NicknameView: View {
                         Image("exclamationMark")
                             .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                         Text("닉네임은 8자 이하로 입력해주세요")
-                            .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiary)
+                            .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)
                     }
                 }
                 Spacer()
@@ -83,7 +83,7 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternary)
+                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(

@@ -19,10 +19,10 @@ extension Color {
     static let gray6 = Color(UIColor(hexCode: "ACABAB"))
     
     
-    static let primary = Color.white
-    static let secondary = Color.white.opacity(0.6)
-    static let tertiary = Color(UIColor(hexCode: "C9C9C9")).opacity(0.6)
-    static let quarternary = tertiary.opacity(0.3)
+    static let primaryLabel = Color.white
+    static let secondaryLabel = Color.white.opacity(0.6)
+    static let tertiaryLabel = Color(UIColor(hexCode: "C9C9C9")).opacity(0.6)
+    static let quarternaryLabel = tertiaryLabel.opacity(0.3)
     
     static let fill = Color(UIColor(hexCode: "#EAEAEA"))
     static let overLay = Color.black.opacity(0.6)
