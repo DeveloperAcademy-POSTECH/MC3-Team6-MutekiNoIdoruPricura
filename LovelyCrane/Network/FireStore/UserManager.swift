@@ -40,8 +40,10 @@ final class UserManager {
         ]
         let userDocument =  try await getUserDocument().getDocument()
         guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else {return}
-        try await getUserDocument().updateData(["send_count": sendCount+1])
-        try await getUserDocument().collection("letter_lists").addDocument(data: letterdata)
+        async let countincrease =  getUserDocument().updateData(["send_count": sendCount+1])
+        async let postData =  getUserDocument().collection("letter_lists").addDocument(data: letterdata)
+        try await countincrease
+        try await postData
     }
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
@@ -80,8 +82,10 @@ final class UserManager {
             let currentUserDocument = self.userCollection.document(currentUserUID)
             let partnerUserDocument = self.userCollection.document(partnertoken)
 
-            try await currentUserDocument.updateData(["partner_id": partnertoken])
-            try await partnerUserDocument.updateData(["partner_id": currentUserUID])
+            async let updatemine = currentUserDocument.updateData(["partner_id": partnertoken])
+            async let updatePartner = partnerUserDocument.updateData(["partner_id": currentUserUID])
+            try await updatemine
+            try await updatePartner
         }
         catch {
             print(error.localizedDescription)
