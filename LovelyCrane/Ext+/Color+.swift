@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-
 extension Color {
     static let fontGray = Color(UIColor(hexCode: "8F8F8F"))
-    static let white = Color(UIColor(hexCode: "#FFFFFF"))
     static let backGround = Color(UIColor(hexCode: "#252526"))
     
     static let buttonPink = Color(UIColor(hexCode: "FF76B4"))
@@ -23,6 +21,4 @@ extension Color {
 
     static let notReadCell = Color(UIColor(hexCode: "#444444"))
     static let readCell = Color(UIColor(hexCode: "#303030"))
-    static let blue = Color(.blue)
-
 }
