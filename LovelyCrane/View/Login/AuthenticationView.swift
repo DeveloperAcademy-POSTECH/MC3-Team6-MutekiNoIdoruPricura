@@ -22,11 +22,11 @@ struct AuthenticationView: View {
                 VStack {
                     Spacer()
                     
-                    VStack {
-                        Image("AuthenticationViewImage")
+                    VStack(spacing: 15) {
+                        Image("login")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: CGSize.deviceWidth * 0.7)
+                            .frame(width: CGSize.deviceWidth * 0.6)
                         
                         VStack(alignment: .center, spacing: 8) {
                             Text("사랑의 종이학")
@@ -40,12 +40,13 @@ struct AuthenticationView: View {
                     }
                     .padding(.bottom, 20)
                     
-                    Spacer()
+//                    Spacer()
                     
                     VStack {
                         signInWithAppleButton()
                         customSignInWithGoogleButton()
                     }
+                    Spacer()
                 }
                 .padding()
             }

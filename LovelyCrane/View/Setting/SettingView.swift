@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     
-    @StateObject private var vm = SettingsViewModel()
+    @StateObject private var vm = SettingViewModel()
 
     @EnvironmentObject var viewRouter : ViewRouter
     
@@ -46,7 +46,7 @@ struct SettingView: View {
                 Text("회원탈퇴")
             }
         }
-        .navigationTitle("설정화면")
+        .navigationTitle("설정")
     }
 }
 

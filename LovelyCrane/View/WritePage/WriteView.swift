@@ -43,7 +43,6 @@ struct WriteView: View {
                                 .foregroundColor(Color.primary)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
-                                    .font(.system(size: 18, weight: .regular))
                                     .foregroundColor(Color.secondary)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
