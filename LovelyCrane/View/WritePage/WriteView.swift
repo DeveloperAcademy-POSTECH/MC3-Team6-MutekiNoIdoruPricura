@@ -22,6 +22,7 @@ struct WriteView: View {
     @Binding var isShowingCurrentPage: Bool
     @State var showPhotoPickerActionSheet = false
     @State var showEnlargedImageView = false
+    @State var showDismissAlert = false
     var color: String
     @ObservedObject var keyboard = KeyboardObserver()
 
@@ -126,6 +127,14 @@ struct WriteView: View {
             .fullScreenCover(isPresented: $showEnlargedImageView) {
                 EnlargedImageView(image: $vm.image)
             }
+            .alert("쪽지 작성을 그만둘까요?", isPresented: $showDismissAlert) {
+                Button("확인", role: .cancel) {
+                    isShowingCurrentPage.toggle()
+              }
+                Button("취소", role: .destructive) {
+                  
+              }
+            }
         }
     }
     
@@ -133,7 +142,7 @@ struct WriteView: View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
-                isShowingCurrentPage.toggle()
+                showDismissAlert.toggle()
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(Color.tertiaryLabel)
