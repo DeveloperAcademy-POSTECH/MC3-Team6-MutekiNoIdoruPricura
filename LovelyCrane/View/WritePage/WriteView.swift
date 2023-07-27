@@ -58,7 +58,6 @@ struct WriteView: View {
                         }
                         .padding(.top, 30)
                     }
-                    // ScrollView의 Height Fix
                     
                     Spacer()
                     
@@ -84,7 +83,7 @@ struct WriteView: View {
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }
-                    .offset(y: isFocused ? -keyboard.height+100 : 0)
+                    .padding(.bottom, isFocused ? keyboard.height-40 : 0)
                     .padding(.bottom)
                     
                 }
