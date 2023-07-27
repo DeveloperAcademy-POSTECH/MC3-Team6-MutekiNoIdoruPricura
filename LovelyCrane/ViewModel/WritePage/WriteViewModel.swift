@@ -35,7 +35,7 @@ class WriteViewModel : ObservableObject {
         }
         showPicker = true
     }
-    
+
     func saveImageStoarge() async -> Bool {
         do{
             var path: String?
@@ -43,7 +43,7 @@ class WriteViewModel : ObservableObject {
                 path = try await StorageManager.shared.uploadImage(img: image)
             }
             let data = LetterModel(id: "", image: path ?? "", date: Date(), text: letterText, isByme: true, isSent: false, isRead: false)
-            UserManager.shared.postletterData(letter: data)
+            try await UserManager.shared.postletterData(letter: data)
             return true
         }
         catch{

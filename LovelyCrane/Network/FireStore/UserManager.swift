@@ -29,7 +29,7 @@ final class UserManager {
         try getUserDocument().setData(from: user, merge: false)
     }
     ///  편지data를 현재해당하는 uid다큐멘트에 letter_lists라는 콜렉션을 만들어주고 그안의 documnet생성.  letterdata는 필드들.
-    func postletterData(letter: LetterModel) {
+    func postletterData(letter: LetterModel) async throws {
         let letterdata: [String:Any] = [
             "image": letter.image,
             "text": letter.text,
@@ -38,7 +38,10 @@ final class UserManager {
             "is_read":letter.isRead,
             "is_sent": letter.isSent,
         ]
-        getUserDocument().collection("letter_lists").addDocument(data: letterdata)
+        let userDocument =  try await getUserDocument().getDocument()
+        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else {return}
+        try await getUserDocument().updateData(["send_count": sendCount+1])
+        try await getUserDocument().collection("letter_lists").addDocument(data: letterdata)
     }
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
