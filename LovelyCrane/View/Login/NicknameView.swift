@@ -58,7 +58,7 @@ struct NicknameView: View {
                             Image("exclamationMark")
                                 .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                             Text("닉네임은 8자 이하로 입력해주세요")
-                                .foregroundColor(viewModel.nickname.count > 8 ? Color.fontYellow : Color.fontGray)
+                                .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.fontGray)
                         }
                     }
                 }

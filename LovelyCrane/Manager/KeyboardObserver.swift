@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-
-class KeyboardObserver: ObservableObject {
+@MainActor
+final class KeyboardObserver: ObservableObject {
     @Published private var isShowing = false
     @Published var height: CGFloat = 0
     
