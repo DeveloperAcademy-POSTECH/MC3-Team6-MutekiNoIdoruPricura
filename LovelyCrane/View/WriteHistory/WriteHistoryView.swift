@@ -76,6 +76,6 @@ struct WriteHistoryView: View {
 
 struct WriteView_Preview: PreviewProvider {
     static var previews: some View {
-        MainView()
+        WriteHistoryView()
     }
 }

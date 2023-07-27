@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingView2: View {
+    @Environment(\.dismiss) var dismiss
     
     @StateObject private var vm = SettingViewModel()
     @EnvironmentObject var viewRouter : ViewRouter
@@ -62,6 +63,9 @@ struct SettingView2: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.gray)
+                        .onTapGesture {
+                            dismiss()
+                        }
                 }
             }
             .navigationTitle("설정")

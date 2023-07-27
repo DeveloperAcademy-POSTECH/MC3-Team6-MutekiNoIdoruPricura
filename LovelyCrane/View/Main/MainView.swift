@@ -15,6 +15,9 @@ struct MainView: View {
     @State var partnerName = "직녀"
     @State var letterCount = 912
     @State var isWriteHistroyTapped = false
+    
+    @State var noWriteHistoryTapped = false
+    
     @State var isWriteTapped = false
     @State var isSettingTapped = false
     
@@ -23,7 +26,9 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+            NavigationLink("", destination: WriteHistoryViewDev(), isActive: $isWriteHistroyTapped)
+            NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
+            
             BackGroundView()
             TabView {
                 mainBottle()
@@ -36,7 +41,7 @@ struct MainView: View {
             .menuIndicator(.hidden)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    inboxButton()
+//                    inboxButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     sendButton()
@@ -46,7 +51,6 @@ struct MainView: View {
                 }
             }
         }
-
     }
 
     //MARK: - Views
@@ -88,19 +92,15 @@ struct MainView: View {
         Button {
             Task{
                 try await UserManager.shared.getAllLetterData()
-                print(LetterLists.shared.letterListArray)
+                if LetterListsManager.shared.isByMeLetters.count == 0 {
+                    noWriteHistoryTapped.toggle()
+                } else {
+                    isWriteHistroyTapped.toggle()
+                }
             }
         } label: {
             Image(Assets.send)
         }
-    }
-    private func inboxButton() -> some View {
-        NavigationLink {
-            ReciveHistoryView()
-        } label: {
-            Image(Assets.inbox)
-        }
-        
     }
     
     private func spriteView() -> some View {
@@ -113,7 +113,14 @@ struct MainView: View {
                 .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.5)
                 .mask(Image(Assets.bottleIn).resizable().frame(height: CGSize.deviceHeight * 0.51))
                 .onTapGesture {
-                    isWriteHistroyTapped.toggle()
+                    Task{
+                        try await UserManager.shared.getAllLetterData()
+                        if LetterListsManager.shared.isByMeLetters.count == 0 {
+                            noWriteHistoryTapped.toggle()
+                        } else {
+                            isWriteHistroyTapped.toggle()
+                        }
+                    }
                 }
         }
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
@@ -145,15 +152,17 @@ struct MainView: View {
         scene.scaleMode = .resizeFill
         return scene
     }
-    
-    
-    
 }
-
-
 
 struct MainView_Preview: PreviewProvider {
     static var previews: some View {
         MainView()
+    }
+}
+
+extension MainView {
+    func fetchData() async {
+        let sentLetters = LetterListsManager.shared.sentLettersGroupedByDate
+        let notSentLetters = LetterListsManager.shared.notSentLettersGroupedByDate
     }
 }

@@ -34,7 +34,6 @@ struct SettingView: View {
             Button(role: .destructive) {
                 Task {
                     do {
-                        
                         try await vm.deleteUser()
                         try vm.logout()
                         viewRouter.currentPage = .authenticationView
