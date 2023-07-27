@@ -9,8 +9,8 @@ import SwiftUI
 
 struct WriteView: View {
     
-    let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
-    let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
+    private let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
+    private let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
     @StateObject var vm = WriteViewModel()
     
@@ -18,12 +18,13 @@ struct WriteView: View {
     
     let nowDate = getNowDate()
 
-    @State var isOverLetterLimit = false
+    @State private var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
-    @State var showPhotoPickerActionSheet = false
-    @State var showEnlargedImageView = false
-    @State var showDismissAlert = false
+    @State private var showPhotoPickerActionSheet = false
+    @State private var showEnlargedImageView = false
+    @State private var showDismissAlert = false
     var color: String
+    
     @ObservedObject var keyboard = KeyboardObserver()
 
     
@@ -37,29 +38,29 @@ struct WriteView: View {
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
                     showWriteViewHeader()
                         .padding(.bottom, 16)
+                    VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
+                        Text(nowDate)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color.primaryLabel)
                         ScrollView {
-                            VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
-                                Text(nowDate)
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundColor(Color.primaryLabel)
-                                ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
-                                    Text(placeHolder)
-                                        .foregroundColor(Color.secondaryLabel)
-                                        .opacity(vm.letterText.isEmpty ? 1 : 0)
-                                    letterLimitTextField(letterLimit: letterLimit)
-                                        .onReceive(vm.letterText.publisher.collect()) { collectionText in
+                            ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
+                                Text(placeHolder)
+                                    .foregroundColor(Color.secondaryLabel)
+                                    .opacity(vm.letterText.isEmpty ? 1 : 0)
+                                letterLimitTextField(letterLimit: letterLimit)
+                                        onReceive(vm.letterText.publisher.collect()) { collectionText in
                                             let trimmedText = String(collectionText.prefix(letterLimit))
                                             if vm.letterText != trimmedText {
                                                 isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
                                                 vm.letterText = trimmedText
-                                            }
-                                            //isOverLetterLimit = vm.letterText.count > letterLimit
                                         }
+                                                //isOverLetterLimit = vm.letterText.count > letterLimit
+                                    }
                                 }
                             }
-                            .padding(.top, 30)
                         }
-                        .frame(maxHeight: isFocused && vm.letterText.count > 0 ? 270 : 1000)
+                        .padding(.top, 30)
+                        .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
                     
                     Spacer()
                     
@@ -85,7 +86,7 @@ struct WriteView: View {
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }
-                    .offset(y:isFocused ? -keyboard.height+40 : 0)
+                    .offset(y:isFocused ? -UIScreen.getHeight(keyboard.height+40) : 0)
                     .animation(.easeOut(duration: 0.3), value: keyboard.height)
                 }
                 .padding(.top, 20)
@@ -207,7 +208,7 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.defaultRed) : Color.primaryLabel)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? Color.primaryLabel : Color.defaultRed) : Color.primaryLabel)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
             .foregroundColor(Color.primaryLabel)
