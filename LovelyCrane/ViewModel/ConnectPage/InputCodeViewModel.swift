@@ -10,9 +10,9 @@ final class InputCodeViewModel: ObservableObject {
     @Published var inputcode: String = ""
     func connectPartner() async throws -> Bool{
         let failconnect = try await UserManager.shared.connectUsertoUser(to: inputcode)
-        if failconnect {
-            return false
-        }
+//        if failconnect {
+//            return false
+//        }
         inputcode = ""
         return true
     }

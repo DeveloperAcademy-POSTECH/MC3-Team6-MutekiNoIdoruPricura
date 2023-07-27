@@ -7,9 +7,10 @@
 
 import SwiftUI
 struct CouplingView: View {
+    private let mycode = UserManager.shared.currentUserUID
     var body: some View {
         ZStack{
-            Color(Color.backGround)
+            Color.backGround
                 .ignoresSafeArea()
             VStack {
                 Spacer()
@@ -47,38 +48,40 @@ struct CouplingView: View {
     func codeSharingView() -> some View {
         VStack(spacing: 30){
             Text("나의 코드")
-            Text(UserManager.shared.getmyUUId())
+                .foregroundColor(.secondaryLabel)
+            Text(mycode)
+                .foregroundColor(.primaryLabel)
             Button {
-                UIPasteboard.general.string = UserManager.shared.getmyUUId()
+                UIPasteboard.general.string = mycode
             } label: {
                 Text("복사하기")
-                    .foregroundColor(.pink)
+                    .foregroundColor(.lightPink)
             }
             // TODO: item에 나의 코드 넣어주기!
-            ShareLink(item: UserManager.shared.getmyUUId(), preview: SharePreview(
+            ShareLink(item: mycode, preview: SharePreview(
                     Text("사랑의 종이학")
             )) {
                 Text("링크로 알려주기")
-                    .foregroundColor(.white)
+                    .foregroundColor(.gray1 )
                     .padding(.horizontal,34)
                     .padding(.vertical, 13)
-                    .background(Color.pink)
+                    .background(Color.lightPink)
                     .cornerRadius(8)
             }
         }
         .padding(.vertical,40)
         .frame(maxWidth: .infinity)
-        .background(Color.gray)
+        .background(Color.gray3)
         .cornerRadius(18)
     }
     func inputPartnerCodeButton() -> some View {
         NavigationLink(destination: InputCodeView()) {
             Text("상대방 코드 입력하기")
-                .foregroundColor(.pink)
+                .foregroundColor(.lightPink)
                 .padding(.vertical,16)
                 .frame(maxWidth: .infinity)
         }
-        .background(Color.gray)
+        .background(Color.gray3)
         .cornerRadius(8)
     }
 

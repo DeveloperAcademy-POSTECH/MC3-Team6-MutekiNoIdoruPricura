@@ -9,38 +9,114 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+
 final class UserManager {
     static let shared = UserManager()
+    private init() { }
+    
     private let userCollection = Firestore.firestore().collection("Users")
-    func getmyUUId() -> String {
-        return Auth.auth().currentUser?.uid ?? ""
+    /// 테스트 위해서 uid가 없으면 일단은 "none"
+    var currentUserUID: String {
+        return Auth.auth().currentUser?.uid ?? "none"
     }
-    func createNewUser(user: Info) async throws{
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
-        let userData: [String:Any] = [
-            "uuid" : currentUserUid,
-            "nickname" : user.nickname ?? "",
-            "partner_id" : user.partnerId ?? "",
+
+    /// 내 UID를 통해 document 찾기.
+    private func getUserDocument() -> DocumentReference {
+        userCollection.document(currentUserUID)
+    }
+    /// 최초로그인인 경우 UID로 Document를 만들어주고 필드생성
+    func createNewUser(user: DBUser) async throws {
+        try getUserDocument().setData(from: user, merge: false)
+    }
+    ///  편지data를 현재해당하는 uid다큐멘트에 letter_lists라는 콜렉션을 만들어주고 그안의 documnet생성.  letterdata는 필드들.
+    func postletterData(letter: LetterModel) async throws {
+        let letterdata: [String:Any] = [
+            "image": letter.image,
+            "text": letter.text,
+            "date": letter.date,
+            "is_byme": letter.isByme,
+            "is_read":letter.isRead,
+            "is_sent": letter.isSent,
         ]
-        try await userCollection.document(currentUserUid)
-            .setData(userData,merge: false)
-
-        try await userCollection.document(currentUserUid).collection("letter_lists").addDocument(data: ["isSent" : "none"])
+        let userDocument =  try await getUserDocument().getDocument()
+        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else {return}
+        try await getUserDocument().updateData(["send_count": sendCount+1])
+        try await getUserDocument().collection("letter_lists").addDocument(data: letterdata)
     }
+    ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
+    func getAllLetterData() async throws{
+        var letterLists : [LetterModel] = []
+        let snapshot = try await userCollection.document(currentUserUID).collection("letter_lists").getDocuments()
+        for document in snapshot.documents {
+            guard let stamp = document["date"] as? Timestamp,
+                  let image = document["image"] as? String,
+                  let text = document["text"] as? String,
+                  let is_byme = document["is_byme"] as? Bool,
+                  let is_sent = document["is_sent"] as? Bool,
+                  let is_read = document["is_read"] as? Bool else{continue }
+            let date = stamp.dateValue()
+            let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read)
+            letterLists.append(letterData)
+        }
+        LetterLists.shared.letterListArray = letterLists
+    }
+    // 읽었으면 해당 도큐멘트 is_read변경
+    func updateisRead(letterid: String) async throws {
+        try await getUserDocument().collection("letter_lists").document(letterid).updateData(["is_read": true])
+    }
+    // 새로온것이면 true, past면 false
+    func updateisSent(letterid: String) async throws {
+        try await getUserDocument().collection("letter_lists").document(letterid).updateData(["is_sent": true])
+    }
+    /// letterid통해삭제
+    func deleteletter(letterid: String) async throws {
+        try await getUserDocument().collection("letter_lists").document(letterid).delete()
+    }
+    /// user끼리 커플링
+    func connectUsertoUser(to partnertoken: String) async throws {
+        do {
+            guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
 
-    func connectUsertoUser(to partnertoken: String) async throws -> Bool {
-        guard let currentUserUid = Auth.auth().currentUser?.uid else { return false}
-        do{
-            let document = try await userCollection.document(partnertoken).getDocument()
-            guard document.exists else {return false}
-            let currentUserData = self.userCollection.document(currentUserUid)
-            let partnerUserData = self.userCollection.document(partnertoken)
-            try await currentUserData.updateData(["partner_id": partnertoken])
-            try await partnerUserData.updateData(["partner_id": currentUserUid])
+            let currentUserDocument = self.userCollection.document(currentUserUID)
+            let partnerUserDocument = self.userCollection.document(partnertoken)
+
+            try await currentUserDocument.updateData(["partner_id": partnertoken])
+            try await partnerUserDocument.updateData(["partner_id": currentUserUID])
         }
         catch {
-            print(error)
+            print(error.localizedDescription)
         }
-        return true
     }
+    //상대에게 편지보내기
+    func sendletterLists() async throws{
+        do{
+            let currentUserDocument = userCollection.document(currentUserUID)
+            let partnerField = FieldNames.partner_id.rawValue
+            guard let currentUserData = try await currentUserDocument.getDocument().data(), let partnerId = currentUserData[partnerField] as? String else {return}
+            let partnerUserDocument = userCollection.document(partnerId)
+            guard let partnerUserData = try await partnerUserDocument.getDocument().data(), partnerUserData[partnerField] as? String == currentUserUID else{ return}
+            let snapshot = try await currentUserDocument.collection(FieldNames.letter_lists.rawValue)
+                .whereField("is_sent", isEqualTo: false).getDocuments()
+            for document in snapshot.documents {
+                let letterData = document.data()
+                try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue).addDocument(data: letterData)
+                try await document.reference.updateData(["is_sent":true])
+            }
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteUserDocument() {
+        let document = getUserDocument()
+        document.delete()
+    }
+}
+
+enum FieldNames: String {
+    case Users
+    case letter_lists
+    case partner_id
+    case nickname
 }

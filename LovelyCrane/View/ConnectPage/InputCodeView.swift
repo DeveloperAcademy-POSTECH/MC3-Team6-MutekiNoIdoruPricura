@@ -11,33 +11,23 @@ struct InputCodeView: View {
     @State private var connectFail = false
     var body: some View {
         ZStack {
-            Color(Color.backGround)
+            Color(.backGround)
                 .ignoresSafeArea()
             VStack{
-                Image(Assets.couplingpaper)
-                Text("상대방의 코드를 입력 후 종이학 편지를 선물할수 있어요")
-                    .foregroundColor(.white)
+                Image(Assets.InputCodeImage)
+                Text("상대방의 코드를 입력 후\n종이학 편지를 선물할수 있어요")
+                    .foregroundColor(.primaryLabel)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 80)
-                    .padding(.bottom,80)
-                inputCodeField()
-                Button {
-                    Task {
-                        connectFail = try await vm.connectPartner()
-                    }
-                } label: {
-                    Text("연결하기")
-                        .foregroundColor(vm.inputcode.isEmpty ? Color.secondary : Color.black)
-                        .padding(.vertical,16)
-                        .frame(maxWidth: .infinity)
-                }
-                .disabled(vm.inputcode.isEmpty)
-                .background(RoundedRectangle(cornerRadius: 8)
-                .fill(vm.inputcode.isEmpty ? Color.black : Color.pink))
-                .padding(.horizontal,24)
+                    .padding(.bottom,36)
+                    .padding(.top, 20)
+                makeinputCodeField()
                 Spacer()
+                makeConnectBtn()
+                    .padding(.bottom, 20)
+
                 if connectFail {
-                    connectFailureMessage()
+                    makeconnectFailureMessage()
                         .onAppear{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                 connectFail = false
@@ -58,7 +48,7 @@ struct InputCodeView: View {
             }
         }
     }
-    private func connectFailureMessage() -> some View {
+    private func makeconnectFailureMessage() -> some View {
         Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
             .foregroundColor(.white)
             .multilineTextAlignment(.center)
@@ -68,14 +58,31 @@ struct InputCodeView: View {
             .padding(.bottom,10)
             .padding(.horizontal,25)
     }
-    private func inputCodeField() -> some View {
+    private func makeinputCodeField() -> some View {
         TextField("코드를 입력해주세요",text: $vm.inputcode)
+            .foregroundColor(.quarternaryLabel)
             .padding(.vertical,16)
             .multilineTextAlignment(.center)
-            .background(Color.fontGray)
+            .background(Color.gray4)
             .cornerRadius(8)
             .padding(.horizontal,24)
             .padding(.bottom,20)
+    }
+    private func makeConnectBtn() -> some View {
+        Button {
+            Task {
+                connectFail = try await vm.connectPartner()
+            }
+        } label: {
+            Text("연결하기")
+                .foregroundColor(vm.inputcode.isEmpty ? Color.quarternaryLabel : Color.black)
+                .padding(.vertical,16)
+                .frame(maxWidth: .infinity)
+        }
+        .disabled(vm.inputcode.isEmpty)
+        .background(RoundedRectangle(cornerRadius: 8)
+            .fill(vm.inputcode.isEmpty ? Color.gray3 : Color.lightPink))
+        .padding(.horizontal,24)
     }
 }
 struct InputCodeView_Previews: PreviewProvider {
