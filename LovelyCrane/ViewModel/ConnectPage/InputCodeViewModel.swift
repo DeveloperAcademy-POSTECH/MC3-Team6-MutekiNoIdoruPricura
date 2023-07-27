@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+@MainActor
 final class InputCodeViewModel: ObservableObject {
     @Published var inputcode: String = ""
     func connectPartner() async throws -> Bool{

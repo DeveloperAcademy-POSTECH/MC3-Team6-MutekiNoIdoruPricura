@@ -8,6 +8,7 @@
 import SwiftUI
 struct CouplingView: View {
     private let mycode = UserManager.shared.currentUserUID
+    @State private var clickPasteBtn = false
     var body: some View {
         ZStack{
             Color.backGround
@@ -24,8 +25,15 @@ struct CouplingView: View {
                     .padding(.horizontal,54)
                     .padding(.bottom,10)
                 Spacer()
-                inputPartnerCodeButton()
+                if clickPasteBtn {
+                    makeAlertView()
+                        .cornerRadius(8)
+                        .padding(.horizontal,30)
+                }
+                else{
+                    inputPartnerCodeButton()
                     .padding(.horizontal,30)
+                }
 
             }
 
@@ -45,6 +53,13 @@ struct CouplingView: View {
             Image(systemName: "xmark")
         }
     }
+    func makeAlertView() -> some View {
+        Text("코드가 복사 되었어요")
+            .foregroundColor(.primaryLabel)
+            .padding(.vertical,16)
+            .frame(maxWidth: .infinity)
+            .background(Color.black)
+    }
     func codeSharingView() -> some View {
         VStack(spacing: 30){
             Text("나의 코드")
@@ -53,11 +68,14 @@ struct CouplingView: View {
                 .foregroundColor(.primaryLabel)
             Button {
                 UIPasteboard.general.string = mycode
+                clickPasteBtn = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    clickPasteBtn = false
+                }
             } label: {
                 Text("복사하기")
                     .foregroundColor(.lightPink)
             }
-            // TODO: item에 나의 코드 넣어주기!
             ShareLink(item: mycode, preview: SharePreview(
                     Text("사랑의 종이학")
             )) {

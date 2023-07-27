@@ -23,9 +23,6 @@ struct InputCodeView: View {
                     .padding(.top, 20)
                 makeinputCodeField()
                 Spacer()
-                makeConnectBtn()
-                    .padding(.bottom, 20)
-
                 if connectFail {
                     makeconnectFailureMessage()
                         .onAppear{
@@ -33,6 +30,9 @@ struct InputCodeView: View {
                                 connectFail = false
                             }
                         }
+                }
+                else{
+                    makeConnectBtn().padding(.bottom,20)
                 }
             }
             .padding(.top,140)
@@ -59,8 +59,8 @@ struct InputCodeView: View {
             .padding(.horizontal,25)
     }
     private func makeinputCodeField() -> some View {
-        TextField("코드를 입력해주세요",text: $vm.inputcode)
-            .foregroundColor(.quarternaryLabel)
+        TextField("",text: $vm.inputcode, prompt: Text("코드를 입력해주세요").foregroundColor(.quarternaryLabel))
+            .foregroundColor(.white)
             .padding(.vertical,16)
             .multilineTextAlignment(.center)
             .background(Color.gray4)
