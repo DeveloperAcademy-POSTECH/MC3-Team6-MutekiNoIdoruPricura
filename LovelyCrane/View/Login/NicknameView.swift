@@ -91,11 +91,11 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? Color.fontBrown : Color.darkFontGray)
+                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.isValidNickName() ? Color.buttonPink : Color.buttonGray
+                    viewModel.isValidNickName() ? Color.lightPink : Color.gray3
                 )
                 .cornerRadius(10)
         })

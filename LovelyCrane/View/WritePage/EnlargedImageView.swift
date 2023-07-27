@@ -24,7 +24,8 @@ struct EnlargedImageView: View {
                     presentationMode.wrappedValue.dismiss()
                 }){
                     Image(systemName: "xmark")
-                        .foregroundColor(.fontGray)
+
+                        .foregroundColor(Color.tertiaryLabel)
                         .frame(width: 20, height: 20)
                 }
                 .padding(.top, 16)
