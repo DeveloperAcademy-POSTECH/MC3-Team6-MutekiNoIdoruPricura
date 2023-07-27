@@ -33,16 +33,16 @@ struct NicknameView: View {
                 VStack {
                     TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
                         .focused($nicknameInFocus)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primaryLabel)
                         .multilineTextAlignment(TextAlignment.center)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background (
                             ZStack {
-                                Color.textFieldGray
+                                Color.gray4
                                 if viewModel.nickname.count == 0 {
                                     Text("닉네임을 입력해주세요")
-                                        .foregroundColor(.fontGray)
+                                        .foregroundColor(Color.tertiaryLabel)
                                 }
                             }
                         )
@@ -52,7 +52,7 @@ struct NicknameView: View {
                         Image("exclamationMark")
                             .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                         Text("닉네임은 8자 이하로 입력해주세요")
-                            .foregroundColor(viewModel.nickname.count > 8 ? Color.fontYellow : Color.fontGray)
+                            .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)
                     }
                 }
                 Spacer()
@@ -83,11 +83,11 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? .fontBrown : .darkFontGray)
+                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.isValidNickName() ? Color.buttonPink : Color.buttonGray
+                    viewModel.isValidNickName() ? Color.lightPink : Color.gray3
                 )
                 .cornerRadius(10)
         })

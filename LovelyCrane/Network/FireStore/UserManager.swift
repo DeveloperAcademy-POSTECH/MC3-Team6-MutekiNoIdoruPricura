@@ -76,19 +76,16 @@ final class UserManager {
     }
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws {
-        do {
             guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
-
             let currentUserDocument = self.userCollection.document(currentUserUID)
             let partnerUserDocument = self.userCollection.document(partnertoken)
-
-            async let updatemine = currentUserDocument.updateData(["partner_id": partnertoken])
-            async let updatePartner = partnerUserDocument.updateData(["partner_id": currentUserUID])
-            try await updatemine
-            try await updatePartner
-        }
-        catch {
-            print(error.localizedDescription)
+            async let updatemineTask = currentUserDocument.updateData(["partner_id": partnertoken])
+            async let updatePartnerTask = partnerUserDocument.updateData(["partner_id": currentUserUID])
+        do {
+            try await updatemineTask
+            try await updatePartnerTask
+        } catch {
+            throw error
         }
     }
     //상대에게 편지보내기
