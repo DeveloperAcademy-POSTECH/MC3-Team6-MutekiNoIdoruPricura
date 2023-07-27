@@ -24,6 +24,7 @@ struct WriteView: View {
     @State var showEnlargedImageView = false
     var color: String
     @ObservedObject var keyboard = KeyboardObserver()
+
     
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
@@ -40,10 +41,10 @@ struct WriteView: View {
                         VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
                             Text(nowDate)
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color.primary)
+                                .foregroundColor(Color.primaryLabel)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
-                                    .foregroundColor(Color.secondary)
+                                    .foregroundColor(Color.secondaryLabel)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
                                     .onReceive(vm.letterText.publisher.collect()) { collectionText in
@@ -58,6 +59,7 @@ struct WriteView: View {
                         }
                         .padding(.top, 30)
                     }
+                    .frame(maxHeight: isFocused ? 270 : 582)
                     
                     Spacer()
                     
@@ -83,17 +85,18 @@ struct WriteView: View {
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }
-                    .padding(.bottom, isFocused ? keyboard.height-40 : 0)
-                    .padding(.bottom)
-                    
+                    .offset(y:isFocused ? -keyboard.height+40 : 0)
+                    .animation(.easeOut(duration: 0.3), value: keyboard.height)
                 }
                 .padding(.top, 20)
                 .padding(.horizontal, 28)
+                .padding(.bottom, 24)
             }
 
             .onAppear{
                 //keyboard Observer
                 self.keyboard.addObserver()
+                UIScrollView.appearance().bounces = false
             }
             .onDisappear{
                 self.keyboard.removeObserver()
@@ -135,12 +138,12 @@ struct WriteView: View {
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(Color.tertiaryLabel)
-                    .font(.system(size: 25, weight: .regular))
+                    .frame(width: 20, height: 20)
             }
             
             Text("쪽지쓰기")
                 .font(.system(size: 20, weight: .regular))
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color.primaryLabel)
                 .padding(.leading, 5.03)
             Spacer()
             Button(action: {
@@ -155,7 +158,7 @@ struct WriteView: View {
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
-                    .foregroundColor(Color.secondary)
+                    .foregroundColor(Color.secondaryLabel)
             }
         }
     }
@@ -196,10 +199,10 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.defaultRed) : Color.primary)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.defaultRed) : Color.primaryLabel)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
-            .foregroundColor(Color.primary)
+            .foregroundColor(Color.primaryLabel)
     }
     
     /// 글자 제한이 있는 TextField를 추가
@@ -210,7 +213,7 @@ struct WriteView: View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
-                    .foregroundColor(Color.primary)
+                    .foregroundColor(Color.primaryLabel)
                     .multilineTextAlignment(.leading)
                     .focused($isFocused)
     }
