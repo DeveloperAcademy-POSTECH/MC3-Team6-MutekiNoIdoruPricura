@@ -60,7 +60,7 @@ struct MainView: View {
     private func presentedBottle() -> some View {
         VStack {
             Text("to. \(partnerName)")
-                .foregroundColor(.fontGray)
+                .foregroundColor(.secondary)
                 .padding(.top)
             Text("\(letterCount)")
                 .foregroundColor(.white)
@@ -73,7 +73,7 @@ struct MainView: View {
     private func mainBottle() -> some View {
         VStack {
             Text("to. \(partnerName)")
-                .foregroundColor(.fontGray)
+                .foregroundColor(.secondary)
                 .padding(.top)
             Text("\(letterCount)")
                 .foregroundColor(.white)

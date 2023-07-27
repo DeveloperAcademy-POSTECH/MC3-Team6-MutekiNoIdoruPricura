@@ -28,7 +28,7 @@ struct WriteView: View {
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
             ZStack {
-                Color.backgroundColor
+                Color.backGround
                     .ignoresSafeArea()
                 
                 VStack(alignment: .leading) { // 가장 큰 VStack
@@ -40,11 +40,11 @@ struct WriteView: View {
                         VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
                             Text(nowDate)
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.primary)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
                                     .font(.system(size: 18, weight: .regular))
-                                    .foregroundColor(Color.fontGrayColor)
+                                    .foregroundColor(Color.secondary)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
                                     .onReceive(vm.letterText.publisher.collect()) { collectionText in
@@ -74,7 +74,7 @@ struct WriteView: View {
                                 .frame(width: 82, height: 82)
                                 .background(
                                         RoundedRectangle(cornerRadius: 4.5)
-                                            .fill(Color.defaultImageBackgroundGray)
+                                            .fill(Color.gray4)
                                 )
                                 .onTapGesture {
                                         showPhotoPickerActionSheet = true
@@ -136,13 +136,13 @@ struct WriteView: View {
                 isShowingCurrentPage.toggle()
             }){
                 Image(systemName: "xmark")
-                    .foregroundColor(Color.fontGrayColor)
+                    .foregroundColor(Color.tertiaryLabel)
                     .font(.system(size: 25, weight: .regular))
             }
             
             Text("쪽지쓰기")
                 .font(.system(size: 20, weight: .regular))
-                .foregroundColor(.white)
+                .foregroundColor(Color.primary)
                 .padding(.leading, 5.03)
             Spacer()
             Button(action: {
@@ -157,7 +157,7 @@ struct WriteView: View {
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
-                    .foregroundColor(Color.fontGrayColor)
+                    .foregroundColor(Color.secondary)
             }
         }
     }
@@ -183,11 +183,11 @@ struct WriteView: View {
         }){
             Image(systemName: "xmark")
                 .font(.system(size: 10, weight: .bold))
-                .foregroundColor(.imageDisselectForegroundColor)
+                .foregroundColor(Color.gray3)
                 .frame(width: 20, height: 20)
                 .background(
                     Circle()
-                        .fill(Color.imageDisselectButtonGray.opacity(0.8))
+                        .fill(Color.fill.opacity(0.8))
                 )
         }
         .offset(y: -10)
@@ -198,10 +198,10 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.textOverLimitWarningRed) : .white)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.defaultRed) : Color.primary)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
-            .foregroundColor(.white)
+            .foregroundColor(Color.primary)
     }
     
     /// 글자 제한이 있는 TextField를 추가
@@ -212,7 +212,7 @@ struct WriteView: View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.primary)
                     .multilineTextAlignment(.leading)
                     .focused($isFocused)
     }
