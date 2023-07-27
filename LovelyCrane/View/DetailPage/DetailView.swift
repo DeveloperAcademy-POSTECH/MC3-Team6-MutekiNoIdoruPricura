@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
+    @State var url: URL
     var body: some View {
         Text("detail")
     }

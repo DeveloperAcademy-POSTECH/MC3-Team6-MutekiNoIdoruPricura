@@ -26,4 +26,10 @@ final class StorageManager {
         }
         return (returnedPath)
     }
+    func getImage(url: String) async throws -> Data{
+        try await imageReference.child(url).data(maxSize: 1*1024*1024)
+    }
+    func deleteImage(path: String) async throws {
+        try await imageReference.child(path).delete()
+    }
 }

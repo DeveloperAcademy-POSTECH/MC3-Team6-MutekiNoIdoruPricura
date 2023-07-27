@@ -70,7 +70,10 @@ final class UserManager {
     }
     /// letterid통해삭제
     func deleteletter(letterid: String) async throws {
+        let letter = try await getUserDocument().collection("letter_lists").document(letterid).getDocument()
+        guard let imagepath = letter["image"] as? String else{return}
         try await getUserDocument().collection("letter_lists").document(letterid).delete()
+        try await StorageManager().deleteImage(path: imagepath)
     }
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws {
