@@ -22,7 +22,7 @@ struct DetailView: View {
             ZStack() {
                 VStack {
                     detailViewHeader()
-                        .padding(.trailing, 30.5)
+                        .padding(.horizontal, 30.5)
                         .padding(.top, 19)
                     Spacer()
                 }
@@ -38,7 +38,7 @@ struct DetailView: View {
                         letterTextView()
                             .padding(.top, 40)
                         randomColorCrane()
-                            .offset(x: -20.79, y: 29)
+                            .offset(x: -UIScreen.getWidth(20.79), y: UIScreen.getWidth(29))
                     }
                 }
    
@@ -59,8 +59,20 @@ struct DetailView: View {
         
     }
     
-    func detailViewHeader() -> some View {
+    private func backToHistoryButton() -> some View {
+        return NavigationLink {
+           // HistoryView로 되돌아갈 수 있도록.
+        } label: {
+            Image(systemName: "chevron.left")
+                .scaledToFit()
+                .foregroundColor(.secondaryLabel)
+                .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
+        }
+    }
+    
+    private func detailViewHeader() -> some View {
         return HStack {
+            backToHistoryButton()
             Spacer()
             Menu {
                 Button(action: {
@@ -70,26 +82,25 @@ struct DetailView: View {
                          Image(systemName: "square.and.pencil")
                      }
                  }
-                Button(action: {
+                Button(role: .destructive, action: {
                     showDeleteAlert.toggle()
                  }) {
                      HStack {
                          Text("삭제하기")
                          Image(systemName: "trash")
                      }
-                     .foregroundColor(.red)
                      
                  }
                 
             } label: {
                 Image(systemName: "ellipsis")
                     .foregroundColor(.secondaryLabel)
-                .frame(width: 15, height: 3)
+                    .frame(width: UIScreen.getWidth(15), height: UIScreen.getHeight(3))
             }
         }
     }
     
-    func letterTextView() -> some View {
+    private func letterTextView() -> some View {
         return VStack(alignment: .leading){
             ScrollView {
                 Text(vm.letterText)
@@ -113,7 +124,7 @@ struct DetailView: View {
         )
     }
     
-    func letterImageView(image: UIImage) -> some View {
+    private func letterImageView(image: UIImage) -> some View {
         return Image(uiImage: image)
             .resizable()
             .scaledToFill()
@@ -126,10 +137,10 @@ struct DetailView: View {
             }
     }
     
-    func randomColorCrane() -> some View {
-        Image("blue")
+    private func randomColorCrane() -> some View {
+        Image(Assets.crans.randomElement()!.rawValue)
             .resizable()
-            .frame(width: 40, height: 36)
+            .frame(width: UIScreen.getWidth(40), height: UIScreen.getHeight(36))
     }
 }
 

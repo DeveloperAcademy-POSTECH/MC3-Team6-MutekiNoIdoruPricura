@@ -12,9 +12,9 @@ class DetailViewModel : ObservableObject {
     @Published var letterText = "가나다라마바사아자차카타파하아러아러앙라얼아"
     @Published var dateAndTime = "2023년 7월 12일 23시 16분"
     
-    // Firestore에서 image 가져오기
+    // image 가져오기
     
-    // Firestore에서 letterText 가져오기
+    // letterText 가져오기
     
-    // Firestore에서 dateAndTime 가져오기
+    // dateAndTime 가져오기
 }

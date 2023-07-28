@@ -139,7 +139,7 @@ struct WriteView: View {
         }
     }
     
-    func showWriteViewHeader() -> some View {
+    private func showWriteViewHeader() -> some View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
@@ -172,7 +172,7 @@ struct WriteView: View {
         }
     }
     
-    func pickedImage(image: UIImage) -> some View {
+    private func pickedImage(image: UIImage) -> some View {
         return Image(uiImage: image) // uiImage를 Image 뷰에 할당.
             .resizable()
             .scaledToFill()
@@ -186,7 +186,7 @@ struct WriteView: View {
             }
     }
     
-    func imageDisselectButton() -> some View {
+    private func imageDisselectButton() -> some View {
         return Button(action: {
             // Image disselect
             vm.image = nil
@@ -205,7 +205,7 @@ struct WriteView: View {
 
     }
     
-    func letterLimitLabel(letterLimit: Int) -> some View {
+    private func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
             .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? Color.primaryLabel : Color.defaultRed) : Color.primaryLabel)
@@ -218,7 +218,7 @@ struct WriteView: View {
     /// - Parameters:
     ///   - letterLimit: 글자 수 제한의 글자수.
     /// - Returns: TextField View
-    func letterLimitTextField(letterLimit: Int) -> some View {
+    private func letterLimitTextField(letterLimit: Int) -> some View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
