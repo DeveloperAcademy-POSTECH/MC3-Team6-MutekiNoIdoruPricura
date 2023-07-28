@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct LetterModel : Codable{
+struct LetterModel : Codable {
     let id: String?
     let image: String 
     let date: Date
