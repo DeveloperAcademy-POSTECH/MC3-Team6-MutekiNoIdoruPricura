@@ -46,7 +46,8 @@ struct CouplingView: View {
                                     if clickPasteBtn {
                                         ToastAlert(label: "코드가 복사 되었어요")
                                     }
-                                })
+                                }
+                            )
                     }
                 }
             }.background(Color.backGround)

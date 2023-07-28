@@ -13,9 +13,7 @@ struct SuccessCouplingView: View {
             Color.backGround.ignoresSafeArea()
             VStack{
                 Spacer()
-
                 CoupleSuccessView()
-
                 Spacer()
                 VStack{
                     Text("사랑의 종이학들을 선물할까요?")

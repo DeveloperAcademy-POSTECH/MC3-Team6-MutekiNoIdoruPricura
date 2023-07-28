@@ -18,12 +18,7 @@ struct InputCodeView: View {
                 .ignoresSafeArea()
             VStack{
                 Image(Assets.InputCodeImage)
-                Text("상대방의 코드를 입력 후\n종이학 편지를 선물할수 있어요")
-                    .foregroundColor(.primaryLabel)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 80)
-                    .padding(.bottom,36)
-                    .padding(.top, 20)
+                makeTextNoti()
                 makeinputCodeField()
                 Spacer()
                 if isShowingFaiulreMessage {
@@ -54,6 +49,14 @@ struct InputCodeView: View {
             }
         }
     }
+    private func makeTextNoti() -> some View {
+        Text("상대방의 코드를 입력 후\n종이학 편지를 선물할수 있어요")
+            .foregroundColor(.primaryLabel)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, 80)
+            .padding(.bottom,36)
+            .padding(.top, 20)
+    }
     private func makeinputCodeField() -> some View {
         TextField("",text: $vm.inputcode, prompt: Text("코드를 입력해주세요").foregroundColor(.quarternaryLabel))
             .foregroundColor(.white)
@@ -78,7 +81,6 @@ struct InputCodeView: View {
                         isShowingFaiulreMessage = false
                     }
                 }
-                
             }
         } label: {
             Text("연결하기")
