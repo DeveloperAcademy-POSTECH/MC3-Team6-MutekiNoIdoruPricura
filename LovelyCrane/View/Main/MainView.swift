@@ -26,7 +26,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            NavigationLink("", destination: WriteHistoryViewDev(), isActive: $isWriteHistroyTapped)
+            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
             NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
             
             BackGroundView()
@@ -92,7 +92,9 @@ struct MainView: View {
         Button {
             Task{
                 try await UserManager.shared.getAllLetterData()
-                if LetterListsManager.shared.isByMeLetters.count == 0 {
+                
+                if letterCount == 0 {
+//                if LetterListsManager.shared.isByMeLetters.count == 0 {
                     noWriteHistoryTapped.toggle()
                 } else {
                     isWriteHistroyTapped.toggle()
@@ -115,7 +117,9 @@ struct MainView: View {
                 .onTapGesture {
                     Task{
                         try await UserManager.shared.getAllLetterData()
-                        if LetterListsManager.shared.isByMeLetters.count == 0 {
+                        // MARK: 편지 발송 이후 letterCount를 0으로 바꿔줘야 합니다.+ 저장
+                        if letterCount == 0 {
+//                        if LetterListsManager.shared.isByMeLetters.count == 0 {
                             noWriteHistoryTapped.toggle()
                         } else {
                             isWriteHistroyTapped.toggle()

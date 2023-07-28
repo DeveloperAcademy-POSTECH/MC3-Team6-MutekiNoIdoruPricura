@@ -15,7 +15,6 @@
 		0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D46EB532A66AEBB00C65A7B /* Assets.swift */; };
 		0DB89B5C2A67C5130055FD93 /* BackGroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */; };
 		0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */; };
-		86428B862A65AD8700B2CA7D /* WriteHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B612A65AD8700B2CA7D /* WriteHistoryView.swift */; };
 		86428B872A65AD8700B2CA7D /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B632A65AD8700B2CA7D /* DetailView.swift */; };
 		86428B892A65AD8700B2CA7D /* ReciveHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B672A65AD8700B2CA7D /* ReciveHistoryView.swift */; };
 		86428B8B2A65AD8700B2CA7D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B6B2A65AD8700B2CA7D /* MainView.swift */; };
@@ -44,10 +43,10 @@
 		865773272A65A18C00D40B59 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 865773262A65A18C00D40B59 /* Preview Assets.xcassets */; };
 		865773312A65A21100D40B59 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 865773302A65A21100D40B59 /* FirebaseAuth */; };
 		86682EB22A725E5000B21F9A /* SettingView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB12A725E5000B21F9A /* SettingView2.swift */; };
-		86682EB42A729B8300B21F9A /* WriteHistoryViewDev.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB32A729B8300B21F9A /* WriteHistoryViewDev.swift */; };
+		86682EB42A729B8300B21F9A /* WriteHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB32A729B8300B21F9A /* WriteHistoryView.swift */; };
 		86682EB62A729C8800B21F9A /* NoWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB52A729C8800B21F9A /* NoWriteView.swift */; };
-		86682EB82A72B08300B21F9A /* WriteHistoryCellDev.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB72A72B08300B21F9A /* WriteHistoryCellDev.swift */; };
 		86682EBA2A72B90500B21F9A /* LetterListsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EB92A72B90500B21F9A /* LetterListsManager.swift */; };
+		86682EBC2A73A6C900B21F9A /* WriteHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EBB2A73A6C900B21F9A /* WriteHistoryCell.swift */; };
 		86E502942A6690060001D88A /* SignInGoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E502932A6690060001D88A /* SignInGoogleHelper.swift */; };
 		86E502972A6691100001D88A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 86E502962A6691100001D88A /* GoogleSignIn */; };
 		86E502992A6691100001D88A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 86E502982A6691100001D88A /* GoogleSignInSwift */; };
@@ -83,7 +82,6 @@
 		0D46EB532A66AEBB00C65A7B /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackGroundView.swift; sourceTree = "<group>"; };
 		0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListCell.swift; sourceTree = "<group>"; };
-		86428B612A65AD8700B2CA7D /* WriteHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteHistoryView.swift; sourceTree = "<group>"; };
 		86428B632A65AD8700B2CA7D /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		86428B672A65AD8700B2CA7D /* ReciveHistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReciveHistoryView.swift; sourceTree = "<group>"; };
 		86428B6B2A65AD8700B2CA7D /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -114,10 +112,10 @@
 		865773262A65A18C00D40B59 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8657733F2A65A41800D40B59 /* LovelyCrane.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LovelyCrane.entitlements; sourceTree = "<group>"; };
 		86682EB12A725E5000B21F9A /* SettingView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView2.swift; sourceTree = "<group>"; };
-		86682EB32A729B8300B21F9A /* WriteHistoryViewDev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteHistoryViewDev.swift; sourceTree = "<group>"; };
+		86682EB32A729B8300B21F9A /* WriteHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteHistoryView.swift; sourceTree = "<group>"; };
 		86682EB52A729C8800B21F9A /* NoWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoWriteView.swift; sourceTree = "<group>"; };
-		86682EB72A72B08300B21F9A /* WriteHistoryCellDev.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteHistoryCellDev.swift; sourceTree = "<group>"; };
 		86682EB92A72B90500B21F9A /* LetterListsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterListsManager.swift; sourceTree = "<group>"; };
+		86682EBB2A73A6C900B21F9A /* WriteHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteHistoryCell.swift; sourceTree = "<group>"; };
 		86E502932A6690060001D88A /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
 		86E5029B2A6691CF0001D88A /* SignWithGoogleResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignWithGoogleResult.swift; sourceTree = "<group>"; };
 		86E502AF2A6862E50001D88A /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -204,9 +202,8 @@
 		86428B602A65AD8700B2CA7D /* WriteHistory */ = {
 			isa = PBXGroup;
 			children = (
-				86428B612A65AD8700B2CA7D /* WriteHistoryView.swift */,
-				86682EB32A729B8300B21F9A /* WriteHistoryViewDev.swift */,
-				86682EB72A72B08300B21F9A /* WriteHistoryCellDev.swift */,
+				86682EB32A729B8300B21F9A /* WriteHistoryView.swift */,
+				86682EBB2A73A6C900B21F9A /* WriteHistoryCell.swift */,
 				86682EB52A729C8800B21F9A /* NoWriteView.swift */,
 			);
 			path = WriteHistory;
@@ -543,9 +540,7 @@
 				86428B972A65AD8700B2CA7D /* MainViewModel.swift in Sources */,
 				C37461C22A67ABD60078C457 /* DateManager.swift in Sources */,
 				86428BAF2A666D1C00B2CA7D /* AuthenticationViewModel.swift in Sources */,
-				86428B862A65AD8700B2CA7D /* WriteHistoryView.swift in Sources */,
 				86428BA42A666ABD00B2CA7D /* TopViewControllerManager.swift in Sources */,
-				86682EB82A72B08300B21F9A /* WriteHistoryCellDev.swift in Sources */,
 				0DB89B5C2A67C5130055FD93 /* BackGroundView.swift in Sources */,
 				86428B952A65AD8700B2CA7D /* WriteViewModel.swift in Sources */,
 				86682EB22A725E5000B21F9A /* SettingView2.swift in Sources */,
@@ -579,9 +574,10 @@
 				0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */,
 				C37461C82A67C76C0078C457 /* KeyboardObserver.swift in Sources */,
 				865773202A65A18B00D40B59 /* LovelyCraneApp.swift in Sources */,
-				86682EB42A729B8300B21F9A /* WriteHistoryViewDev.swift in Sources */,
+				86682EB42A729B8300B21F9A /* WriteHistoryView.swift in Sources */,
 				86428B902A65AD8700B2CA7D /* DBUser.swift in Sources */,
 				C782106B2A6F90DC002C0407 /* UIScreen+.swift in Sources */,
+				86682EBC2A73A6C900B21F9A /* WriteHistoryCell.swift in Sources */,
 				86E5029C2A6691CF0001D88A /* SignWithGoogleResult.swift in Sources */,
 				86428BA62A666ABD00B2CA7D /* SignInAppleHelper.swift in Sources */,
 				86428BA22A666ABD00B2CA7D /* SettingView.swift in Sources */,
