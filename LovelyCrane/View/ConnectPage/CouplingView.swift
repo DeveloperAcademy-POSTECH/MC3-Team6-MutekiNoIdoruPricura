@@ -9,48 +9,56 @@ import SwiftUI
 struct CouplingView: View {
     private let mycode = UserManager.shared.currentUserUID
     @State private var clickPasteBtn = false
+    @Binding var isOpen : Bool
     var body: some View {
-        ZStack{
-            Color.backGround
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                Image(Assets.couplingpaper)
-                Text("연인에게 종이학 편지를 받으려면 아래 코드로 연결해주세요")
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 80)
-                    .padding(.bottom,40)
-                codeSharingView()
-                    .padding(.horizontal,54)
-                    .padding(.bottom,10)
-                Spacer()
-                if clickPasteBtn {
-                    makeAlertView()
-                        .cornerRadius(8)
-                        .padding(.horizontal,30)
+        NavigationView {
+            VStack{
+                HStack(alignment: .top) {
+                    closeButton()
+                        .padding(.leading,26)
+                        .padding(.trailing,16)
+                    Text("연인연결하기")
+                        .foregroundColor(.primaryLabel)
+                    Spacer()
                 }
-                else{
-                    inputPartnerCodeButton()
-                    .padding(.horizontal,30)
+                .padding(.top,20)
+                ZStack{
+                    VStack {
+                        Spacer()
+                        Image(Assets.couplingpaper)
+                        Text("연인에게 종이학 편지를 받으려면 아래 코드로 연결해주세요")
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 80)
+                            .padding(.bottom,40)
+                        codeSharingView()
+                            .padding(.horizontal,54)
+                            .padding(.bottom,10)
+                        Spacer()
+                        if clickPasteBtn {
+                            makeAlertView()
+                                .cornerRadius(8)
+                                .padding(.horizontal,30)
+                        }
+                        else{
+                            inputPartnerCodeButton()
+                                .padding(.horizontal,30)
+                        }
+
+                    }
+
                 }
-
-            }
-
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                closeButton()
-            }
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text("연인 연결하기")
-            }
+            }.background(Color.backGround)
         }
     }
     func closeButton() -> some View {
         Button(action: {
+            isOpen = false
         }){
             Image(systemName: "xmark")
+                .resizable()
+                .foregroundColor(.tertiaryLabel)
+                .frame(width: UIScreen.getWidth(20),height: UIScreen.getHeight(20))
         }
     }
     func makeAlertView() -> some View {
@@ -66,6 +74,7 @@ struct CouplingView: View {
                 .foregroundColor(.secondaryLabel)
             Text(mycode)
                 .foregroundColor(.primaryLabel)
+                .frame(width: UIScreen.getWidth(115),height: UIScreen.getHeight(15))
             Button {
                 UIPasteboard.general.string = mycode
                 clickPasteBtn = true
@@ -93,7 +102,7 @@ struct CouplingView: View {
         .cornerRadius(18)
     }
     func inputPartnerCodeButton() -> some View {
-        NavigationLink(destination: InputCodeView()) {
+        NavigationLink(destination: InputCodeView(isopenfullscreen: $isOpen)) {
             Text("상대방 코드 입력하기")
                 .foregroundColor(.lightPink)
                 .padding(.vertical,16)
@@ -104,8 +113,8 @@ struct CouplingView: View {
     }
 
 }
-struct CouplingView_Previews: PreviewProvider {
-    static var previews: some View {
-        CouplingView()
-    }
-}
+//struct CouplingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CouplingView(isOpen: <#T##Binding<Bool>#>)
+//    }
+//}

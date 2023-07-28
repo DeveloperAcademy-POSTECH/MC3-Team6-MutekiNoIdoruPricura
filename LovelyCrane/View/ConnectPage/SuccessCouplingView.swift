@@ -7,6 +7,7 @@
 
 import SwiftUI
 struct SuccessCouplingView: View {
+    @Binding var isOpenModal:Bool
     var body: some View {
 
         ZStack{
@@ -44,7 +45,7 @@ struct SuccessCouplingView: View {
 }
 extension SuccessCouplingView {
     func makeretryBtn() -> some View {
-        NavigationLink(destination: InputCodeView()) {
+        Button(action: {isOpenModal = false}) {
             Text("다음에 할게요")
                 .foregroundColor(.lightPink)
                 .padding(.vertical,16)
@@ -54,7 +55,7 @@ extension SuccessCouplingView {
         .cornerRadius(8)
     }
     func makesendNowBtn() -> some View {
-        NavigationLink(destination: InputCodeView()) {
+        Button(action: {isOpenModal = false}) {
             Text("네! 지금 선물할래요")
                 .foregroundColor(.gray1)
                 .padding(.vertical,16)
@@ -64,8 +65,8 @@ extension SuccessCouplingView {
         .cornerRadius(8)
     }
 }
-struct SuccessCouplingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SuccessCouplingView()
-    }
-}
+//struct SuccessCouplingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SuccessCouplingView()
+//    }
+//}

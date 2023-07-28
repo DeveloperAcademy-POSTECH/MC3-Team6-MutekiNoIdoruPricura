@@ -73,18 +73,20 @@ final class UserManager {
         try await getUserDocument().collection("letter_lists").document(letterid).delete()
     }
     /// user끼리 커플링
-    func connectUsertoUser(to partnertoken: String) async throws {
+    func connectUsertoUser(to partnertoken: String) async throws -> Bool{
         do {
-            guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
+            guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return false}
 
             let currentUserDocument = self.userCollection.document(currentUserUID)
             let partnerUserDocument = self.userCollection.document(partnertoken)
 
             try await currentUserDocument.updateData(["partner_id": partnertoken])
             try await partnerUserDocument.updateData(["partner_id": currentUserUID])
+            return true
         }
         catch {
             print(error.localizedDescription)
+            return false
         }
     }
     //상대에게 편지보내기

@@ -43,7 +43,6 @@ struct SettingView2: View {
                             .onTapGesture {
                                 Task {
                                     do {
-                                        
                                         try await vm.deleteUser()
                                         try vm.logout()
                                         viewRouter.currentPage = .authenticationView

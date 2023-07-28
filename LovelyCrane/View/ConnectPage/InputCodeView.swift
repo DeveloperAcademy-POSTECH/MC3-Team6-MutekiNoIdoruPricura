@@ -8,7 +8,10 @@
 import SwiftUI
 struct InputCodeView: View {
     @StateObject var vm = InputCodeViewModel()
-    @State private var connectFail = false
+    @State private var successconnect: Bool = false
+    @State private var isShowingFaiulreMessage = false
+    @Environment(\.dismiss) private var dismiss
+    @Binding var isopenfullscreen : Bool
     var body: some View {
         ZStack {
             Color(.backGround)
@@ -23,11 +26,11 @@ struct InputCodeView: View {
                     .padding(.top, 20)
                 makeinputCodeField()
                 Spacer()
-                if connectFail {
+                if isShowingFaiulreMessage {
                     makeconnectFailureMessage()
                         .onAppear{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                connectFail = false
+                                isShowingFaiulreMessage = false
                             }
                         }
                 }
@@ -37,12 +40,18 @@ struct InputCodeView: View {
             }
             .padding(.top,140)
         }
+        .fullScreenCover(isPresented: $successconnect) {
+            SuccessCouplingView(isOpenModal: $isopenfullscreen)
+        }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 HStack{
-                    Image(systemName: "chevron.backward")
-                        .foregroundColor(.white)
+                    Button(action: {dismiss()})
+                    {
+                        Image(systemName: "chevron.backward")
+                            .foregroundColor(.white)
+                    }
                     Text("상대방 코드 입력하기")
                     .foregroundColor(.white)}
             }
@@ -71,7 +80,8 @@ struct InputCodeView: View {
     private func makeConnectBtn() -> some View {
         Button {
             Task {
-                connectFail = try await vm.connectPartner()
+                successconnect = try await vm.connectPartner()
+                isShowingFaiulreMessage = !successconnect
             }
         } label: {
             Text("연결하기")
@@ -87,6 +97,6 @@ struct InputCodeView: View {
 }
 struct InputCodeView_Previews: PreviewProvider {
     static var previews: some View {
-        InputCodeView()
+        InputCodeView(isopenfullscreen: .constant(true))
     }
 }
