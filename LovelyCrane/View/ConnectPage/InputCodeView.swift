@@ -53,16 +53,6 @@ struct InputCodeView: View {
             }
         }
     }
-    //    private func makeconnectFailureMessage() -> some View {
-    //        Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
-    //            .foregroundColor(.white)
-    //            .multilineTextAlignment(.center)
-    //            .padding(.vertical,17)
-    //            .frame(maxWidth: .infinity)
-    //            .background(RoundedRectangle(cornerRadius: 8))
-    //            .padding(.bottom,10)
-    //            .padding(.horizontal,25)
-    //    }
     private func makeinputCodeField() -> some View {
         TextField("",text: $vm.inputcode, prompt: Text("코드를 입력해주세요").foregroundColor(.quarternaryLabel))
             .foregroundColor(.white)
