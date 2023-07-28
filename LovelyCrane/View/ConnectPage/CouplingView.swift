@@ -35,18 +35,15 @@ struct CouplingView: View {
                             .padding(.horizontal,54)
                             .padding(.bottom,10)
                         Spacer()
-                        if clickPasteBtn {
-                            makeAlertView()
-                                .cornerRadius(8)
-                                .padding(.horizontal,30)
-                        }
-                        else{
-                            inputPartnerCodeButton()
-                                .padding(.horizontal,30)
-                        }
-
+                        inputPartnerCodeButton()
+                            .padding(.horizontal,30)
+                            .overlay(
+                                Group {
+                                    if clickPasteBtn {
+                                        ToastAlert(label: "코드가 복사 되었어요")
+                                    }
+                                })
                     }
-
                 }
             }.background(Color.backGround)
         }
@@ -61,13 +58,7 @@ struct CouplingView: View {
                 .frame(width: UIScreen.getWidth(20),height: UIScreen.getHeight(20))
         }
     }
-    func makeAlertView() -> some View {
-        Text("코드가 복사 되었어요")
-            .foregroundColor(.primaryLabel)
-            .padding(.vertical,16)
-            .frame(maxWidth: .infinity)
-            .background(Color.black)
-    }
+
     func codeSharingView() -> some View {
         VStack(spacing: 30){
             Text("나의 코드")
@@ -77,9 +68,13 @@ struct CouplingView: View {
                 .frame(width: UIScreen.getWidth(115),height: UIScreen.getHeight(15))
             Button {
                 UIPasteboard.general.string = mycode
-                clickPasteBtn = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    clickPasteBtn = false
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    clickPasteBtn.toggle()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+                    withAnimation(.easeInOut){
+                        clickPasteBtn = false
+                    }
                 }
             } label: {
                 Text("복사하기")

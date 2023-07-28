@@ -71,7 +71,7 @@
 		C782106D2A6F9102002C0407 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782106C2A6F9102002C0407 /* Font+.swift */; };
 		C782106F2A6F9638002C0407 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C782106E2A6F9638002C0407 /* GoogleService-Info.plist */; };
 		C7C5C3482A72FB5200B41F75 /* ReceiveConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C5C3472A72FB5200B41F75 /* ReceiveConnectView.swift */; };
-		C7C5C34A2A72FDE100B41F75 /* Gray3Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C5C3492A72FDE100B41F75 /* Gray3Button.swift */; };
+		C7C5C34A2A72FDE100B41F75 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C5C3492A72FDE100B41F75 /* ToastAlert.swift */; };
 		C7C5C34C2A72FDEA00B41F75 /* LightPinkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C5C34B2A72FDEA00B41F75 /* LightPinkButton.swift */; };
 		C7EB0EE72A69D9F200AAC2F4 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */; };
 		C7EB0EEE2A69DB7F00AAC2F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C7EB0EED2A69DB7F00AAC2F4 /* FirebaseStorage */; };
@@ -139,7 +139,7 @@
 		C782106C2A6F9102002C0407 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		C782106E2A6F9638002C0407 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C7C5C3472A72FB5200B41F75 /* ReceiveConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveConnectView.swift; sourceTree = "<group>"; };
-		C7C5C3492A72FDE100B41F75 /* Gray3Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gray3Button.swift; sourceTree = "<group>"; };
+		C7C5C3492A72FDE100B41F75 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
 		C7C5C34B2A72FDEA00B41F75 /* LightPinkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightPinkButton.swift; sourceTree = "<group>"; };
 		C7EB0EE52A69CDE800AAC2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 			children = (
 				0DB89B5B2A67C5130055FD93 /* BackGroundView.swift */,
 				0DB89B5F2A67C8D30055FD93 /* HistoryListCell.swift */,
-				C7C5C3492A72FDE100B41F75 /* Gray3Button.swift */,
+				C7C5C3492A72FDE100B41F75 /* ToastAlert.swift */,
 				C7C5C34B2A72FDEA00B41F75 /* LightPinkButton.swift */,
 			);
 			path = Components;
@@ -603,7 +603,7 @@
 				86E502942A6690060001D88A /* SignInGoogleHelper.swift in Sources */,
 				0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */,
 				86428BA32A666ABD00B2CA7D /* AuthenticationView.swift in Sources */,
-				C7C5C34A2A72FDE100B41F75 /* Gray3Button.swift in Sources */,
+				C7C5C34A2A72FDE100B41F75 /* ToastAlert.swift in Sources */,
 				C78210692A6F0FBC002C0407 /* InputCodeViewModel.swift in Sources */,
 				86428BA82A666B3900B2CA7D /* AppleLoginButton.swift in Sources */,
 				0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */,

@@ -27,15 +27,11 @@ struct InputCodeView: View {
                 makeinputCodeField()
                 Spacer()
                 if isShowingFaiulreMessage {
-                    makeconnectFailureMessage()
-                        .onAppear{
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                isShowingFaiulreMessage = false
-                            }
-                        }
+                    ToastAlert(label: "연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
+                        .padding(.top,UIScreen.getHeight(270))
                 }
                 else{
-                    makeConnectBtn().padding(.bottom,20)
+                    makeConnectBtn()
                 }
             }
             .padding(.top,140)
@@ -57,16 +53,16 @@ struct InputCodeView: View {
             }
         }
     }
-    private func makeconnectFailureMessage() -> some View {
-        Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
-            .foregroundColor(.white)
-            .multilineTextAlignment(.center)
-            .padding(.vertical,17)
-            .frame(maxWidth: .infinity)
-            .background(RoundedRectangle(cornerRadius: 8))
-            .padding(.bottom,10)
-            .padding(.horizontal,25)
-    }
+    //    private func makeconnectFailureMessage() -> some View {
+    //        Text("연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
+    //            .foregroundColor(.white)
+    //            .multilineTextAlignment(.center)
+    //            .padding(.vertical,17)
+    //            .frame(maxWidth: .infinity)
+    //            .background(RoundedRectangle(cornerRadius: 8))
+    //            .padding(.bottom,10)
+    //            .padding(.horizontal,25)
+    //    }
     private func makeinputCodeField() -> some View {
         TextField("",text: $vm.inputcode, prompt: Text("코드를 입력해주세요").foregroundColor(.quarternaryLabel))
             .foregroundColor(.white)
@@ -81,7 +77,17 @@ struct InputCodeView: View {
         Button {
             Task {
                 successconnect = try await vm.connectPartner()
-                isShowingFaiulreMessage = !successconnect
+                if !successconnect {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isShowingFaiulreMessage.toggle()
+                    }
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
+                    withAnimation(.easeInOut){
+                        isShowingFaiulreMessage = false
+                    }
+                }
+                
             }
         } label: {
             Text("연결하기")
