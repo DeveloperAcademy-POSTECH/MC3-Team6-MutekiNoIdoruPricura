@@ -13,13 +13,17 @@ struct CouplingView: View {
     var body: some View {
         NavigationView {
             VStack{
-                HStack(alignment: .top) {
-                    closeButton()
+                ZStack {
+                    HStack{
+                        closeButton()
                         .padding(.leading,26)
-                        .padding(.trailing,16)
-                    Text("연인연결하기")
-                        .foregroundColor(.primaryLabel)
-                    Spacer()
+                        Spacer()
+                    }
+                    HStack(alignment: .top) {
+                        Spacer()
+                        Text("연인연결하기")
+                            .foregroundColor(.primaryLabel)
+                        Spacer()}
                 }
                 .padding(.top,20)
                 ZStack{

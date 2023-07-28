@@ -42,14 +42,15 @@ struct InputCodeView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                HStack{
                     Button(action: {dismiss()})
                     {
                         Image(systemName: "chevron.backward")
                             .foregroundColor(.white)
                     }
-                    Text("상대방 코드 입력하기")
-                    .foregroundColor(.white)}
+            }
+            ToolbarItem(placement: .principal) {
+                Text("상대방 코드 입력하기")
+                .foregroundColor(.white)
             }
         }
     }
