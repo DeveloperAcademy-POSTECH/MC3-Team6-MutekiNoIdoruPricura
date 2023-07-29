@@ -10,6 +10,7 @@ struct InputCodeView: View {
     @StateObject var vm = InputCodeViewModel()
     @State private var successconnect: Bool = false
     @State private var isShowingFaiulreMessage = false
+    @FocusState private var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Binding var isopenfullscreen : Bool
     var body: some View {
@@ -17,25 +18,30 @@ struct InputCodeView: View {
             Color(.backGround)
                 .ignoresSafeArea()
             VStack{
+                Spacer().frame(maxHeight: UIScreen.getHeight(190))
                 Image(Assets.InputCodeImage)
                 makeTextNoti()
                 makeinputCodeField()
                 Spacer()
                 if isShowingFaiulreMessage {
                     ToastAlert(label: "연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
-                        .padding(.top,UIScreen.getHeight(270))
+                        .frame(height: UIScreen.getHeight(78))
                 }
                 else{
                     makeConnectBtn()
                 }
-            }
-            .padding(.top,140)
+            }        }
+        .onAppear {
+            isFocused = true
         }
         .fullScreenCover(isPresented: $successconnect) {
             SuccessCouplingView(isOpenModal: $isopenfullscreen)
         }
         .navigationBarBackButtonHidden(true)
         .navigationTitle("상대방 코드 입력하기")
+        .onTapGesture {
+            isFocused = false
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {dismiss()})
@@ -65,6 +71,7 @@ struct InputCodeView: View {
             .cornerRadius(8)
             .padding(.horizontal,24)
             .padding(.bottom,20)
+            .focused($isFocused)
     }
     private func makeConnectBtn() -> some View {
         Button {
@@ -73,11 +80,13 @@ struct InputCodeView: View {
                 if !successconnect {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         isShowingFaiulreMessage.toggle()
+
                     }
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
                     withAnimation(.easeInOut){
                         isShowingFaiulreMessage = false
+
                     }
                 }
             }

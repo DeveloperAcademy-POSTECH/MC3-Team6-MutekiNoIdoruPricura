@@ -13,7 +13,8 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private init() { }
-    
+
+    private let batch = Firestore.firestore().batch()
     private let userCollection = Firestore.firestore().collection("Users")
     /// 테스트 위해서 uid가 없으면 일단은 "none"
     var currentUserUID: String {
@@ -40,8 +41,9 @@ final class UserManager {
         ]
         let userDocument =  try await getUserDocument().getDocument()
         guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else {return}
-        try await getUserDocument().updateData(["send_count": sendCount+1])
-        try await getUserDocument().collection("letter_lists").addDocument(data: letterdata)
+        let postdata =  getUserDocument().collection("letter_lists").document()
+        batch.updateData(["send_count": sendCount+1], forDocument: getUserDocument())
+        batch.setData(letterdata, forDocument: postdata)
     }
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
@@ -74,17 +76,11 @@ final class UserManager {
     }
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws -> Bool{
-        do {
             guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return false}
             let partnerUserDocument = self.userCollection.document(partnertoken)
-            try await getUserDocument().updateData(["partner_id": partnertoken])
-            try await partnerUserDocument.updateData(["partner_id": currentUserUID])
+            batch.updateData(["partner_id": partnertoken], forDocument: getUserDocument())
+            batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
             return true
-        }
-        catch {
-            print(error.localizedDescription)
-            return false
-        }
     }
     //상대에게 편지보내기
     func sendletterLists() async throws{
@@ -98,8 +94,10 @@ final class UserManager {
                 .whereField("is_sent", isEqualTo: false).getDocuments()
             for document in snapshot.documents {
                 let letterData = document.data()
+                guard let receiveCount = letterData["receive_count"] as? Int else{return}
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue).addDocument(data: letterData)
                 try await document.reference.updateData(["is_sent":true])
+                batch.updateData(["receiv_count":receiveCount + 1], forDocument: partnerUserDocument)
             }
         }
         catch {
