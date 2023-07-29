@@ -66,9 +66,9 @@ struct MainView: View {
                     settingButton()
                 }
             }
-            .fullScreenCover(isPresented: $firsttap) {
-                CouplingView(isOpen: $firsttap)
-            }
+//            .fullScreenCover(isPresented: $firsttap) {
+//                CouplingView(isOpen: $firsttap)
+//            }
         }
     }
 
