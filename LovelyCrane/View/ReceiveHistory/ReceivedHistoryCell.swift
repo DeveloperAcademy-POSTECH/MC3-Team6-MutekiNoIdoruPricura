@@ -1,5 +1,5 @@
 //
-//  WriteHistoryCellDev2.swift
+//  ReceivedHistoryCell.swift
 //  LovelyCrane
 //
 //  Created by Toughie on 2023/07/28.
@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-struct WriteHistoryCell: View {
+struct ReceivedHistoryCell: View {
     
     let letter: LetterModel
     @State private var image: UIImage?
     
     var body: some View {
         
-        ZStack {
+        ZStack(alignment: .leading) {
             HStack(alignment: .center) {
-                
                 VStack(alignment: .leading) {
                     Text(formatDate(letter.date))
                         .foregroundColor(.secondaryLabel)
@@ -51,32 +50,43 @@ struct WriteHistoryCell: View {
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(letter.isSent ? .gray3 : .gray4)
+                    .foregroundColor(.gray3)
             )
+            
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(Color.lightPink)
+                .opacity(letter.isRead ? 0 : 1)
+                .mask(
+                    HStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 6)
+                            .foregroundColor(Color.lightPink)
+                        Spacer()
+                    }
+                )
         }
         .padding(.horizontal, 10)
         .onAppear {
             loadImage()
         }
-
     }
 }
 
-struct WriteHistoryCell_Previews: PreviewProvider {
+struct ReceivedHistoryCell_Previews: PreviewProvider {
     
-    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
-    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
+    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: false)
+    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: true)
     
     
     static var previews: some View {
         VStack {
-            WriteHistoryCell(letter: testLetter1)
-            WriteHistoryCell(letter: testLetter2)
+            ReceivedHistoryCell(letter: testLetter1)
+            ReceivedHistoryCell(letter: testLetter2)
         }
     }
 }
 
-extension WriteHistoryCell {
+extension ReceivedHistoryCell {
     
     private func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()

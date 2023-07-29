@@ -14,9 +14,13 @@ struct MainView: View {
     let coreMotionManager = MotionManager.shared
     @State var partnerName = "직녀"
     @State var letterCount = 912
-    @State var isWriteHistroyTapped = false
+    @State var receivedCount = 0
     
+    @State var isWriteHistroyTapped = false
     @State var noWriteHistoryTapped = false
+    
+    @State var noReceivedTapped = false
+    @State var receivedHistoryTapped = false
     
     @State var isWriteTapped = false
     @State var isSettingTapped = false
@@ -26,8 +30,14 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
             NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
+            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+            
+            NavigationLink("", destination: NoReceivedView(), isActive: $noReceivedTapped)
+            NavigationLink("", destination: ReceivedHistoryView(), isActive: $noReceivedTapped)
+            
+            
+            
             
             BackGroundView()
             TabView {
@@ -41,7 +51,15 @@ struct MainView: View {
             .menuIndicator(.hidden)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-//                    inboxButton()
+                    Image(systemName: "gift")
+                        .onTapGesture {
+                            if receivedCount == 0 {
+                                noReceivedTapped.toggle()
+                            } else {
+                                receivedHistoryTapped.toggle()
+                            }
+                        }
+                    
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     sendButton()
@@ -56,7 +74,7 @@ struct MainView: View {
     //MARK: - Views
     private func settingButton() -> some View {
         NavigationLink {
-            SettingView2()
+            SettingView()
         } label: {
             Image(Assets.setting)
         }

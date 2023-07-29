@@ -13,15 +13,17 @@ final class LetterListsManager {
     
     var letterListArray: [LetterModel] = []
     
+    // MARK: my Letters
     var isByMeLetters: [LetterModel] {
-        return letterListArray.filter { $0.isByme == true}
+        letterListArray.filter { $0.isByme == true}
     }
+    
     var sentLetters: [LetterModel] {
-        return letterListArray.filter { $0.isSent == true }
+        letterListArray.filter { $0.isSent == true }
     }
     
     var notSentLetters: [LetterModel] {
-        return letterListArray.filter { $0.isSent == false }
+        letterListArray.filter { $0.isSent == false }
     }
     
     var sentLettersGroupedByDate: [Date: [LetterModel]] {
@@ -31,6 +33,16 @@ final class LetterListsManager {
     
     var notSentLettersGroupedByDate: [Date: [LetterModel]] {
         let groupByDate = Dictionary(grouping: notSentLetters, by: { Calendar.current.startOfDay(for: $0.date) })
+        return sortGroupedLettersByDateDescending(groupByDate)
+    }
+    
+    // MARK: received Letters
+    var receivedLetters: [LetterModel] {
+        letterListArray.filter { $0.isByme == false}
+    }
+    
+    var receivedLettersGroupedByDate: [Date: [LetterModel]] {
+        let groupByDate = Dictionary(grouping: receivedLetters, by: { Calendar.current.startOfDay(for: $0.date) })
         return sortGroupedLettersByDateDescending(groupByDate)
     }
     
