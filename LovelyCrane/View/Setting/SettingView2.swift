@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct SettingView: View {
-    @Environment(\.dismiss) var dismiss
+struct SettingView2: View {
     
     @StateObject private var vm = SettingViewModel()
     @EnvironmentObject var viewRouter : ViewRouter
@@ -44,7 +43,6 @@ struct SettingView: View {
                             .onTapGesture {
                                 Task {
                                     do {
-                                        
                                         try await vm.deleteUser()
                                         try vm.logout()
                                         viewRouter.currentPage = .authenticationView
@@ -63,9 +61,6 @@ struct SettingView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.gray)
-                        .onTapGesture {
-                            dismiss()
-                        }
                 }
             }
             .navigationTitle("설정")
@@ -73,20 +68,24 @@ struct SettingView: View {
     }
 }
 
-struct SettingView_Previews: PreviewProvider {
+struct SettingView2_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView()
+        SettingView2()
     }
 }
 
 
-extension SettingView {
+extension SettingView2 {
     
     private func makeCell(name: String) -> some View {
         VStack(alignment: .leading) {
             Text(name)
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
                 .padding()
+//            Divider()
+//                .frame(height: 0.5)
+//                .background(Color.gray)
+//                .padding(.horizontal)
         }
     }
 }

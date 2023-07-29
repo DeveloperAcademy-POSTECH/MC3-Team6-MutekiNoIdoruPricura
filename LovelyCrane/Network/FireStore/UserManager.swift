@@ -59,7 +59,7 @@ final class UserManager {
             let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read)
             letterLists.append(letterData)
         }
-        LetterListsManager.shared.letterListArray = letterLists
+        LetterLists.shared.letterListArray = letterLists
     }
     // 읽었으면 해당 도큐멘트 is_read변경
     func updateisRead(letterid: String) async throws {

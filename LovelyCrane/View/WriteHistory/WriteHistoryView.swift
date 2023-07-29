@@ -1,110 +1,80 @@
 //
-//  WriteHistoryViewDev.swift
-//  LovelyCrane
+//  WriteHistoryView.swift
+//  LoveCrane
 //
-//  Created by Toughie on 2023/07/27.
+//  Created by 235 on 2023/07/13.
 //
 
 import SwiftUI
 
+
 struct WriteHistoryView: View {
-    @Environment(\.dismiss) var dismiss
+    @State var isCellTapped = false
     
-    var letterCount: Int {
-        LetterListsManager.shared.isByMeLetters.count
-    }
-    var sentLetters: [Date : [LetterModel]] {
-        LetterListsManager.shared.sentLettersGroupedByDate
-    }
-    
-    var notSentLetters: [Date : [LetterModel]] {
-        LetterListsManager.shared.notSentLettersGroupedByDate
-    }
-
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Color(.backGround).ignoresSafeArea()
-            
-            VStack(alignment:.leading) {
-                
-                HStack(alignment: .center) {
-                    VStack(alignment: .leading) {
-                        Text("나의 쪽지")
-                            .foregroundColor(.gray)
-                        
-                        HStack(alignment: .firstTextBaseline) {
-                            Text("\(letterCount)")
-                                .font(.largeTitle)
-                                .foregroundColor(.lightPink)
-                            Text("마리")
-                                .font(.title2)
-                                .foregroundColor(.white)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    Image(Assets.writeViewCranes)
-                }
-                .padding(.horizontal, 15)
-                .padding(.leading, 5)
-                
+        ZStack {
+            NavigationLink("", destination: DetailView(), isActive: $isCellTapped)
+            NavigationView {
                 ScrollView {
-                    
-                    ForEach(Array(notSentLetters.keys.sorted(by: >)), id: \.self) { date in
-                        //MARK: 안 보낸 편지들
-                        LazyVStack(alignment: .leading) {
-                            if let notSentLettersGroup = notSentLetters[date] {
-                                ForEach(notSentLettersGroup, id: \.self) { letter in
-                                    WriteHistoryCell(letter: letter)
-                                }
+                    VStack(alignment: .leading) {
+                        LazyVStack {
+                            HistoryListCell(isRead: true)
+                                .onTapGesture {
+                                    isCellTapped.toggle()
                             }
                         }
-                        .padding(.bottom)
-                    }
-                    ForEach(Array(sentLetters.keys.sorted(by: >)), id: \.self) { date in
-                        // MARK: 보낸 편지들
-                        LazyVStack(alignment: .leading) {
-                            if let sentLettersGroup = sentLetters[date] {
-                                HStack {
-                                    Image(Assets.historyCrane)
-
-                                    Text("\(sentLettersGroup.count)마리의 종이학을 발송했어요 :)")
-                                        .font(.caption)
-                                        .foregroundColor(.white)
-                                    
-                                    Text("-" + Date.formatDate(date))
-                                        .font(.caption)
-                                        .foregroundColor(Color.tertiaryLabel)
-                                }
-                                .padding(.leading, 20)
-                                
-                                ForEach(sentLettersGroup, id: \.self) { letter in
-                                    WriteHistoryCell(letter: letter)
-                                }
+                        header()
+                        LazyVStack {
+                            HistoryListCell(isRead: false)
+                                .onTapGesture {
+                                    isCellTapped.toggle()
                             }
                         }
-                        .padding(.bottom)
+                        Spacer()
                     }
                 }
-            }
-            .padding(5)
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.gray)
-                    .onTapGesture {
-                        dismiss()
+                .padding()
+                .background {
+                    BackGroundView()
+                }
+            }.navigationTitle("")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        toolBarTitle()
                     }
-            }
+                }
+        }
+    }
+    
+    private func header() -> some View {
+        HStack {
+            Image(Assets.sendBottle)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+            Text("97마리의 종이학을 발송했어요")
+                .foregroundColor(.primaryLabel)
+            //텍스트랑 동일한 사이즈로 설정해줘야함.
+        }.frame(height: 18)
+            .padding(.vertical)
+    }
+    
+    private func toolBarTitle() -> some View {
+        HStack {
+            Text("9127개")
+                .font(.system(size: 26))
+                .foregroundColor(.primaryLabel)
+            Image(Assets.conceptCrane)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 26)
         }
     }
 }
 
-struct WriteHistoryViewDev_Previews: PreviewProvider {
+
+
+struct WriteView_Preview: PreviewProvider {
     static var previews: some View {
-        WriteHistoryView()
+        MainView()
     }
 }

@@ -14,11 +14,5 @@ extension Date {
         dateFormatter.dateFormat = "yyyy.MM.dd"
         dateFormatter.timeZone = NSTimeZone(name: "Asia/Seoul") as TimeZone?
         return dateFormatter.string(from: now)
-    }
-    
-    static func formatDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
-    }
+     }
 }
