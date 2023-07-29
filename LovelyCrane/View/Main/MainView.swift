@@ -9,21 +9,23 @@ import SwiftUI
 import SpriteKit
 import CoreMotion
 
-
 struct MainView: View {
     let coreMotionManager = MotionManager.shared
-    @State var partnerName = "직녀"
-    @State var letterCount = 912
-    @State var receivedCount = 0
     
-    @State var isWriteHistroyTapped = false
+    @State var partnerName = "직녀"
+    // MARK: 수신 발신 시나리오 테스트 시 카운트를 변경
+    // 카운트 리프레시는 수신 및 발신 작업 연결 단계에서 수행해 주세요.
+    @State var letterCount = 1
+    @State var receivedCount = 1
+    
+    @State var writeHistroyTapped = false
     @State var noWriteHistoryTapped = false
     
     @State var noReceivedTapped = false
     @State var receivedHistoryTapped = false
     
-    @State var isWriteTapped = false
-    @State var isSettingTapped = false
+    @State var toWriteTapped = false
+    @State var settingTapped = false
     
     
     @EnvironmentObject var viewRouter : ViewRouter
@@ -31,14 +33,11 @@ struct MainView: View {
     var body: some View {
         ZStack {
             NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
-            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
+            NavigationLink("", destination: WriteHistoryView(), isActive: $writeHistroyTapped)
             
             NavigationLink("", destination: NoReceivedView(), isActive: $noReceivedTapped)
-            NavigationLink("", destination: ReceivedHistoryView(), isActive: $noReceivedTapped)
-            
-            
-            
-            
+            NavigationLink("", destination: ReceivedHistoryView(), isActive: $receivedHistoryTapped)
+
             BackGroundView()
             TabView {
                 mainBottle()
@@ -59,7 +58,6 @@ struct MainView: View {
                                 receivedHistoryTapped.toggle()
                             }
                         }
-                    
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     sendButton()
@@ -115,7 +113,7 @@ struct MainView: View {
 //                if LetterListsManager.shared.isByMeLetters.count == 0 {
                     noWriteHistoryTapped.toggle()
                 } else {
-                    isWriteHistroyTapped.toggle()
+                    writeHistroyTapped.toggle()
                 }
             }
         } label: {
@@ -140,7 +138,7 @@ struct MainView: View {
 //                        if LetterListsManager.shared.isByMeLetters.count == 0 {
                             noWriteHistoryTapped.toggle()
                         } else {
-                            isWriteHistroyTapped.toggle()
+                            writeHistroyTapped.toggle()
                         }
                     }
                 }
@@ -156,10 +154,10 @@ struct MainView: View {
             .offset(y: CGSize.deviceHeight * 0.08)
             .ignoresSafeArea()
             .onTapGesture {
-                isWriteTapped.toggle()
+                toWriteTapped.toggle()
             }
-            .fullScreenCover(isPresented: $isWriteTapped) {
-                WriteView(isShowingCurrentPage: $isWriteTapped, color: "pink")
+            .fullScreenCover(isPresented: $toWriteTapped) {
+                WriteView(isShowingCurrentPage: $toWriteTapped, color: "pink")
             }
             .overlay {
                 Text("+ 새로운 쪽지 작성하기")

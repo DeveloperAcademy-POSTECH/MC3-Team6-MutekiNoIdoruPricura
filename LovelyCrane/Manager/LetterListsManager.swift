@@ -19,11 +19,11 @@ final class LetterListsManager {
     }
     
     var sentLetters: [LetterModel] {
-        letterListArray.filter { $0.isSent == true }
+        isByMeLetters.filter { $0.isSent == true }
     }
     
     var notSentLetters: [LetterModel] {
-        letterListArray.filter { $0.isSent == false }
+        isByMeLetters.filter { $0.isSent == false }
     }
     
     var sentLettersGroupedByDate: [Date: [LetterModel]] {
