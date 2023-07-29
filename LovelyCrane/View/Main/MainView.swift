@@ -66,6 +66,9 @@ struct MainView: View {
                     settingButton()
                 }
             }
+            .fullScreenCover(isPresented: $firsttap) {
+                CouplingView(isOpen: $firsttap)
+            }
         }
     }
 
@@ -80,10 +83,10 @@ struct MainView: View {
     private func presentedBottle() -> some View {
         VStack {
             Text("to. \(partnerName)")
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryLabel)
                 .padding(.top)
             Text("\(letterCount)")
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
                 .font(.system(size: 50))
             spriteView()
             Spacer()
@@ -93,10 +96,10 @@ struct MainView: View {
     private func mainBottle() -> some View {
         VStack {
             Text("to. \(partnerName)")
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryLabel)
                 .padding(.top)
             Text("\(letterCount)")
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
                 .font(.system(size: 50))
             spriteView()
             Spacer()
@@ -149,7 +152,7 @@ struct MainView: View {
     //Todo: 랜덤하게 fill 컬러 추가해주고, 해당 컬러에 맞는 크레인 명을 color로 보내주어야 함
     private func bottomWriteButton() -> some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(Color.red)
+            .fill(Color.deepPink)
             .frame(width: CGSize.deviceWidth * 0.8)
             .offset(y: CGSize.deviceHeight * 0.08)
             .ignoresSafeArea()
