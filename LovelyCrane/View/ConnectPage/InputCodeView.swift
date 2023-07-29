@@ -35,6 +35,7 @@ struct InputCodeView: View {
             SuccessCouplingView(isOpenModal: $isopenfullscreen)
         }
         .navigationBarBackButtonHidden(true)
+        .navigationTitle("상대방 코드 입력하기")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {dismiss()})
@@ -42,10 +43,6 @@ struct InputCodeView: View {
                         Image(systemName: "chevron.backward")
                             .foregroundColor(.white)
                     }
-            }
-            ToolbarItem(placement: .principal) {
-                Text("상대방 코드 입력하기")
-                .foregroundColor(.white)
             }
         }
     }
@@ -58,7 +55,9 @@ struct InputCodeView: View {
             .padding(.top, 20)
     }
     private func makeinputCodeField() -> some View {
-        TextField("",text: $vm.inputcode, prompt: Text("코드를 입력해주세요").foregroundColor(.quarternaryLabel))
+        TextField("",text: $vm.inputcode,
+                  prompt: Text("코드를 입력해주세요")
+            .foregroundColor(.quarternaryLabel))
             .foregroundColor(.white)
             .padding(.vertical,16)
             .multilineTextAlignment(.center)

@@ -76,11 +76,8 @@ final class UserManager {
     func connectUsertoUser(to partnertoken: String) async throws -> Bool{
         do {
             guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return false}
-
-            let currentUserDocument = self.userCollection.document(currentUserUID)
             let partnerUserDocument = self.userCollection.document(partnertoken)
-
-            try await currentUserDocument.updateData(["partner_id": partnertoken])
+            try await getUserDocument().updateData(["partner_id": partnertoken])
             try await partnerUserDocument.updateData(["partner_id": currentUserUID])
             return true
         }
