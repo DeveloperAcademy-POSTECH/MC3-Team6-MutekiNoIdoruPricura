@@ -25,13 +25,13 @@ struct WriteHistoryView: View {
         ZStack(alignment: .topLeading) {
             Color(.backGround).ignoresSafeArea()
             
-            //MARK: 최상단 VStack
             VStack(alignment:.leading) {
-                //MARK: 헤더
+                
                 HStack(alignment: .center) {
                     VStack(alignment: .leading) {
                         Text("나의 쪽지")
                             .foregroundColor(.gray)
+                        
                         HStack(alignment: .firstTextBaseline) {
                             Text("\(letterCount)")
                                 .font(.largeTitle)
@@ -41,8 +41,10 @@ struct WriteHistoryView: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    
                     Spacer()
-                    Image("WriteViewCranes")
+                    
+                    Image(Assets.writeViewCranes)
                 }
                 .padding(.horizontal, 15)
                 .padding(.leading, 5)
@@ -53,50 +55,37 @@ struct WriteHistoryView: View {
                         //MARK: 안 보낸 편지들
                         LazyVStack(alignment: .leading) {
                             if let notSentLettersGroup = notSentLetters[date] {
-//                                HStack {
-//                                   Image("historyCrane")
-//
-//                                    Text("\(notSentLettersGroup.count)마리의 종이학을 발송했어요 :) -\(formatDate(date))")
-//                                        .font(.caption)
-//                                        .foregroundColor(.white)
-//                                }
-//                                .padding(.leading, 20)
-
-                                
                                 ForEach(notSentLettersGroup, id: \.self) { letter in
                                     WriteHistoryCell(letter: letter)
                                 }
                             } else {
-                                Text("바인딩 실패패패패패퍂")
+                                EmptyView()
                             }
                         }
                         .padding(.bottom)
                     }
-                    
-                    // MARK: 보낸 편지들
                     ForEach(Array(sentLetters.keys.sorted(by: >)), id: \.self) { date in
-                        //MARK: 안 보낸 편지들
+                        // MARK: 보낸 편지들
                         LazyVStack(alignment: .leading) {
                             if let sentLettersGroup = sentLetters[date] {
                                 HStack {
-                                   Image("historyCrane")
+                                    Image(Assets.historyCrane)
 
                                     Text("\(sentLettersGroup.count)마리의 종이학을 발송했어요 :)")
                                         .font(.caption)
                                         .foregroundColor(.white)
                                     
-                                    Text("-" + formatDate(date))
+                                    Text("-" + Date.formatDate(date))
                                         .font(.caption)
                                         .foregroundColor(Color.tertiaryLabel)
                                 }
                                 .padding(.leading, 20)
-
                                 
                                 ForEach(sentLettersGroup, id: \.self) { letter in
                                     WriteHistoryCell(letter: letter)
                                 }
                             } else {
-                                Text("바인딩 실패패패패패퍂")
+                                EmptyView()
                             }
                         }
                         .padding(.bottom)
@@ -121,13 +110,5 @@ struct WriteHistoryView: View {
 struct WriteHistoryViewDev_Previews: PreviewProvider {
     static var previews: some View {
         WriteHistoryView()
-    }
-}
-
-extension WriteHistoryView {
-    private func formatDate(_ date: Date) -> String {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy.MM.dd"
-    return dateFormatter.string(from: date)
     }
 }

@@ -18,10 +18,12 @@ struct WriteHistoryCell: View {
             HStack(alignment: .center) {
                 
                 VStack(alignment: .leading) {
-                    Text(formatDate(letter.date))
+                    Text(Date.formatDate(letter.date))
                         .foregroundColor(.secondaryLabel)
                         .font(.caption)
+                    
                     Spacer()
+                    
                     Text(letter.text)
                         .foregroundColor(.white)
                         .lineLimit(2)
@@ -31,7 +33,6 @@ struct WriteHistoryCell: View {
                 }
                 .padding(.leading, 5)
                 
-                
                 Spacer()
                 
                 if let uiImage = image {
@@ -39,7 +40,8 @@ struct WriteHistoryCell: View {
                         .resizable()
                         .frame(width: 60, height: 60)
                         .cornerRadius(10)
-                } else {
+                }
+                else {
                     Image(systemName: "heart")
                         .resizable()
                         .frame(width: 60, height: 60)
@@ -62,6 +64,21 @@ struct WriteHistoryCell: View {
     }
 }
 
+extension WriteHistoryCell {
+
+    private func loadImage() {
+        guard let imageUrl = letter.image else { return }
+        Task {
+            do {
+                let imageData = try await StorageManager.shared.getImage(url: imageUrl)
+                self.image = UIImage(data: imageData)
+            } catch {
+                print("Error loading image: \(error)")
+            }
+        }
+    }
+}
+
 struct WriteHistoryCell_Previews: PreviewProvider {
     
     static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
@@ -72,27 +89,6 @@ struct WriteHistoryCell_Previews: PreviewProvider {
         VStack {
             WriteHistoryCell(letter: testLetter1)
             WriteHistoryCell(letter: testLetter2)
-        }
-    }
-}
-
-extension WriteHistoryCell {
-    
-    private func formatDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
-    }
-    
-    private func loadImage() {
-        guard let imageUrl = letter.image else { return }
-        Task {
-            do {
-                let imageData = try await StorageManager.shared.getImage(url: imageUrl)
-                self.image = UIImage(data: imageData)
-            } catch {
-                print("Error loading image: \(error)")
-            }
         }
     }
 }

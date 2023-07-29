@@ -15,12 +15,15 @@ struct ReceivedHistoryCell: View {
     var body: some View {
         
         ZStack(alignment: .leading) {
+            
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
-                    Text(formatDate(letter.date))
+                    Text(Date.formatDate(letter.date))
                         .foregroundColor(.secondaryLabel)
                         .font(.caption)
+                    
                     Spacer()
+                    
                     Text(letter.text)
                         .foregroundColor(.white)
                         .lineLimit(2)
@@ -29,7 +32,6 @@ struct ReceivedHistoryCell: View {
                         .padding(.bottom)
                 }
                 .padding(.leading, 5)
-                
                 
                 Spacer()
                 
@@ -72,27 +74,7 @@ struct ReceivedHistoryCell: View {
     }
 }
 
-struct ReceivedHistoryCell_Previews: PreviewProvider {
-    
-    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: false)
-    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: true)
-    
-    
-    static var previews: some View {
-        VStack {
-            ReceivedHistoryCell(letter: testLetter1)
-            ReceivedHistoryCell(letter: testLetter2)
-        }
-    }
-}
-
 extension ReceivedHistoryCell {
-    
-    private func formatDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
-    }
     
     private func loadImage() {
         guard let imageUrl = letter.image else { return }
@@ -103,6 +85,20 @@ extension ReceivedHistoryCell {
             } catch {
                 print("Error loading image: \(error)")
             }
+        }
+    }
+}
+
+struct ReceivedHistoryCell_Previews: PreviewProvider {
+    
+    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: false)
+    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: true)
+    
+    
+    static var previews: some View {
+        VStack {
+            ReceivedHistoryCell(letter: testLetter1)
+            ReceivedHistoryCell(letter: testLetter2)
         }
     }
 }

@@ -22,13 +22,13 @@ struct ReceivedHistoryView: View {
         ZStack(alignment: .topLeading) {
             Color(.backGround).ignoresSafeArea()
             
-            //MARK: 최상단 VStack
             VStack(alignment:.leading) {
-                //MARK: 헤더
+
                 HStack(alignment: .center) {
                     VStack(alignment: .leading) {
                         Text("받은 쪽지")
                             .foregroundColor(.gray)
+                        
                         HStack(alignment: .firstTextBaseline) {
                             Text("\(receivedLettersCount)")
                                 .font(.largeTitle)
@@ -39,7 +39,8 @@ struct ReceivedHistoryView: View {
                         }
                     }
                     Spacer()
-                    Image("ReceivedHistoryViewImage")
+                    
+                    Image(Assets.receivedHistoryViewImage)
                 }
                 .padding(.horizontal, 15)
                 .padding(.leading, 5)
@@ -50,24 +51,23 @@ struct ReceivedHistoryView: View {
                         LazyVStack(alignment: .leading) {
                             if let receivedLettersGroup = receivedLetters[date] {
                                 HStack {
-                                    Image("ReceivedHistoryBottle")
+                                    Image(Assets.receivedHistoryBottle)
                                     
                                     Text("\(receivedLettersGroup.count)마리의 종이학을 선물받았어요 :)")
                                         .font(.caption)
                                         .foregroundColor(.white)
                                     
-                                    Text("-" + formatDate(date))
+                                    Text("-" + Date.formatDate(date))
                                         .font(.caption)
                                         .foregroundColor(Color.tertiaryLabel)
                                 }
                                 .padding(.leading, 20)
                                 
-                                
                                 ForEach(receivedLettersGroup, id: \.self) { letter in
                                     ReceivedHistoryCell(letter: letter)
                                 }
                             } else {
-                                Text("바인딩 실패패패패패퍂")
+                                EmptyView()
                             }
                         }
                         .padding(.bottom)
@@ -86,14 +86,6 @@ struct ReceivedHistoryView: View {
                     }
             }
         }
-    }
-}
-
-extension ReceivedHistoryView {
-    private func formatDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
-        return dateFormatter.string(from: date)
     }
 }
 

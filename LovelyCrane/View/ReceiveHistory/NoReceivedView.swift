@@ -15,7 +15,7 @@ struct NoReceivedView: View {
             Color(.backGround).ignoresSafeArea()
             
             VStack {
-                Image("NoReceivedViewImage")
+                Image(Assets.noReceivedViewImage)
                 
                 VStack(spacing: 8) {
                     Text("아직 연인에게")

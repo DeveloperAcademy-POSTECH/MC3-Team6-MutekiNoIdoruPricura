@@ -17,7 +17,7 @@ struct NoWriteView: View {
             Color(.backGround).ignoresSafeArea()
             
             VStack {
-                Image("NoWriteCrane")
+                Image(Assets.noWriteCrane)
                 
                 VStack(spacing: 8) {
                     Text("아직 연인에게")
