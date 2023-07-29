@@ -38,19 +38,13 @@ struct WriteHistoryCell: View {
                 if let uiImage = image {
                     Image(uiImage: uiImage)
                         .resizable()
-                        .frame(width: 60, height: 60)
-                        .cornerRadius(10)
-                }
-                else {
-                    Image(systemName: "heart")
-                        .resizable()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.clear)
+                        .frame(width: 70, height: 70)
                         .cornerRadius(10)
                 }
             }
             .padding(10)
             .frame(maxWidth: .infinity)
+            .frame(height: 92)
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(letter.isSent ? .gray3 : .gray4)

@@ -58,8 +58,6 @@ struct WriteHistoryView: View {
                                 ForEach(notSentLettersGroup, id: \.self) { letter in
                                     WriteHistoryCell(letter: letter)
                                 }
-                            } else {
-                                EmptyView()
                             }
                         }
                         .padding(.bottom)
@@ -84,8 +82,6 @@ struct WriteHistoryView: View {
                                 ForEach(sentLettersGroup, id: \.self) { letter in
                                     WriteHistoryCell(letter: letter)
                                 }
-                            } else {
-                                EmptyView()
                             }
                         }
                         .padding(.bottom)

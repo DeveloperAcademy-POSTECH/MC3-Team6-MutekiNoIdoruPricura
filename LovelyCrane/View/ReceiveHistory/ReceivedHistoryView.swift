@@ -66,8 +66,6 @@ struct ReceivedHistoryView: View {
                                 ForEach(receivedLettersGroup, id: \.self) { letter in
                                     ReceivedHistoryCell(letter: letter)
                                 }
-                            } else {
-                                EmptyView()
                             }
                         }
                         .padding(.bottom)
