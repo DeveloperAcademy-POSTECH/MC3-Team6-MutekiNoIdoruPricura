@@ -9,8 +9,8 @@ import SwiftUI
 
 struct WriteView: View {
     
-    let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
-    let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
+    private let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
+    private let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
     @StateObject var vm = WriteViewModel()
     
@@ -18,12 +18,15 @@ struct WriteView: View {
     
     let nowDate = getNowDate()
 
-    @State var isOverLetterLimit = false
+    @State private var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
-    @State var showPhotoPickerActionSheet = false
-    @State var showEnlargedImageView = false
+    @State private var showPhotoPickerActionSheet = false
+    @State private var showEnlargedImageView = false
+    @State private var showDismissAlert = false
     var color: String
+    
     @ObservedObject var keyboard = KeyboardObserver()
+
     
     var body: some View {
         GeometryReader { _ in // 키보드 등장시 화면이 avoid 하는 문제 방지.
@@ -35,30 +38,29 @@ struct WriteView: View {
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
                     showWriteViewHeader()
                         .padding(.bottom, 16)
-                    
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
-                            Text(nowDate)
-                                .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color.primary)
+                    VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
+                        Text(nowDate)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(Color.primaryLabel)
+                        ScrollView {
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
-                                    .foregroundColor(Color.secondary)
+                                    .foregroundColor(Color.secondaryLabel)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
-                                    .onReceive(vm.letterText.publisher.collect()) { collectionText in
-                                        let trimmedText = String(collectionText.prefix(letterLimit))
-                                        if vm.letterText != trimmedText {
-                                            isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
-                                            vm.letterText = trimmedText
+                                        onReceive(vm.letterText.publisher.collect()) { collectionText in
+                                            let trimmedText = String(collectionText.prefix(letterLimit))
+                                            if vm.letterText != trimmedText {
+                                                isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
+                                                vm.letterText = trimmedText
                                         }
-                                        //isOverLetterLimit = vm.letterText.count > letterLimit
+                                                //isOverLetterLimit = vm.letterText.count > letterLimit
                                     }
+                                }
                             }
                         }
                         .padding(.top, 30)
-                    }
-                    // ScrollView의 Height Fix
+                        .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
                     
                     Spacer()
                     
@@ -84,17 +86,18 @@ struct WriteView: View {
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }
-                    .offset(y: isFocused ? -keyboard.height+100 : 0)
-                    .padding(.bottom)
-                    
+                    .offset(y:isFocused ? -UIScreen.getHeight(keyboard.height+40) : 0)
+                    .animation(.easeOut(duration: 0.3), value: keyboard.height)
                 }
                 .padding(.top, 20)
                 .padding(.horizontal, 28)
+                .padding(.bottom, 24)
             }
 
             .onAppear{
                 //keyboard Observer
                 self.keyboard.addObserver()
+                UIScrollView.appearance().bounces = false
             }
             .onDisappear{
                 self.keyboard.removeObserver()
@@ -125,6 +128,14 @@ struct WriteView: View {
             .fullScreenCover(isPresented: $showEnlargedImageView) {
                 EnlargedImageView(image: $vm.image)
             }
+            .alert("쪽지 작성을 그만둘까요?", isPresented: $showDismissAlert) {
+                Button("확인", role: .cancel) {
+                    isShowingCurrentPage.toggle()
+              }
+                Button("취소", role: .destructive) {
+                  
+              }
+            }
         }
     }
     
@@ -132,16 +143,16 @@ struct WriteView: View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
-                isShowingCurrentPage.toggle()
+                showDismissAlert.toggle()
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(Color.tertiaryLabel)
-                    .font(.system(size: 25, weight: .regular))
+                    .frame(width: 20, height: 20)
             }
             
             Text("쪽지쓰기")
                 .font(.system(size: 20, weight: .regular))
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color.primaryLabel)
                 .padding(.leading, 5.03)
             Spacer()
             Button(action: {
@@ -156,7 +167,7 @@ struct WriteView: View {
             }){
                 Text("저장")
                     .font(.system(size: 16.67, weight: .regular))
-                    .foregroundColor(Color.secondary)
+                    .foregroundColor(Color.secondaryLabel)
             }
         }
     }
@@ -197,10 +208,10 @@ struct WriteView: View {
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
             .font(.system(size: 18.33, weight: .semibold))
-            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? .white : Color.defaultRed) : Color.primary)
+            .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? Color.primaryLabel : Color.defaultRed) : Color.primaryLabel)
         + Text("/\(letterLimit)")
             .font(.system(size: 18.33, weight: .regular))
-            .foregroundColor(Color.primary)
+            .foregroundColor(Color.primaryLabel)
     }
     
     /// 글자 제한이 있는 TextField를 추가
@@ -211,7 +222,7 @@ struct WriteView: View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(.system(size: 18.33, weight: .regular))
-                    .foregroundColor(Color.primary)
+                    .foregroundColor(Color.primaryLabel)
                     .multilineTextAlignment(.leading)
                     .focused($isFocused)
     }

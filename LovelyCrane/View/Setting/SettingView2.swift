@@ -80,7 +80,7 @@ extension SettingView2 {
     private func makeCell(name: String) -> some View {
         VStack(alignment: .leading) {
             Text(name)
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
                 .padding()
 //            Divider()
 //                .frame(height: 0.5)

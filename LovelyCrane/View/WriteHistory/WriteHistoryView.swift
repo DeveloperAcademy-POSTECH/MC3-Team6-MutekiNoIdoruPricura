@@ -52,7 +52,7 @@ struct WriteHistoryView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             Text("97마리의 종이학을 발송했어요")
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
             //텍스트랑 동일한 사이즈로 설정해줘야함.
         }.frame(height: 18)
             .padding(.vertical)
@@ -62,7 +62,7 @@ struct WriteHistoryView: View {
         HStack {
             Text("9127개")
                 .font(.system(size: 26))
-                .foregroundColor(.white)
+                .foregroundColor(.primaryLabel)
             Image(Assets.conceptCrane)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

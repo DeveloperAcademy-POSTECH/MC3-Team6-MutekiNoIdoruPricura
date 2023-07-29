@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// WriteView 또는 DetailView에서 이미지를 Tap 했을때 등장하는 이미지가 확대된 fullScreenView 입니다.
+// WriteView 또는 DetailView에서 이미지를 Tap 했을때 등장하는 이미지가 확대된 fullScreenCover 입니다.
 
 struct EnlargedImageView: View {
     @Environment(\.presentationMode) var presentationMode
