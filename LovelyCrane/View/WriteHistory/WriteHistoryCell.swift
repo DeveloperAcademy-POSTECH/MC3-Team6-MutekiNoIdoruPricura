@@ -32,7 +32,6 @@ struct WriteHistoryCell: View {
                         .padding(.bottom)
                 }
                 .padding(.leading, 5)
-                
                 Spacer()
                 
                 if let uiImage = image {
