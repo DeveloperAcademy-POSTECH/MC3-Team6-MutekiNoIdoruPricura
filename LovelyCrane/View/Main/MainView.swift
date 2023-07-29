@@ -17,7 +17,8 @@ struct MainView: View {
     @State var isWriteHistroyTapped = false
     @State var isWriteTapped = false
     @State var isSettingTapped = false
-    
+
+    @State var firsttap = false
     
     @EnvironmentObject var viewRouter : ViewRouter
     
@@ -44,6 +45,9 @@ struct MainView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     settingButton()
                 }
+            }
+            .fullScreenCover(isPresented: $firsttap) {
+                CouplingView(isOpen: $firsttap)
             }
         }
 
@@ -86,10 +90,7 @@ struct MainView: View {
     
     private func sendButton() -> some View {
         Button {
-            Task{
-                try await UserManager.shared.getAllLetterData()
-                print(LetterLists.shared.letterListArray)
-            }
+            firsttap = true
         } label: {
             Image(Assets.send)
         }

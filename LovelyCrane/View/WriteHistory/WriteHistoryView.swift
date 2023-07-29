@@ -69,7 +69,6 @@ struct WriteHistoryView: View {
                 .frame(height: 26)
         }
     }
-    
 }
 
 

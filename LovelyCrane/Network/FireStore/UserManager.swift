@@ -17,10 +17,9 @@ final class UserManager {
     private let batch = Firestore.firestore().batch()
     private let userCollection = Firestore.firestore().collection("Users")
     /// 테스트 위해서 uid가 없으면 일단은 "none"
-    private var currentUserUID: String {
+    var currentUserUID: String {
         return Auth.auth().currentUser?.uid ?? "none"
     }
-
     /// 내 UID를 통해 document 찾기.
     private func getUserDocument() -> DocumentReference {
         userCollection.document(currentUserUID)
@@ -75,13 +74,20 @@ final class UserManager {
         try await getUserDocument().collection("letter_lists").document(letterid).delete()
     }
     /// user끼리 커플링
-    func connectUsertoUser(to partnertoken: String) async throws {
-        guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return }
-        let currentUserDocument = self.userCollection.document(currentUserUID)
-        let partnerUserDocument = self.userCollection.document(partnertoken)
-        batch.updateData(["partner_id": partnertoken], forDocument: currentUserDocument)
-        batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
-
+    func connectUsertoUser(to partnertoken: String) async throws -> Bool{
+        do {
+            let partnerDocument = try await userCollection.document(partnertoken).getDocument()
+            if partnerDocument.exists {
+                let partnerUserDocument = self.userCollection.document(partnertoken)
+                batch.updateData(["partner_id": partnertoken], forDocument: getUserDocument())
+                batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
+                return true
+            } else{
+                return false}
+        }
+        catch {
+            return false
+        }
     }
     //상대에게 편지보내기
     func sendletterLists() async throws{
