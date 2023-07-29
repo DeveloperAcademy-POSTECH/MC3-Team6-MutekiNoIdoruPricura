@@ -20,7 +20,6 @@ final class UserManager {
     var currentUserUID: String {
         return Auth.auth().currentUser?.uid ?? "none"
     }
-
     /// 내 UID를 통해 document 찾기.
     private func getUserDocument() -> DocumentReference {
         userCollection.document(currentUserUID)
@@ -76,11 +75,19 @@ final class UserManager {
     }
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws -> Bool{
-            guard (try? await userCollection.document(partnertoken).getDocument()) != nil else { return false}
-            let partnerUserDocument = self.userCollection.document(partnertoken)
-            batch.updateData(["partner_id": partnertoken], forDocument: getUserDocument())
-            batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
-            return true
+        do {
+            let partnerDocument = try await userCollection.document(partnertoken).getDocument()
+            if partnerDocument.exists {
+                let partnerUserDocument = self.userCollection.document(partnertoken)
+                batch.updateData(["partner_id": partnertoken], forDocument: getUserDocument())
+                batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
+                return true
+            } else{
+                return false}
+        }
+        catch {
+            return false
+        }
     }
     //상대에게 편지보내기
     func sendletterLists() async throws{

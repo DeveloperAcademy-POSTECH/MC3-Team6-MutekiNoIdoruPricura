@@ -80,13 +80,11 @@ struct InputCodeView: View {
                 if !successconnect {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         isShowingFaiulreMessage.toggle()
-
                     }
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now()+1.5) {
                     withAnimation(.easeInOut){
                         isShowingFaiulreMessage = false
-
                     }
                 }
             }
