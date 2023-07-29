@@ -26,7 +26,7 @@ struct DetailView: View {
                         .padding(.top, 19)
                     Spacer()
                 }
-                VStack { // 이미지 + 하단 회색뷰 일체
+                VStack {
                     if let image = vm.image {
                         letterImageView(image: image)
                             .padding(.top, 50.5)
@@ -34,7 +34,7 @@ struct DetailView: View {
                         EmptyView()
                     }
 
-                    ZStack(alignment: .topTrailing) { // 하단 회색뷰 일체
+                    ZStack(alignment: .topTrailing) {
                         letterTextView()
                             .padding(.top, 40)
                         randomColorCrane()
