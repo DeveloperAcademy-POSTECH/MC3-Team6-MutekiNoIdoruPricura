@@ -103,15 +103,15 @@ final class UserManager {
             let snapshot = try await getUserDocument().collection(FieldNames.letter_lists.rawValue)
                 .whereField("is_sent", isEqualTo: false).getDocuments()
             for document in snapshot.documents {
-                let letterData = document.data()
                 try await document.reference.updateData(["send_date": getNowDate()])
+                var letterData = document.data()
+                letterData["send_date"] = getNowDate()
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue).addDocument(data: letterData)
                 try await document.reference.updateData(["is_sent":true])
                 guard let partnerreceiveCount = partnerUserData["receive_count"] as? Int else{return}
                 batch.updateData(["receive_count": partnerreceiveCount + 1], forDocument: partnerUserDocument)
-//                guard let receiveCount = letterData["receive_count"] as? Int else{return}
-//                batch.updateData(["receiv_count":receiveCount + 1], forDocument: partnerUserDocument)
             }
+            try await batch.commit()
         }
         catch {
             print(error.localizedDescription)
