@@ -75,7 +75,7 @@ extension AuthenticationView {
             SignInWithAppleButtonViewRepresentable(buttonType: .default, buttonStyle: .whiteOutline)
                 .allowsHitTesting(false)
         }
-        .frame(height: 45)
+        .frame(height: 44)
     }
     
     func signInWithGoogleButton() -> some View {
@@ -109,15 +109,21 @@ extension AuthenticationView {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.white)
-                    .frame(height: 45)
+                    .frame(height: 44)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.black, lineWidth: 0.5)
                     )
-                Text("G Sign in with Google")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
+                HStack(spacing: 5.5) {
+                    Image("googleLogo")
+                        .resizable()
+                        .frame(width: 10, height: 10)
+                        .padding(.leading, 11)
+                    Text("Sign in with Google")
+                        .font(.system(size: 16.7, weight: .medium, design: .default))
+                        .foregroundColor(.black)
+                }
+
             }
         }
     }

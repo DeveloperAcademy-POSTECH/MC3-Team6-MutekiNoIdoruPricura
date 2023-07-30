@@ -79,3 +79,37 @@ extension AuthenticationManager {
         return AuthDataResult(user: authDataResult.user)
     }
 }
+
+extension AuthenticationManager {
+    
+    func reauthenticationUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badServerResponse)
+        }
+        let providerData = user.providerData
+        
+        for userInfo in providerData {
+            if userInfo.providerID == AuthProviderOption.apple.rawValue {
+                let appleCredential = try await reAuthApple()
+                try await user.reauthenticate(with: appleCredential)
+            } else {
+                let googleCredential = try await reAuthGoogle()
+                try await user.reauthenticate(with: googleCredential)
+            }
+        }
+    }
+    
+    func reAuthApple() async throws -> OAuthCredential {
+        let helper = await SignInAppleHelper()
+        let tokens = try await helper.startSignInWithAppleFlow()
+        let credential = OAuthProvider.credential(withProviderID: AuthProviderOption.apple.rawValue, idToken: tokens.token, rawNonce: tokens.nonce)
+        return credential
+    }
+    
+    func reAuthGoogle() async throws -> AuthCredential {
+        let helper = SignInGoogleHelper()
+        let token = try await helper.signIn()
+        let credential = GoogleAuthProvider.credential(withIDToken: token.idToken, accessToken: token.accessToken)
+        return credential
+    }
+}

@@ -10,8 +10,9 @@ import SwiftUI
 struct LaunchScreenView: View {
     var body: some View {
         ZStack {
-            Image("LaunchScreen")
-                .resizable()
+            Color.backGround
+//            Image("LaunchScreen")
+//                .resizable()
                 .ignoresSafeArea()
         }
     }
