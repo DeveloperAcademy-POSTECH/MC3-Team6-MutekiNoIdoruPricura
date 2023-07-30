@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
 
+@MainActor
 final class NicknameViewModel: ObservableObject {
     
     @Published var nickname: String = ""
@@ -27,7 +28,7 @@ final class NicknameViewModel: ObservableObject {
         
         let data: [String: Any] = [DBUser.CodingKeys.nickname.rawValue : nickname]
         try await document.updateData(data)
-        
+        self.nickname = nickName
         UserDefaults.standard.set(nickName, forKey: "nickname")
     }
 }

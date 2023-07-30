@@ -15,6 +15,7 @@ struct NicknameView: View {
     
     @FocusState private var nicknameInFocus: Bool
 
+    
     var body: some View {
         
         ZStack {
@@ -45,7 +46,7 @@ struct NicknameView: View {
                             .background (
                                 ZStack {
                                     Color.textFieldGray
-                                    if viewModel.nickname.count == 0 {
+                                    if viewModel.nickname.isEmpty {
                                         Text("닉네임을 입력해주세요")
                                             .foregroundColor(Color.tertiaryLabel)
                                     }
@@ -69,7 +70,7 @@ struct NicknameView: View {
                     .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
                     .padding(.bottom, 25)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 24)
         }
         .onAppear {
             nicknameInFocus = true
@@ -92,11 +93,11 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
+                .foregroundColor(viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? .quarternaryLabel : .gray1)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.isValidNickName() ? Color.lightPink : Color.gray3
+                    viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? Color.gray3 : Color.lightPink
                 )
                 .cornerRadius(10)
         })

@@ -27,6 +27,7 @@ struct SettingView: View {
                         
                         NavigationLink {
                             UpdateNicknameView()
+//                            Text("hi")
 
                         } label: {
                             makeCell(name: "닉네임 수정")
@@ -61,6 +62,7 @@ struct SettingView: View {
                     }
                     Spacer()
                 }
+                .padding(.horizontal, 16)
             }
             .navigationBarBackButtonHidden(true)
             .toolbar {

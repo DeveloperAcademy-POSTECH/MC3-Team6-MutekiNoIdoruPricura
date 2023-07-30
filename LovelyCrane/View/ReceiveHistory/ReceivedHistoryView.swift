@@ -75,7 +75,7 @@ struct ReceivedHistoryView: View {
                     }
                 }
             }
-            .padding(5)
+            .padding(.horizontal, 16)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {

@@ -19,6 +19,8 @@ final class AuthenticationManager {
     static let shared = AuthenticationManager()
     private init() { }
     
+    var nowLoggedProvider: AuthProviderOption?
+    
     // MARK: 현재 로그인 된 유저의 정보를 가져옵니다.(locally)
     func getAuthenticatedUser() throws -> AuthDataResult {
         guard let user = Auth.auth().currentUser else {
@@ -63,14 +65,16 @@ extension AuthenticationManager {
     @discardableResult
     func signInWithApple(tokens: SignInWithAppleResult) async throws -> AuthDataResult {
         let credential = OAuthProvider.credential(withProviderID: AuthProviderOption.apple.rawValue, idToken: tokens.token, rawNonce: tokens.nonce)
+        nowLoggedProvider = .apple
         return try await signIn(credential: credential)
+        
     }
     
     //MARK: ⭐️ 구글로그인 -> 파이어베이스 인증
     @discardableResult
     func signInWithGoogle(token: SignWithGoogleResult) async throws -> AuthDataResult {
         let credential = GoogleAuthProvider.credential(withIDToken: token.idToken, accessToken: token.accessToken)
-
+        nowLoggedProvider = .google
         return try await signIn(credential: credential)
     }
     
@@ -86,16 +90,16 @@ extension AuthenticationManager {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
-        let providerData = user.providerData
         
-        for userInfo in providerData {
-            if userInfo.providerID == AuthProviderOption.apple.rawValue {
-                let appleCredential = try await reAuthApple()
-                try await user.reauthenticate(with: appleCredential)
-            } else {
-                let googleCredential = try await reAuthGoogle()
-                try await user.reauthenticate(with: googleCredential)
-            }
+        switch nowLoggedProvider {
+        case .apple:
+            let appleCredential = try await reAuthApple()
+            try await user.reauthenticate(with: appleCredential)
+        case .google:
+            let googleCredential = try await reAuthGoogle()
+            try await user.reauthenticate(with: googleCredential)
+        default:
+            break
         }
     }
     

@@ -92,7 +92,7 @@ struct WriteHistoryView: View {
                     }
                 }
             }
-            .padding(5)
+            .padding(.horizontal, 16)
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {

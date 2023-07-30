@@ -1,10 +1,10 @@
+////
+////  updateNicknameView.swift
+////  LovelyCrane
+////
+////  Created by Toughie on 2023/07/30.
+////
 //
-//  updateNicknameView.swift
-//  LovelyCrane
-//
-//  Created by Toughie on 2023/07/30.
-//
-
 import Firebase
 import SwiftUI
 
@@ -13,6 +13,14 @@ struct UpdateNicknameView: View {
     @StateObject private var viewModel = NicknameViewModel()
     @FocusState private var nicknameInFocus: Bool
 
+    @Environment(\.dismiss) var dismiss
+    
+    init() {
+      let navBarAppearance = UINavigationBar.appearance()
+      navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+      navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+    }
+    
     var body: some View {
         
         ZStack {
@@ -34,7 +42,7 @@ struct UpdateNicknameView: View {
                     }
 
                     VStack {
-                        TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
+                        TextField("", text: $viewModel.nickname)
                             .focused($nicknameInFocus)
                             .foregroundColor(.primaryLabel)
                             .multilineTextAlignment(TextAlignment.center)
@@ -44,7 +52,7 @@ struct UpdateNicknameView: View {
                                 ZStack {
                                     Color.textFieldGray
                                     if viewModel.nickname.count == 0 {
-                                        Text("닉네임을 입력해주세요")
+                                        Text(UserDefaults.standard.string(forKey: "nickname") ?? "닉네임을 입력해주세요.")
                                             .foregroundColor(Color.tertiaryLabel)
                                     }
                                 }
@@ -67,8 +75,20 @@ struct UpdateNicknameView: View {
                     .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
                     .padding(.bottom, 25)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 24)
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.gray)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+        }
+        .navigationTitle("닉네임 수정")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             nicknameInFocus = true
         }
@@ -82,14 +102,14 @@ extension UpdateNicknameView {
             Task{
                 do {
                     try await viewModel.updateNickName(nickName: viewModel.nickname)
-
+                    dismiss()
                 }
                 catch{
                     print("error")
                 }
             }
         }, label: {
-            Text("완료")
+            Text("저장하기")
                 .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
