@@ -11,6 +11,10 @@ enum Cran: String, CaseIterable {
     case blue, yellow, green, white, pink, purple
 }
 
+enum FoldedCrane: String, CaseIterable {
+    case touchCrane1, touchCrane2, touchCrane3, touchCrane4
+}
+
 
 struct Assets {
     static let inbox = "inbox"
@@ -23,4 +27,8 @@ struct Assets {
     static let conceptCrane = "conceptCrane"
     static let bottleIn = "bottleIn"
     static let crans: [Cran] = Cran.allCases
+    static let bigStrokeCrane = "BigStrokeCrane"
+    static let shakingBottle = "ShakingBottle2"
+    static let heartBottle = "HeartBottle3"
+    static let touchCranes : [FoldedCrane] = FoldedCrane.allCases
 }

@@ -14,7 +14,6 @@ struct SettingView: View {
     @EnvironmentObject var viewRouter : ViewRouter
     
     var body: some View {
-        
         List {
             Button {
                 Task {
