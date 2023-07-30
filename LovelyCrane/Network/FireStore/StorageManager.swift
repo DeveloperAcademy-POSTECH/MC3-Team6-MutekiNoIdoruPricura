@@ -27,11 +27,6 @@ final class StorageManager {
         metaData.contentType = "image/png"
         let path = "\(Date()).png"
         let returnedMetaData = try await imageReference.child(path).putDataAsync(data, metadata: metaData)
-//        guard let returnedPath = returnedMetaData.path else {
-//            throw URLError(.badServerResponse)
-//        }
-//        return (returnedPath)
-        
         return path
     }
     
