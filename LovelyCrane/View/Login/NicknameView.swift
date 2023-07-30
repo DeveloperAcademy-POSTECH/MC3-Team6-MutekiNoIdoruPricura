@@ -28,6 +28,8 @@ struct NicknameView: View {
 
                     VStack(spacing: 5) {
                         Image(Assets.nicknameViewImage)
+                            .resizable()
+                            .frame(width: UIScreen.getWidth(124), height: UIScreen.getHeight(48))
 
                         Text("사용하실 닉네임을 알려주세요")
                             .foregroundColor(.primaryLabel)
@@ -53,6 +55,8 @@ struct NicknameView: View {
                         
                         HStack {
                             Image(Assets.exclamationMark)
+                                .resizable()
+                                .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
                                 .opacity(viewModel.nickname.count > 8 ? 1 : 0)
                             Text("닉네임은 8자 이하로 입력해주세요")
                                 .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)

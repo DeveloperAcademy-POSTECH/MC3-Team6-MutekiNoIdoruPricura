@@ -45,6 +45,8 @@ struct WriteHistoryView: View {
                     Spacer()
                     
                     Image(Assets.writeViewCranes)
+                        .resizable()
+                        .frame(width: UIScreen.getWidth(68), height: UIScreen.getHeight(68))
                 }
                 .padding(.horizontal, 15)
                 .padding(.leading, 5)
@@ -68,6 +70,8 @@ struct WriteHistoryView: View {
                             if let sentLettersGroup = sentLetters[date] {
                                 HStack {
                                     Image(Assets.historyCrane)
+                                        .resizable()
+                                        .frame(width: UIScreen.getWidth(12.75), height: UIScreen.getHeight(11.46))
 
                                     Text("\(sentLettersGroup.count)마리의 종이학을 발송했어요 :)")
                                         .font(.caption)

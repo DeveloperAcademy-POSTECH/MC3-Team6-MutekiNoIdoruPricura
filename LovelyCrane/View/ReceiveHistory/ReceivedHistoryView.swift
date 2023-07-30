@@ -41,6 +41,7 @@ struct ReceivedHistoryView: View {
                     Spacer()
                     
                     Image(Assets.receivedHistoryViewImage)
+                        .frame(width: UIScreen.getWidth(47), height: UIScreen.getHeight(65))
                 }
                 .padding(.horizontal, 15)
                 .padding(.leading, 5)
@@ -52,6 +53,8 @@ struct ReceivedHistoryView: View {
                             if let receivedLettersGroup = receivedLetters[date] {
                                 HStack {
                                     Image(Assets.receivedHistoryBottle)
+                                        .resizable()
+                                        .frame(width: UIScreen.getWidth(9.94), height: UIScreen.getHeight(14.21))
                                     
                                     Text("\(receivedLettersGroup.count)마리의 종이학을 선물받았어요 :)")
                                         .font(.caption)
