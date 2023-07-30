@@ -52,7 +52,7 @@ struct UpdateNicknameView: View {
                                 ZStack {
                                     Color.textFieldGray
                                     if viewModel.nickname.count == 0 {
-                                        Text(UserDefaults.standard.string(forKey: "nickname") ?? "닉네임을 입력해주세요.")
+                                        Text("닉네임을 입력해주세요.")
                                             .foregroundColor(Color.tertiaryLabel)
                                     }
                                 }

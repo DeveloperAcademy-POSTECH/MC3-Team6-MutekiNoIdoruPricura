@@ -14,6 +14,12 @@ final class NicknameViewModel: ObservableObject {
     
     @Published var nickname: String = ""
     
+    init() {
+        if let savedNickname = UserDefaults.standard.string(forKey: "nickname") {
+            self.nickname = savedNickname
+        }
+    }
+    
     func isValidNickName() -> Bool {
         if nickname.isEmpty || nickname.count > 8 {
             return false
