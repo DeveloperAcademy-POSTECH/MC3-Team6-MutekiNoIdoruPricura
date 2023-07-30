@@ -12,8 +12,7 @@ import FirebaseFirestoreSwift
 
 final class UserManager {
     static let shared = UserManager()
-    private init() { }
-
+    private init() {}
     private let batch = Firestore.firestore().batch()
     private let userCollection = Firestore.firestore().collection("Users")
     /// 테스트 위해서 uid가 없으면 일단은 "none"
@@ -26,7 +25,8 @@ final class UserManager {
     }
     /// 최초로그인인 경우 UID로 Document를 만들어주고 필드생성
     func createNewUser(user: DBUser) async throws {
-        try getUserDocument().setData(from: user, merge: false)
+        try getUserDocument()
+            .setData(from: user, merge: false)
     }
     ///  편지data를 현재해당하는 uid다큐멘트에 letter_lists라는 콜렉션을 만들어주고 그안의 documnet생성.  letterdata는 필드들.
     func postletterData(letter: LetterModel) async throws {
@@ -39,22 +39,25 @@ final class UserManager {
             "is_sent": letter.isSent,
         ]
         let userDocument =  try await getUserDocument().getDocument()
-        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else {return}
+        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else { return }
         let postdata =  getUserDocument().collection("letter_lists").document()
-        batch.updateData(["send_count": sendCount+1], forDocument: getUserDocument())
-        batch.setData(letterdata, forDocument: postdata)
+        batch
+            .updateData(["send_count": sendCount+1], forDocument: getUserDocument())
+        batch
+            .setData(letterdata, forDocument: postdata)
     }
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
         var letterLists : [LetterModel] = []
-        let snapshot = try await userCollection.document(currentUserUID).collection("letter_lists").getDocuments()
+        let snapshot = try await userCollection.document(currentUserUID).collection("letter_lists")
+            .getDocuments()
         for document in snapshot.documents {
             guard let stamp = document["date"] as? Timestamp,
                   let image = document["image"] as? String,
                   let text = document["text"] as? String,
                   let is_byme = document["is_byme"] as? Bool,
                   let is_sent = document["is_sent"] as? Bool,
-                  let is_read = document["is_read"] as? Bool else{continue }
+                  let is_read = document["is_read"] as? Bool else { continue }
             let date = stamp.dateValue()
             let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read)
             letterLists.append(letterData)
@@ -63,49 +66,68 @@ final class UserManager {
     }
     // 읽었으면 해당 도큐멘트 is_read변경
     func updateisRead(letterid: String) async throws {
-        try await getUserDocument().collection("letter_lists").document(letterid).updateData(["is_read": true])
+        try await getUserDocument().collection("letter_lists").document(letterid)
+            .updateData(["is_read": true])
     }
     // 새로온것이면 true, past면 false
     func updateisSent(letterid: String) async throws {
-        try await getUserDocument().collection("letter_lists").document(letterid).updateData(["is_sent": true])
+        try await getUserDocument().collection("letter_lists").document(letterid)
+            .updateData(["is_sent": true])
     }
     /// letterid통해삭제
     func deleteletter(letterid: String) async throws {
-        try await getUserDocument().collection("letter_lists").document(letterid).delete()
+        let letter = try await getUserDocument().collection("letter_lists").document(letterid).getDocument()
+        guard let imagepath = letter["image"] as? String else { return }
+        try await getUserDocument().collection("letter_lists").document(letterid)
+            .delete()
+        try await StorageManager.shared.deleteImage(path: imagepath)
     }
     /// user끼리 커플링
-    func connectUsertoUser(to partnertoken: String) async throws -> Bool{
+    func connectUsertoUser(to partnertoken: String) async throws -> Bool {
         do {
             let partnerDocument = try await userCollection.document(partnertoken).getDocument()
             if partnerDocument.exists {
                 let partnerUserDocument = self.userCollection.document(partnertoken)
-                batch.updateData(["partner_id": partnertoken], forDocument: getUserDocument())
-                batch.updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
+                batch
+                    .updateData(["partner_id": partnertoken], forDocument: getUserDocument())
+                batch
+                    .updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
+                try await batch
+                    .commit()
                 return true
-            } else{
-                return false}
-        }
-        catch {
+            } else {
+                return false }
+        } catch {
             return false
         }
     }
     //상대에게 편지보내기
-    func sendletterLists() async throws{
+    func sendletterLists() async throws {
         do{
-            let currentUserDocument = userCollection.document(currentUserUID)
             let partnerField = FieldNames.partner_id.rawValue
-            guard let currentUserData = try await currentUserDocument.getDocument().data(), let partnerId = currentUserData[partnerField] as? String else {return}
+            guard let currentUserData = try await getUserDocument().getDocument().data(),
+                  let partnerId = currentUserData[partnerField] as? String else { return }
             let partnerUserDocument = userCollection.document(partnerId)
-            guard let partnerUserData = try await partnerUserDocument.getDocument().data(), partnerUserData[partnerField] as? String == currentUserUID else{ return}
-            let snapshot = try await currentUserDocument.collection(FieldNames.letter_lists.rawValue)
-                .whereField("is_sent", isEqualTo: false).getDocuments()
+            guard let partnerUserData = try await partnerUserDocument.getDocument().data(),
+                    partnerUserData[partnerField] as? String == currentUserUID else { return }
+            let snapshot = try await getUserDocument().collection(FieldNames.letter_lists.rawValue)
+                .whereField("is_sent", isEqualTo: false)
+                .getDocuments()
             for document in snapshot.documents {
-                let letterData = document.data()
-                guard let receiveCount = letterData["receive_count"] as? Int else{return}
-                try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue).addDocument(data: letterData)
-                try await document.reference.updateData(["is_sent":true])
-                batch.updateData(["receiv_count":receiveCount + 1], forDocument: partnerUserDocument)
+                try await document.reference
+                    .updateData(["send_date": getNowDate()])
+                var letterData = document.data()
+                letterData["send_date"] = getNowDate()
+                try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue)
+                    .addDocument(data: letterData)
+                try await document.reference
+                    .updateData(["is_sent":true])
+                guard let partnerreceiveCount = partnerUserData["receive_count"] as? Int else { return }
+                batch
+                    .updateData(["receive_count": partnerreceiveCount + 1], forDocument: partnerUserDocument)
             }
+            try await batch
+                .commit()
         }
         catch {
             print(error.localizedDescription)

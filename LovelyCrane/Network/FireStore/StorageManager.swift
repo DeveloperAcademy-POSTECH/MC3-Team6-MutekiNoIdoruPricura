@@ -27,11 +27,6 @@ final class StorageManager {
         metaData.contentType = "image/png"
         let path = "\(Date()).png"
         let returnedMetaData = try await imageReference.child(path).putDataAsync(data, metadata: metaData)
-//        guard let returnedPath = returnedMetaData.path else {
-//            throw URLError(.badServerResponse)
-//        }
-//        return (returnedPath)
-        
         return path
     }
     
@@ -39,5 +34,8 @@ final class StorageManager {
         try await imageReference
             .child(url)
             .data(maxSize: 1*1024*1024)
+    }
+    func deleteImage(path: String) async throws {
+        try await imageReference.child(path).delete()
     }
 }

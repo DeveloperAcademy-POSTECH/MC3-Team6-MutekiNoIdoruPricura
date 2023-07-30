@@ -33,7 +33,7 @@ struct MainView: View {
     var body: some View {
         ZStack {
             NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
-            NavigationLink("", destination: WriteHistoryView(), isActive: $writeHistroyTapped)
+            NavigationLink("", destination: CouplingView(isOpen: $writeHistroyTapped), isActive: $writeHistroyTapped)
             
             NavigationLink("", destination: NoReceivedView(), isActive: $noReceivedTapped)
             NavigationLink("", destination: ReceivedHistoryView(), isActive: $receivedHistoryTapped)
@@ -116,7 +116,7 @@ struct MainView: View {
 //                if LetterListsManager.shared.isByMeLetters.count == 0 {
                     noWriteHistoryTapped.toggle()
                 } else {
-                    writeHistroyTapped.toggle()
+                    try await UserManager.shared.sendletterLists()
                 }
             }
         } label: {
