@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FadeAlertView: View {
     
-    @Binding private var showAlert: Bool
+    @Binding var showAlert: Bool
     @Binding var alertMessage: String
 
     

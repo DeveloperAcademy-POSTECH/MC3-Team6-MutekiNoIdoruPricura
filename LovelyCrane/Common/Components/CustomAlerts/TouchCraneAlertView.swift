@@ -12,8 +12,8 @@ struct TouchCraneAlertView: View {
     @State private var craneUnfoldImages = Assets.touchCranes
     @State private var showFinalAlert = false
     @State private var craneIndex = 0
-    @Binding private var buttonAction : ()->Void
-    @Binding private var showAlert: Bool
+    @Binding var buttonAction : ()->Void
+    @Binding var showAlert: Bool
     
     var body: some View {
         if showAlert {
