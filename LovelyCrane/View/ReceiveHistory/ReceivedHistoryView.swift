@@ -1,39 +1,36 @@
 //
-//  WriteHistoryViewDev.swift
+//  ReceivedHistoryView.swift
 //  LovelyCrane
 //
-//  Created by Toughie on 2023/07/27.
+//  Created by Toughie on 2023/07/28.
 //
 
 import SwiftUI
 
-struct WriteHistoryView: View {
+struct ReceivedHistoryView: View {
     @Environment(\.dismiss) var dismiss
     
-    var letterCount: Int {
-        LetterListsManager.shared.isByMeLetters.count
-    }
-    var sentLetters: [Date : [LetterModel]] {
-        LetterListsManager.shared.sentLettersGroupedByDate
+    var receivedLettersCount: Int {
+        LetterListsManager.shared.receivedLetters.count
     }
     
-    var notSentLetters: [Date : [LetterModel]] {
-        LetterListsManager.shared.notSentLettersGroupedByDate
+    var receivedLetters: [Date : [LetterModel]] {
+        LetterListsManager.shared.receivedLettersGroupedByDate
     }
-
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             Color(.backGround).ignoresSafeArea()
             
             VStack(alignment:.leading) {
-                
+
                 HStack(alignment: .center) {
                     VStack(alignment: .leading) {
-                        Text("나의 쪽지")
+                        Text("받은 쪽지")
                             .foregroundColor(.gray)
                         
                         HStack(alignment: .firstTextBaseline) {
-                            Text("\(letterCount)")
+                            Text("\(receivedLettersCount)")
                                 .font(.largeTitle)
                                 .foregroundColor(.lightPink)
                             Text("마리")
@@ -41,35 +38,22 @@ struct WriteHistoryView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    
                     Spacer()
                     
-                    Image(Assets.writeViewCranes)
+                    Image(Assets.receivedHistoryViewImage)
                 }
                 .padding(.horizontal, 15)
                 .padding(.leading, 5)
                 
                 ScrollView {
                     
-                    ForEach(Array(notSentLetters.keys.sorted(by: >)), id: \.self) { date in
-                        //MARK: 안 보낸 편지들
+                    ForEach(Array(receivedLetters.keys.sorted(by: >)), id: \.self) { date in
                         LazyVStack(alignment: .leading) {
-                            if let notSentLettersGroup = notSentLetters[date] {
-                                ForEach(notSentLettersGroup, id: \.self) { letter in
-                                    WriteHistoryCell(letter: letter)
-                                }
-                            }
-                        }
-                        .padding(.bottom)
-                    }
-                    ForEach(Array(sentLetters.keys.sorted(by: >)), id: \.self) { date in
-                        // MARK: 보낸 편지들
-                        LazyVStack(alignment: .leading) {
-                            if let sentLettersGroup = sentLetters[date] {
+                            if let receivedLettersGroup = receivedLetters[date] {
                                 HStack {
-                                    Image(Assets.historyCrane)
-
-                                    Text("\(sentLettersGroup.count)마리의 종이학을 발송했어요 :)")
+                                    Image(Assets.receivedHistoryBottle)
+                                    
+                                    Text("\(receivedLettersGroup.count)마리의 종이학을 선물받았어요 :)")
                                         .font(.caption)
                                         .foregroundColor(.white)
                                     
@@ -79,8 +63,8 @@ struct WriteHistoryView: View {
                                 }
                                 .padding(.leading, 20)
                                 
-                                ForEach(sentLettersGroup, id: \.self) { letter in
-                                    WriteHistoryCell(letter: letter)
+                                ForEach(receivedLettersGroup, id: \.self) { letter in
+                                    ReceivedHistoryCell(letter: letter)
                                 }
                             }
                         }
@@ -103,8 +87,8 @@ struct WriteHistoryView: View {
     }
 }
 
-struct WriteHistoryViewDev_Previews: PreviewProvider {
+struct ReceivedHistoryView_Previews: PreviewProvider {
     static var previews: some View {
-        WriteHistoryView()
+        ReceivedHistoryView()
     }
 }
