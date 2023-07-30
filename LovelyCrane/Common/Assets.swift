@@ -22,5 +22,17 @@ struct Assets {
     static let sendBottle = "sendBottle"
     static let conceptCrane = "conceptCrane"
     static let bottleIn = "bottleIn"
+    static let InputCodeImage = "inputCodeImage"
     static let crans: [Cran] = Cran.allCases
+    static let writeViewCranes = "writeViewCranes"
+    static let receivedHistoryBottle = "receivedHistoryBottle"
+    static let historyCrane = "historyCrane"
+    static let receivedHistoryViewImage = "receivedHistoryViewImage"
+    static let noReceivedViewImage = "noReceivedViewImage"
+    static let noWriteCrane = "noWriteCrane"
+    static let nicknameViewImage = "nicknameViewImage"
+    static let exclamationMark = "exclamationMark"
+    static let couplingpaper = "couplingpaper"
+    static let receiveConnect = "receiveConnect"
+    static let connectbottle = "connectbottle"
 }
