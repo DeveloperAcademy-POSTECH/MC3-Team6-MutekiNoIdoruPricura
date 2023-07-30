@@ -71,7 +71,8 @@ struct MainView: View {
 //            }
         }
         .onAppear {
-            UserManager.shared.listenConnectPartner()
+            Task{
+                try await UserManager.shared.listenConnectPartner()}
         }
     }
 

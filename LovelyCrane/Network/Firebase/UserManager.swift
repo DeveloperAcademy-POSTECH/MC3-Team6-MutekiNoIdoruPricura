@@ -66,8 +66,8 @@ final class UserManager {
     }
     // 내 정보 가져오기 런치스크린에서 하면될듯
     func getmyUserData() async throws {
-        let snapshot = try await getUserDocument().getDocument()
-
+        let snapshot = try await  getUserDocument().getDocument()
+        print(snapshot.data())
     }
 
     // 읽었으면 해당 도큐멘트 is_read변경
@@ -144,11 +144,12 @@ final class UserManager {
         let document = getUserDocument()
         document.delete()
     }
-
+// 이거를 어디서 계속 감지하고 있을지 뷰가 온어피어될때마다 키는건 비효율
     func listenConnectPartner() {
             getUserDocument().addSnapshotListener { snapshot, error in
             guard let documents = snapshot else {return}
             guard let data = documents.data() else {return}
+            print(data)
             guard let partnerId = data["partner_id"] as? String else {return}
             guard let receivecount = data["receive_count"] as? Int else {return}
             /* 기존에 내가 갖고 있던거랑 receivecount가 달라지면 그것은 상대로부터 받은거기에 receive Modal
