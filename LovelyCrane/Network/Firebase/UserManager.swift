@@ -49,7 +49,7 @@ final class UserManager {
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
         var letterLists : [LetterModel] = []
-        let snapshot = try await userCollection.document(currentUserUID).collection("letter_lists")
+        let snapshot = try await getUserDocument().collection("letter_lists")
             .getDocuments()
         for document in snapshot.documents {
             guard let stamp = document["date"] as? Timestamp,
@@ -64,6 +64,12 @@ final class UserManager {
         }
         LetterListsManager.shared.letterListArray = letterLists
     }
+    // 내 정보 가져오기 런치스크린에서 하면될듯
+    func getmyUserData() async throws {
+        let snapshot = try await getUserDocument().getDocument()
+
+    }
+
     // 읽었으면 해당 도큐멘트 is_read변경
     func updateisRead(letterid: String) async throws {
         try await getUserDocument().collection("letter_lists").document(letterid)
@@ -137,6 +143,21 @@ final class UserManager {
     func deleteUserDocument() {
         let document = getUserDocument()
         document.delete()
+    }
+
+    func listenConnectPartner() {
+            getUserDocument().addSnapshotListener { snapshot, error in
+            guard let documents = snapshot else {return}
+            guard let data = documents.data() else {return}
+            guard let partnerId = data["partner_id"] as? String else {return}
+            guard let receivecount = data["receive_count"] as? Int else {return}
+            /* 기존에 내가 갖고 있던거랑 receivecount가 달라지면 그것은 상대로부터 받은거기에 receive Modal
+            if(receivecount != 내가갖고있는것)
+             elif(partnerId != 내가가지고 있는것)
+             마찬가지로 파트너도 달라지면 최초 파트너 모달띄워주기
+             */
+
+        }
     }
 }
 

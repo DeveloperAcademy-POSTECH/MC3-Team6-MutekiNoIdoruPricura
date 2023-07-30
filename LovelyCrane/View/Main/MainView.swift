@@ -70,6 +70,9 @@ struct MainView: View {
 //                CouplingView(isOpen: $firsttap)
 //            }
         }
+        .onAppear {
+            UserManager.shared.listenConnectPartner()
+        }
     }
 
     //MARK: - Views
