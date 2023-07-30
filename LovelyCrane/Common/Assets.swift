@@ -8,7 +8,23 @@
 import SwiftUI
 
 enum Cran: String, CaseIterable {
-    case blue, yellow, green, white, pink, purple
+    case blue, yellow, green, pink, purple
+    
+    var colors: (Color, String) {
+        switch self {
+        case .yellow:
+            return (Color.yellow, "yellow")
+        case .blue:
+            return (Color.blue, "blue")
+        case .green:
+            return (Color.green, "green")
+        case .pink:
+            return (Color.pink, "pink")
+        case .purple:
+            return (Color.purple, "purple")
+            
+        }
+    }
 }
 
 
@@ -18,9 +34,13 @@ struct Assets {
     static let send = "send"
     static let setting = "setting"
     static let bottle = "bottle"
+    static let redBottle = "redBottle"
     static let dummyImage = "Rectangle"
     static let sendBottle = "sendBottle"
     static let conceptCrane = "conceptCrane"
     static let bottleIn = "bottleIn"
     static let crans: [Cran] = Cran.allCases
+    
+    static let doubleChevronRight = "doubleChevron.right"
+    static let doubleChevronLeft = "doubleChevron.left"
 }

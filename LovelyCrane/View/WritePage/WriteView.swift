@@ -16,7 +16,7 @@ struct WriteView: View {
     
     @FocusState private var isFocused: Bool
     
-    let nowDate = getNowDate()
+    let nowDate = DateFormatter.getNowDate()
 
     @State private var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
