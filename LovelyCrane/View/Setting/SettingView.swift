@@ -27,7 +27,6 @@ struct SettingView: View {
                         
                         NavigationLink {
                             UpdateNicknameView()
-//                            Text("hi")
 
                         } label: {
                             makeCell(name: "닉네임 수정")
@@ -68,11 +67,13 @@ struct SettingView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color.tertiaryLabel)
+                        .padding(.trailing, 15)
                         .onTapGesture {
                             dismiss()
                         }
                 }
+
             }
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.inline)

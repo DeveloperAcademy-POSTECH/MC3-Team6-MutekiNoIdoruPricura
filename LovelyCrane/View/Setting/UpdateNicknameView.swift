@@ -81,7 +81,8 @@ struct UpdateNicknameView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image(systemName: "chevron.left")
-                    .foregroundColor(.gray)
+                    .foregroundColor(Color.tertiaryLabel)
+                    .padding(.trailing, 15)
                     .onTapGesture {
                         dismiss()
                     }
