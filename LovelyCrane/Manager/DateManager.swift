@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension DateFormatter {
+extension Date {
     static func getNowDate(dayInterval: Double = 0) -> String {
         let now = Date(timeIntervalSinceNow: dayInterval * 86400)
         let dateFormatter = DateFormatter()

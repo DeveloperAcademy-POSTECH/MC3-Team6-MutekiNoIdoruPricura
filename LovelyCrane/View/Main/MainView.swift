@@ -9,9 +9,16 @@ import SwiftUI
 import SpriteKit
 import CoreMotion
 
+/* todo -
+    1. 데이터 싱글톤으로 할거면 만들어두기
+    2. 이미지에서 학 배수 맞는지 물어보기(지금도 해상도 너무 높음)
+    3. 모달뷰 만들어서 해야하나요? 질문하고 (만들기)
+    4.
+ */
+
+
 struct MainView: View {
     let coreMotionManager = MotionManager.shared
-    
     @State var partnerName = "직녀"
     @State var letterCount = 912
     @State var isWriteHistroyTapped = false
@@ -31,17 +38,11 @@ struct MainView: View {
     @State var isConnection = false
     @State var receiveLetterCount = 0
     
-    @EnvironmentObject var viewRouter : ViewRouter
     
     
     var body: some View {
         ZStack {
-            NavigationLink("", destination: NoWriteView(), isActive: $noWriteHistoryTapped)
-            NavigationLink("", destination: CouplingView(isOpen: $writeHistroyTapped), isActive: $writeHistroyTapped)
-            
-            NavigationLink("", destination: NoReceivedView(), isActive: $noReceivedTapped)
-            NavigationLink("", destination: ReceivedHistoryView(), isActive: $receivedHistoryTapped)
-
+            NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
             BackGroundView()
             TabView {
                 mainBottle()
@@ -57,14 +58,8 @@ struct MainView: View {
                     settingButton()
                 }
             }
-//            .fullScreenCover(isPresented: $firsttap) {
-//                CouplingView(isOpen: $firsttap)
-//            }
         }
-        .onAppear {
-            Task{
-                try await UserManager.shared.listenConnectPartner()}
-        }
+
     }
 
     //MARK: - Views
@@ -144,13 +139,7 @@ struct MainView: View {
         Button {
             Task{
                 try await UserManager.shared.getAllLetterData()
-                
-                if letterCount == 0 {
-//                if LetterListsManager.shared.isByMeLetters.count == 0 {
-                    noWriteHistoryTapped.toggle()
-                } else {
-                    try await UserManager.shared.sendletterLists()
-                }
+//                print(LetterLists.shared.letterListArray)
             }
         } label: {
             Image(Assets.send)
@@ -240,7 +229,7 @@ struct MainView: View {
             .offset(y: CGSize.deviceHeight * 0.05)
             .ignoresSafeArea()
             .onTapGesture {
-                toWriteTapped.toggle()
+                isWriteTapped.toggle()
             }
             .overlay {
                 Text("+ 새로운 쪽지 작성하기")
@@ -274,15 +263,16 @@ struct MainView: View {
 }
 
 
+
 struct View_Preview: PreviewProvider {
     static var previews: some View {
         MainView()
     }
 }
 
-extension MainView {
-    func fetchData() async {
-        let sentLetters = LetterListsManager.shared.sentLettersGroupedByDate
-        let notSentLetters = LetterListsManager.shared.notSentLettersGroupedByDate
-    }
-}
+//extension MainView {
+//    func fetchData() async {
+//        let sentLetters = LetterListsManager.shared.sentLettersGroupedByDate
+//        let notSentLetters = LetterListsManager.shared.notSentLettersGroupedByDate
+//    }
+//}

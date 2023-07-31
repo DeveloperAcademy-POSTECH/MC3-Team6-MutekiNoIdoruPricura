@@ -125,9 +125,9 @@ final class UserManager {
                 .getDocuments()
             for document in snapshot.documents {
                 try await document.reference
-                    .updateData(["send_date": getNowDate()])
+                    .updateData(["send_date": Date.getNowDate()])
                 var letterData = document.data()
-                letterData["send_date"] = getNowDate()
+                letterData["send_date"] = Date.getNowDate()
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue)
                     .addDocument(data: letterData)
                 try await document.reference
