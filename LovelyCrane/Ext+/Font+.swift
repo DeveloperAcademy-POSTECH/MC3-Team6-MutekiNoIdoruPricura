@@ -8,36 +8,36 @@ import SwiftUI
 
 extension Font {
 
-    static func custom17semibold() -> Font {
-        return Font.system(size: 17 * setFontSize(), weight: .semibold)
+    static func title1font() -> Font {
+        return Font.custom("omyu pretty", size: 40 * setFontSize())
     }
 
-    static func custom13semibold() -> Font {
-        return Font.system(size: 13 * setFontSize(), weight: .semibold)
+    static func title2font() -> Font {
+        return Font.custom("omyu pretty", size: 28 * setFontSize())
     }
 
-    static func custom20semibold() -> Font {
-        return Font.system(size: 20 * setFontSize(), weight: .semibold)
+    static func title3font() -> Font {
+        return Font.custom("omyu pretty", size: 24 * setFontSize())
     }
 
-    static func custom15bold() -> Font {
-        return Font.system(size: 15 * setFontSize(), weight: .bold)
+    static func headlinefont() -> Font {
+        return Font.custom("omyu pretty", size: 20 * setFontSize())
     }
 
-    static func custom17bold() -> Font {
-        return Font.system(size: 17 * setFontSize(), weight: .bold)
+    static func bodyfont() -> Font {
+        return Font.custom("omyu pretty", size: 18 * setFontSize())
     }
 
-    static func custom18regular() -> Font {
-        return Font.system(size: 18 * setFontSize(), weight: .regular)
+    static func footnotefont() -> Font {
+        return Font.custom("omyu pretty", size: 16 * setFontSize())
     }
 
-    static func custom18bold() -> Font {
-        return Font.system(size: 18 * setFontSize(), weight: .bold)
+    static func caption1font() -> Font {
+        return Font.custom("omyu pretty", size: 14 * setFontSize())
     }
 
-    static func custom18semibold() -> Font {
-        return Font.system(size: 18 * setFontSize(), weight: .semibold)
+    static func caption2font() -> Font {
+        return Font.custom("omyu pretty", size: 12 * setFontSize())
     }
 // MARK: - 추가로 사용되는 폰트 사이즈 여기서 추가.
 

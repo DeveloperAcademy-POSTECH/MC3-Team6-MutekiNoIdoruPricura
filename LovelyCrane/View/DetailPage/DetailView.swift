@@ -10,9 +10,10 @@ import SwiftUI
 struct DetailView: View {
     
     @StateObject var vm = DetailViewModel()
-    
+    @State var letter = LetterModel(id: "s", image: "", date: .now, text: "가나다라마바사", isByme: true, isSent: false, isRead: false)
     @State private var showEnlargedImageView = false
     @State private var showDeleteAlert = false
+    @State private var image : UIImage?
     
     var body: some View {
         
@@ -27,8 +28,8 @@ struct DetailView: View {
                     Spacer()
                 }
                 VStack {
-                    if let image = vm.image {
-                        letterImageView(image: image)
+                    if let thisImage = image {
+                        letterImageView(image: thisImage)
                             .padding(.top, 50.5)
                     } else {
                         EmptyView()
@@ -56,6 +57,9 @@ struct DetailView: View {
               
           }
         }
+        .onAppear() {
+            loadImage()
+        }
         
     }
     
@@ -74,28 +78,30 @@ struct DetailView: View {
         return HStack {
             backToHistoryButton()
             Spacer()
-            Menu {
-                Button(action: {
-                 }) {
-                     HStack {
-                         Text("수정하기")
-                         Image(systemName: "square.and.pencil")
-                     }
-                 }
-                Button(role: .destructive, action: {
-                    showDeleteAlert.toggle()
-                 }) {
-                     HStack {
-                         Text("삭제하기")
-                         Image(systemName: "trash")
-                     }
-                     
-                 }
-                
-            } label: {
-                Image(systemName: "ellipsis")
-                    .foregroundColor(.secondaryLabel)
-                    .frame(width: UIScreen.getWidth(15), height: UIScreen.getHeight(3))
+            if letter.isByme { // 내가 보낸 편지일 경우 상단 메뉴 버튼이 존재
+                Menu {
+                    Button(action: {
+                    }) {
+                        HStack {
+                            Text("수정하기")
+                            Image(systemName: "square.and.pencil")
+                        }
+                    }
+                    Button(role: .destructive, action: {
+                        showDeleteAlert.toggle()
+                    }) {
+                        HStack {
+                            Text("삭제하기")
+                            Image(systemName: "trash")
+                        }
+                        
+                    }
+                    
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundColor(.secondaryLabel)
+                        .frame(width: UIScreen.getWidth(15), height: UIScreen.getHeight(3))
+                }
             }
         }
     }
@@ -103,13 +109,16 @@ struct DetailView: View {
     private func letterTextView() -> some View {
         return VStack(alignment: .leading){
             ScrollView {
-                Text(vm.letterText)
+                Text(letter.text)
+                    .font(Font.bodyfont())
+                    .lineSpacing(UIScreen.getHeight(8))
                     .foregroundColor(.primaryLabel)
             }
             Spacer()
             HStack {
                 Spacer()
-                Text(vm.dateAndTime)
+                Text(Date.formatDateForDetailView(letter.date))
+                    .font(Font.footnotefont())
                     .foregroundColor(.secondaryLabel)
             }
             .padding(.top, 24)
@@ -144,7 +153,20 @@ struct DetailView: View {
     }
 }
 
+extension DetailView {
 
+    private func loadImage() {
+        guard let imageUrl = letter.image else { return }
+        Task {
+            do {
+                let imageData = try await StorageManager.shared.getImage(url: imageUrl)
+                self.image = UIImage(data: imageData)
+            } catch {
+                print("Error loading image: \(error)")
+            }
+        }
+    }
+}
 
 
 struct DetailView_Previews: PreviewProvider {

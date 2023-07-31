@@ -15,6 +15,7 @@ struct AuthenticationView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     
     var body: some View {
+        
         NavigationView {
             ZStack {
                 Color(.backGround).ignoresSafeArea()
@@ -22,25 +23,7 @@ struct AuthenticationView: View {
                 VStack {
                     Spacer()
                     
-                    VStack(spacing: 15) {
-                        Image("login")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: CGSize.deviceWidth * 0.6)
-                        
-                        VStack(alignment: .center, spacing: 8) {
-                            Text("사랑의 종이학")
-                                .font(.title)
-                            Text("사랑하는 마음을 차곡차곡 모아")
-                                .font(.callout)
-                            Text("상대방에게 선물해요")
-                                .font(.callout)
-                        }
-                        .foregroundColor(.white)
-                    }
-                    .padding(.bottom, 20)
-                    
-//                    Spacer()
+                    makeLoginImageTextView()
                     
                     VStack {
                         signInWithAppleButton()
@@ -56,7 +39,27 @@ struct AuthenticationView: View {
 
 extension AuthenticationView {
     
-    func signInWithAppleButton() -> some View {
+    private func makeLoginImageTextView() -> some View {
+        VStack(spacing: 15) {
+            Image("login")
+                .resizable()
+                .scaledToFit()
+                .frame(width: CGSize.deviceWidth * 0.6)
+            
+            VStack(alignment: .center, spacing: 8) {
+                Text("사랑의 종이학")
+                    .font(.title)
+                Text("사랑하는 마음을 차곡차곡 모아")
+                    .font(.callout)
+                Text("상대방에게 선물해요")
+                    .font(.callout)
+            }
+            .foregroundColor(.white)
+        }
+        .padding(.bottom, 20)
+    }
+    
+    private func signInWithAppleButton() -> some View {
         Button {
             Task {
                 do {
@@ -75,10 +78,10 @@ extension AuthenticationView {
             SignInWithAppleButtonViewRepresentable(buttonType: .default, buttonStyle: .whiteOutline)
                 .allowsHitTesting(false)
         }
-        .frame(height: 45)
+        .frame(height: UIScreen.getHeight(44))
     }
-    
-    func signInWithGoogleButton() -> some View {
+    //MARK: 순정 구글 로그인 버튼
+    private func signInWithGoogleButton() -> some View {
         GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .light, style: .wide, state: .normal)) {
             Task {
                 do {
@@ -90,7 +93,7 @@ extension AuthenticationView {
         }
     }
     
-    func customSignInWithGoogleButton() -> some View {
+    private func customSignInWithGoogleButton() -> some View {
         Button {
             Task {
                 do {
@@ -109,15 +112,20 @@ extension AuthenticationView {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.white)
-                    .frame(height: 45)
+                    .frame(height: UIScreen.getHeight(44))
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.black, lineWidth: 0.5)
                     )
-                Text("G Sign in with Google")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
+                HStack(spacing: 5.5) {
+                    Image("googleLogo")
+                        .resizable()
+                        .frame(width: UIScreen.getWidth(10), height: UIScreen.getHeight(10))
+                        .padding(.leading, 11)
+                    Text("Sign in with Google")
+                        .font(.system(size: 16.7, weight: .medium, design: .default))
+                        .foregroundColor(.black)
+                }
             }
         }
     }
