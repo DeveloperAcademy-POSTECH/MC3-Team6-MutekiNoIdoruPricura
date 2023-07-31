@@ -66,10 +66,21 @@ final class UserManager {
         }
         LetterListsManager.shared.letterListArray = letterLists
     }
-    // 내 정보 가져오기 런치스크린에서 하면될듯
+    // Todo
     func getmyUserData() async throws {
         let snapshot = try await  getUserDocument().getDocument()
         print(snapshot.data())
+        guard let data = snapshot.data() else {return}
+        DispatchQueue.main.async {
+            UserInfo.shared.nickName = data["nickname"] as! String
+            UserInfo.shared.sendLetterCount = data["send_count"] as! Int
+            //여기는 notsend카운트 추가
+            //        UserInfo.shared.notSendCount =
+            UserInfo.shared.receiveLetterCount = data["receive_count"] as! Int
+            //파트너 닉네임으로 변경해서 받아오도록하자
+            UserInfo.shared.partnerNickName = data["partner_id"] as! String
+        }
+        
     }
 
     // 읽었으면 해당 도큐멘트 is_read변경

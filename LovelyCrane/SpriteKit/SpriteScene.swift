@@ -13,15 +13,24 @@ import SwiftUI
 
 
 final class SpriteScene: SKScene {
-
     var motionManager: MotionManager?
+    var letterCount: Int
+
+    init(size: CGSize, letterCount: Int) {
+        self.letterCount = letterCount
+        super.init(size: size)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func didMove(to view: SKView) {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         motionManager?.setCoreMotionManager()
         backgroundColor = .backGround
         NotificationCenter.default.addObserver(self, selector: #selector(addNewCrane), name: NSNotification.Name("write"), object: nil)
-        for _ in 0...30 {
+        for _ in 0...letterCount {
             createCrane()
         }
     }
