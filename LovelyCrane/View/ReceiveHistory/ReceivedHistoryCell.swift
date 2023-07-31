@@ -43,14 +43,14 @@ struct ReceivedHistoryCell: View {
             }
             .padding(10)
             .frame(maxWidth: .infinity)
-            .frame(height: 92)
+            .frame(height: UIScreen.getHeight(92))
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(.gray3)
             )
             
             RoundedRectangle(cornerRadius: 12)
-                .frame(height: 92)
+                .frame(height: UIScreen.getHeight(92))
                 .foregroundColor(Color.lightPink)
                 .opacity(letter.isRead ? 0 : 1)
                 .mask(

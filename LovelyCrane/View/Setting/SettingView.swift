@@ -20,14 +20,15 @@ struct SettingView: View {
     }
     
     var body: some View {
+        
             ZStack(alignment: .topLeading) {
                 Color(.backGround).ignoresSafeArea()
+                
                 HStack {
                     VStack(alignment: .leading, spacing: 20) {
                         
                         NavigationLink {
                             UpdateNicknameView()
-
                         } label: {
                             makeCell(name: "닉네임 수정")
                         }
@@ -48,7 +49,6 @@ struct SettingView: View {
                             .onTapGesture {
                                 Task {
                                     do {
-                                        
                                         try await vm.deleteUser()
                                         try vm.logout()
                                         viewRouter.currentPage = .authenticationView
@@ -73,19 +73,11 @@ struct SettingView: View {
                             dismiss()
                         }
                 }
-
             }
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.inline)
     }
 }
-
-struct SettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingView()
-    }
-}
-
 
 extension SettingView {
     
@@ -95,5 +87,11 @@ extension SettingView {
                 .foregroundColor(.white)
                 .padding()
         }
+    }
+}
+
+struct SettingView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingView()
     }
 }

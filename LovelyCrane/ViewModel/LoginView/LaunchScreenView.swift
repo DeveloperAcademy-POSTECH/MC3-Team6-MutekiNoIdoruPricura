@@ -11,8 +11,6 @@ struct LaunchScreenView: View {
     var body: some View {
         ZStack {
             Color.backGround
-//            Image("LaunchScreen")
-//                .resizable()
                 .ignoresSafeArea()
         }
     }
