@@ -14,7 +14,7 @@ import SwiftUI
 
 final class SpriteScene: SKScene {
     var motionManager: MotionManager?
-    var letterCount: Int
+    private var letterCount: Int
 
     init(size: CGSize, letterCount: Int) {
         self.letterCount = letterCount

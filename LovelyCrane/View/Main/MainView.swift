@@ -18,12 +18,12 @@ import CoreMotion
 struct MainView: View {
     let coreMotionManager = MotionManager.shared
     @StateObject var userInfo = UserInfo.shared
-    @State var isWriteHistroyTapped = false
-    @State var isReceiveHistroyTapped = false
-    @State var isWriteTapped = false
-    @State var isSettingTapped = false
-    @State var isCoupleingTapped = false
-    @State var presentStrings: [String] = ["선", "물", "하", "기"]
+    @State private var isWriteHistroyTapped = false
+    @State private var isReceiveHistroyTapped = false
+    @State private var isWriteTapped = false
+    @State private var isSettingTapped = false
+    @State private var isCoupleingTapped = false
+    @State private var presentStrings: [String] = ["선", "물", "하", "기"]
     @EnvironmentObject var viewRouter : ViewRouter
     
     
