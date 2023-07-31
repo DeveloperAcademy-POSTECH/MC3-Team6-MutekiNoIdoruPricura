@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PresentAlertView: View {
-    @State var title: PresentAlertTitle = .presentCrane
-    @State var message: PresentAlertMessage = .presentCrane
-    @State var buttonTitle: String = "열어보기"
-    @State var buttonAction: ()->Void = {}
+    let title: PresentAlertTitle = .presentCrane
+    let message: PresentAlertMessage = .presentCrane
+    let buttonTitle: String = "열어보기"
+    let buttonAction: ()->Void = {}
     @Binding var showAlert: Bool
     
     var body: some View {
