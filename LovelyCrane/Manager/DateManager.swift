@@ -15,3 +15,4 @@ func getNowDate(dayInterval: Double = 0) -> String {
     return dateFormatter.string(from: now)
 }
 
+    

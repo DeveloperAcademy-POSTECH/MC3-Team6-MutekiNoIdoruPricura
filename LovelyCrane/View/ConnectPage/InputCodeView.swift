@@ -7,12 +7,14 @@
 
 import SwiftUI
 struct InputCodeView: View {
-    @StateObject var vm = InputCodeViewModel()
     @State private var successconnect: Bool = false
     @State private var isShowingFaiulreMessage = false
+    @State private var inputcode: String = ""
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Binding var isopenfullscreen : Bool
+    let userManager = UserManager.shared
+
     var body: some View {
         ZStack {
             Color(.backGround)
@@ -66,7 +68,7 @@ struct InputCodeView: View {
             .font(Font.bodyfont())
     }
     private func makeinputCodeField() -> some View {
-        TextField("",text: $vm.inputcode,
+        TextField("",text: $inputcode,
                   prompt: Text("코드를 입력해주세요")
             .font(Font.bodyfont())
             .foregroundColor(.quarternaryLabel))
@@ -83,7 +85,7 @@ struct InputCodeView: View {
     private func makeConnectBtn() -> some View {
         Button {
             Task {
-                successconnect = try await vm.connectPartner()
+                successconnect = try await userManager.connectUsertoUser(to: inputcode)
                 if !successconnect {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         isShowingFaiulreMessage.toggle()
@@ -98,14 +100,14 @@ struct InputCodeView: View {
         } label: {
             Text("연결하기")
                 .font(Font.bodyfont())
-                .foregroundColor(vm.inputcode.isEmpty ? Color.quarternaryLabel : Color.black)
+                .foregroundColor(inputcode.isEmpty ? Color.quarternaryLabel : Color.black)
                 .padding(.vertical,UIScreen.getHeight(18))
                 .frame(maxWidth: .infinity)
 
         }
-        .disabled(vm.inputcode.isEmpty)
+        .disabled(inputcode.isEmpty)
         .background(RoundedRectangle(cornerRadius: 8)
-        .fill(vm.inputcode.isEmpty ? Color.gray3 : Color.lightPink))
+        .fill(inputcode.isEmpty ? Color.gray3 : Color.lightPink))
 
         .padding(.horizontal,UIScreen.getWidth(24))
     }

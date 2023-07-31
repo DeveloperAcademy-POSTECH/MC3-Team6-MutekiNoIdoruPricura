@@ -68,8 +68,11 @@ final class UserManager {
     }
     // 내 정보 가져오기 런치스크린에서 하면될듯
     func getmyUserData() async throws {
-        let snapshot = try await  getUserDocument().getDocument()
-        print(snapshot.data())
+        let snapshot = try await getUserDocument().getDocument()
+        let data = snapshot.data()
+//        let partnerDocument = try await userCollection.document(data["partner_id"]).getDocument()
+
+
     }
 
     // 읽었으면 해당 도큐멘트 is_read변경
