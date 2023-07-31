@@ -23,6 +23,7 @@ struct FadeAlertView: View {
                         .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
                     Text(alertMessage.rawValue)
                         .foregroundColor(.primaryLabel)
+                        .font(Font.headlinefont())
                         .padding(.top, UIScreen.getHeight(23))
                 }
                 .background(
