@@ -111,7 +111,9 @@ struct MainView: View {
                                     .foregroundColor(isSendButtonActivate() ? .defaultWhite : .gray5)
                             }
                         }
+                        .offset(x: UIScreen.getWidth(2))
                     }
+                    .offset(x: UIScreen.getWidth(-7))
                 Spacer()
                 Image(Assets.doubleChevronRight)
                     .resizable()
@@ -162,6 +164,7 @@ struct MainView: View {
         .overlay {
             if letterNumber == 0, needToSentLetter == 0 {
                 Text("아래의 + 버튼을 눌러서\n연인을 향한 첫번째\n종이학 쪽지를 써보세요 :)")
+                    .foregroundColor(Color.defaultWhite)
                     .multilineTextAlignment(.center)
                     .onTapGesture {
                         isWriteTapped.toggle()
@@ -170,6 +173,7 @@ struct MainView: View {
             else if letterNumber > 0, needToSentLetter == 0 {
                 VStack {
                     Text("종이학을 모두 선물했어요!")
+                        .foregroundColor(Color.defaultWhite)
                     Text("기록 보기").foregroundColor(.deepPink)
                 }
             }
@@ -197,6 +201,7 @@ struct MainView: View {
             if !isConnection {
                 VStack {
                     Text("연인 연결 후\n쪽지를 받을수 있어요!")
+                        .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
                     NavigationLink {
                         DetailView()
@@ -209,6 +214,7 @@ struct MainView: View {
             }
             else if isConnection, receiveLetterCount == 0 {
                 Text("아직 연인에게\n선물받은 편지가 없어요!")
+                    .foregroundColor(Color.defaultWhite)
                     .multilineTextAlignment(.center)
             }
         }
