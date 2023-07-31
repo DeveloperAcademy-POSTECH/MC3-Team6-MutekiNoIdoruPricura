@@ -20,13 +20,10 @@ struct SettingView: View {
     }
     
     var body: some View {
-        
             ZStack(alignment: .topLeading) {
                 Color(.backGround).ignoresSafeArea()
-                
                 HStack {
                     VStack(alignment: .leading, spacing: 20) {
-                        
                         NavigationLink {
                             UpdateNicknameView()
                         } label: {
