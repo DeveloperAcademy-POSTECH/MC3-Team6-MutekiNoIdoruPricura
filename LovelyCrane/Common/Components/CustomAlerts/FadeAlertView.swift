@@ -10,7 +10,7 @@ import SwiftUI
 struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
-    @State var alertMessage: FadeAlertMessage = .nickNameSaved
+    let alertMessage: FadeAlertMessage = .nickNameSaved
 
     
     var body: some View {

@@ -9,10 +9,10 @@ import SwiftUI
 
 struct TouchCraneAlertView: View {
     
-    @State private var craneUnfoldImages = Assets.touchCranes
+    private let craneUnfoldImages = Assets.touchCranes
     @State private var showFinalAlert = false
     @State private var craneIndex = 0
-    @State var buttonAction : ()->Void = {}
+    let buttonAction : ()->Void = {}
     @Binding var showAlert: Bool
     
     var body: some View {
