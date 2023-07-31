@@ -28,18 +28,19 @@ struct CouplingAlertView: View {
                         Text(partnerName)
                     }
                     .foregroundColor(.primaryLabel)
-                    .font(.system(size: partnerName.count > 5 || myName.count > 5 ? 18 : 24, weight: .regular))
-                    .padding(.top, UIScreen.getHeight(17))
+                    .font(partnerName.count > 5 || myName.count > 5 ? Font.bodyfont() : Font.title3font())
+                    .padding(.top, UIScreen.getHeight(33))
                     Text("연인 연결이 되었어요!")
                         .foregroundColor(.secondaryLabel)
-                        .font(.system(size: 16, weight: .regular))
+                        .font(Font.bodyfont())
                         .multilineTextAlignment(.center)
-                        .padding(.top, UIScreen.getHeight(26))
+                        .padding(.top, UIScreen.getHeight(29))
                     Button(action: {
                         showAlert = false
                     }){
                         Text("확인")
                             .foregroundColor(.gray3)
+                            .font(Font.bodyfont())
                             .padding(.vertical, UIScreen.getHeight(16.5))
                             .padding(.horizontal, UIScreen.getWidth(34))
                             .background(
@@ -47,15 +48,15 @@ struct CouplingAlertView: View {
                                     .fill(Color.lightPink)
                             )
                     }
-                    .padding(.top, UIScreen.getHeight(50))
+                    .padding(.top, UIScreen.getHeight(63))
                 }
             }
         }
     }
 }
 
-//struct CouplingAlertView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CouplingAlertView()
-//    }
-//}
+struct CouplingAlertView_Previews: PreviewProvider {
+    static var previews: some View {
+        CouplingAlertView(myName: .constant("위머"), partnerName: .constant("위머"), showAlert: .constant(true))
+    }
+}

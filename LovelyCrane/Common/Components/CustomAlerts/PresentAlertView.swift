@@ -27,16 +27,18 @@ struct PresentAlertView: View {
                             .frame(width: UIScreen.getWidth(80), height: UIScreen.getHeight(108))
                         Text(title.rawValue)
                             .foregroundColor(.primaryLabel)
-                            .font(.system(size: 24, weight: .regular))
+                            .font(Font.title3font())
                             .padding(.top, UIScreen.getHeight(35))
                         Text(message.rawValue)
                             .foregroundColor(.secondaryLabel)
-                            .font(.system(size: 16, weight: .regular))
+                            .font(Font.footnotefont())
                             .multilineTextAlignment(.center)
+                            .lineSpacing(UIScreen.getHeight(5))
                             .padding(.top, UIScreen.getHeight(22))
                         Button(action: buttonAction) {
                             Text(buttonTitle)
                                 .foregroundColor(.gray3)
+                                .font(Font.bodyfont())
                                 .padding(.vertical, UIScreen.getHeight(16.5))
                                 .padding(.horizontal, UIScreen.getWidth(34))
                                 .background(
@@ -73,8 +75,8 @@ enum PresentAlertMessage: String {
     case fullBottle = "학 천마리가 가득 찼어요\n연인에게 선물해주세요 :)"
 }
 
-//struct PresentAlertView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PresentAlertView()
-//    }
-//}
+struct PresentAlertView_Previews: PreviewProvider {
+    static var previews: some View {
+        PresentAlertView(showAlert: .constant(true))
+    }
+}
