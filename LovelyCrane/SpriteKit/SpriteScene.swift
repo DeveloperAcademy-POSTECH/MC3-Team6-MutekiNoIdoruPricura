@@ -21,7 +21,7 @@ final class SpriteScene: SKScene {
         motionManager?.setCoreMotionManager()
         backgroundColor = .backGround
         NotificationCenter.default.addObserver(self, selector: #selector(addNewCrane), name: NSNotification.Name("write"), object: nil)
-        for _ in 0...40 {
+        for _ in 0...30 {
             createCrane()
         }
     }
@@ -39,7 +39,7 @@ final class SpriteScene: SKScene {
         guard let randomCrane = Assets.crans.randomElement()?.rawValue else { return }
         let crane = SKSpriteNode(imageNamed: randomCrane)
         crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
-        crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: CGFloat.random(in: size.height * 0.1...size.width * 0.9))
+        crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: CGFloat.random(in: size.height * 0.1...size.height * 0.9))
         addChild(crane)
     }
     

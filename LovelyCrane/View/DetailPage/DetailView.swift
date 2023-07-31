@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct DetailView: View {
+//    @Binding var isDismissed: Bool
     var body: some View {
-        Text("detail")
+        Button("hi") {
+//            isDismissed.toggle()
+            print("tap")
+        }
     }
 }
 

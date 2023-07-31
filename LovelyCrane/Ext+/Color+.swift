@@ -39,4 +39,13 @@ extension Color {
 
     static let defaultRed = Color(UIColor(hexCode: "#EA384E"))
     static let defaultYellow = Color(UIColor(hexCode: "#FFD60A"))
+    
+    
+    static let purple = Color(UIColor(hexCode: "BFACD9"))
+    static let blue = Color(UIColor(hexCode: "95BEE9"))
+    static let green = Color(UIColor(hexCode: "D8D9A7"))
+    static let pink = Color(UIColor(hexCode: "FCB1CE"))
+    static let yellow = Color(UIColor(hexCode: "FFEBA6"))
+    static let defaultWhite = Color(UIColor(hexCode: "FFFFFF"))
+    
 }
