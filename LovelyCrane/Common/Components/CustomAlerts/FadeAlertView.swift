@@ -47,8 +47,9 @@ enum FadeAlertMessage: String {
     case savePaper = "쪽지가 저장되었어요."
 }
 
-//struct FadeAlertView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FadeAlertView()
-//    }
-//}
+struct FadeAlertView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        FadeAlertView(showAlert: .constant(true))
+    }
+}

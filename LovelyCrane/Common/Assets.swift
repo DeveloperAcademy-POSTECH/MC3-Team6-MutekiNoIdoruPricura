@@ -43,4 +43,5 @@ struct Assets {
     static let couplingpaper = "couplingpaper"
     static let receiveConnect = "receiveConnect"
     static let connectbottle = "connectbottle"
+    static let galleryIcon = "galleryIcon"
 }
