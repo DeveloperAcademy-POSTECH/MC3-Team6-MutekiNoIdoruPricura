@@ -13,7 +13,7 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private init() {}
-    private let batch = Firestore.firestore().batch()
+
     private let userCollection = Firestore.firestore().collection("Users")
     /// 테스트 위해서 uid가 없으면 일단은 "none"
     var currentUserUID: String {
@@ -30,6 +30,7 @@ final class UserManager {
     }
     ///  편지data를 현재해당하는 uid다큐멘트에 letter_lists라는 콜렉션을 만들어주고 그안의 documnet생성.  letterdata는 필드들.
     func postletterData(letter: LetterModel) async throws {
+        let batch = Firestore.firestore().batch()
         let letterdata: [String:Any] = [
             "image": letter.image,
             "text": letter.text,
@@ -92,6 +93,7 @@ final class UserManager {
     /// user끼리 커플링
     func connectUsertoUser(to partnertoken: String) async throws -> Bool {
         do {
+            let batch = Firestore.firestore().batch()
             let partnerDocument = try await userCollection.document(partnertoken).getDocument()
             if partnerDocument.exists {
                 let partnerUserDocument = self.userCollection.document(partnertoken)
@@ -111,6 +113,7 @@ final class UserManager {
     //상대에게 편지보내기
     func sendletterLists() async throws {
         do{
+            let batch = Firestore.firestore().batch()
             let partnerField = FieldNames.partner_id.rawValue
             guard let currentUserData = try await getUserDocument().getDocument().data(),
                   let partnerId = currentUserData[partnerField] as? String else { return }

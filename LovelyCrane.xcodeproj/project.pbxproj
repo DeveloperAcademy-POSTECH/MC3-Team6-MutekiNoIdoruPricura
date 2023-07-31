@@ -78,6 +78,7 @@
 		C7DE01372A73EAB1008F6F19 /* CoupleSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE01362A73EAB1008F6F19 /* CoupleSuccessView.swift */; };
 		C7EB0EE72A69D9F200AAC2F4 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */; };
 		C7EB0EEE2A69DB7F00AAC2F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C7EB0EED2A69DB7F00AAC2F4 /* FirebaseStorage */; };
+		C7F773352A779A8E00103A89 /* 오뮤_다예쁨체.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7F773342A779A8E00103A89 /* 오뮤_다예쁨체.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -149,6 +150,7 @@
 		C7DE01362A73EAB1008F6F19 /* CoupleSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoupleSuccessView.swift; sourceTree = "<group>"; };
 		C7EB0EE52A69CDE800AAC2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		C7F773342A779A8E00103A89 /* 오뮤_다예쁨체.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "오뮤_다예쁨체.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -427,6 +429,7 @@
 		8657731E2A65A18B00D40B59 /* LovelyCrane */ = {
 			isa = PBXGroup;
 			children = (
+				C7F773342A779A8E00103A89 /* 오뮤_다예쁨체.ttf */,
 				C782106E2A6F9638002C0407 /* GoogleService-Info.plist */,
 				C7EB0EE52A69CDE800AAC2F4 /* Info.plist */,
 				8657733F2A65A41800D40B59 /* LovelyCrane.entitlements */,
@@ -554,6 +557,7 @@
 			files = (
 				865773272A65A18C00D40B59 /* Preview Assets.xcassets in Resources */,
 				865773242A65A18C00D40B59 /* Assets.xcassets in Resources */,
+				C7F773352A779A8E00103A89 /* 오뮤_다예쁨체.ttf in Resources */,
 				C782106F2A6F9638002C0407 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
