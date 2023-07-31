@@ -14,61 +14,28 @@ struct NicknameView: View {
     @EnvironmentObject var viewRouter: ViewRouter
     
     @FocusState private var nicknameInFocus: Bool
-
+    
     var body: some View {
         
         ZStack {
             Color(.backGround).ignoresSafeArea()
             
             VStack {
-                
                 Spacer()
                 
                 VStack(alignment: .center, spacing: 40) {
-
-                    VStack(spacing: 5) {
-                        Image("NicknameViewImage")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 124, height: 48)
-                        
-                        Text("사용하실 닉네임을 알려주세요")
-                            .foregroundColor(.primaryLabel)
-                    }
-
-                    VStack {
-                        TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
-                            .focused($nicknameInFocus)
-                            .foregroundColor(.primaryLabel)
-                            .multilineTextAlignment(TextAlignment.center)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background (
-                                ZStack {
-                                    Color.textFieldGray
-                                    if viewModel.nickname.count == 0 {
-                                        Text("닉네임을 입력해주세요")
-                                            .foregroundColor(Color.tertiaryLabel)
-                                    }
-                                }
-                            )
-                            .cornerRadius(10)
-                        
-                        HStack {
-                            Image("exclamationMark")
-                                .opacity(viewModel.nickname.count > 8 ? 1 : 0)
-                            Text("닉네임은 8자 이하로 입력해주세요")
-                                .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)
-                        }
+                    makeHeaderImageText()
+                    
+                    VStack(spacing: 16) {
+                        makeNicknameTextField()
+                        makeNicknameCountCaution()
                     }
                 }
                 Spacer()
                 
                 makeUpdateNicknameButton()
-                    .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
-                    .padding(.bottom, 25)
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 24)
         }
         .onAppear {
             nicknameInFocus = true
@@ -77,8 +44,52 @@ struct NicknameView: View {
 }
 
 extension NicknameView {
+
+    private func makeHeaderImageText() -> some View {
+        VStack(spacing: 16) {
+            Image(Assets.nicknameViewImage)
+                .resizable()
+                .frame(width: UIScreen.getWidth(124), height: UIScreen.getHeight(48))
+
+            Text("사용하실 닉네임을 알려주세요")
+                .font(.headlinefont())
+                .foregroundColor(.primaryLabel)
+        }
+    }
     
-    func makeUpdateNicknameButton() -> some View {
+    private func makeNicknameTextField() -> some View {
+        TextField("", text: $viewModel.nickname)
+            .focused($nicknameInFocus)
+            .foregroundColor(.primaryLabel)
+            .multilineTextAlignment(TextAlignment.center)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background (
+                ZStack {
+                    Color.textFieldGray
+                    if viewModel.nickname.isEmpty {
+                        Text("닉네임을 입력해주세요")
+                            .font(.bodyfont())
+                            .foregroundColor(Color.tertiaryLabel)
+                    }
+                }
+            )
+            .cornerRadius(10)
+    }
+    
+    private func makeNicknameCountCaution() -> some View {
+        HStack {
+            Image(Assets.exclamationMark)
+                .resizable()
+                .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
+                .opacity(viewModel.nickname.count > 8 ? 1 : 0)
+            Text("닉네임은 8자 이하로 입력해주세요")
+                .font(.footnotefont())
+                .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)
+        }
+    }
+    
+    private func makeUpdateNicknameButton() -> some View {
         Button(action: {
             Task{
                 do {
@@ -91,14 +102,17 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
-                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
+                .font(.bodyfont())
+                .foregroundColor(viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? .quarternaryLabel : .gray1)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.isValidNickName() ? Color.lightPink : Color.gray3
+                    viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? Color.gray3 : Color.lightPink
                 )
                 .cornerRadius(10)
         })
+        .padding(.bottom, 25)
+        .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
     }
 }
 

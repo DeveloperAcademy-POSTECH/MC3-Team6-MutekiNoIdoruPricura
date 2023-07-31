@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WriteView: View {
     
-    private let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
+    private let placeHolder = "상대방에게 전달할 마음을 적어보세요 :)"
     private let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
     @StateObject var vm = WriteViewModel()
@@ -37,28 +37,29 @@ struct WriteView: View {
                 VStack(alignment: .leading) { // 가장 큰 VStack
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
                     showWriteViewHeader()
-                        .padding(.bottom, 16)
-                    VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
-                        Text(nowDate)
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color.primaryLabel)
-                        ScrollView {
+                        .padding(.bottom, UIScreen.getHeight(16))
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
+                            Text(nowDate)
+                                .font(Font.caption1font())
+                                .foregroundColor(Color.primaryLabel)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
+                                    .font(Font.bodyfont())
                                     .foregroundColor(Color.secondaryLabel)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
-                                        onReceive(vm.letterText.publisher.collect()) { collectionText in
-                                            let trimmedText = String(collectionText.prefix(letterLimit))
-                                            if vm.letterText != trimmedText {
-                                                isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
-                                                vm.letterText = trimmedText
-                                        }
-                                                //isOverLetterLimit = vm.letterText.count > letterLimit
+                                    .onReceive(vm.letterText.publisher.collect()) { collectionText in
+                                    let trimmedText = String(collectionText.prefix(letterLimit))
+                                    if vm.letterText != trimmedText {
+                                        isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
+                                        vm.letterText = trimmedText
                                     }
+                                    //isOverLetterLimit = vm.letterText.count > letterLimit
                                 }
                             }
                         }
+                    }
                         .padding(.top, 30)
                         .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
                     
@@ -71,27 +72,19 @@ struct WriteView: View {
                                 imageDisselectButton()
                             }
                         } else { // 이미지가 pick 되지 않은 상태일 경우. 디폴트 이미지
-                            Image("galleryButton")
-                                .frame(width: 82, height: 82)
-                                .background(
-                                        RoundedRectangle(cornerRadius: 4.5)
-                                            .fill(Color.gray4)
-                                )
-                                .onTapGesture {
-                                        showPhotoPickerActionSheet = true
-                                }
+                            defaultImage()
                         }
                         
                         Spacer()
                         letterLimitLabel(letterLimit: letterLimit)
                         
                     }
-                    .offset(y:isFocused ? -UIScreen.getHeight(keyboard.height+40) : 0)
+                    .offset(y:isFocused ? -UIScreen.getHeight(keyboard.height-30) : 0)
                     .animation(.easeOut(duration: 0.3), value: keyboard.height)
                 }
-                .padding(.top, 20)
-                .padding(.horizontal, 28)
-                .padding(.bottom, 24)
+                .padding(.top, UIScreen.getHeight(20))
+                .padding(.horizontal, UIScreen.getWidth(28))
+                .padding(.bottom, UIScreen.getHeight(24))
             }
 
             .onAppear{
@@ -147,13 +140,13 @@ struct WriteView: View {
             }){
                 Image(systemName: "xmark")
                     .foregroundColor(Color.tertiaryLabel)
-                    .frame(width: 20, height: 20)
+                    .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
             }
-            
+            Spacer()
             Text("쪽지쓰기")
-                .font(.system(size: 20, weight: .regular))
+                .font(Font.headlinefont())
                 .foregroundColor(Color.primaryLabel)
-                .padding(.leading, 5.03)
+                .padding(.leading, UIScreen.getWidth(5.03))
             Spacer()
             Button(action: {
                 // 쪽지 저장
@@ -166,7 +159,7 @@ struct WriteView: View {
                 print("button")
             }){
                 Text("저장")
-                    .font(.system(size: 16.67, weight: .regular))
+                    .font(Font.headlinefont())
                     .foregroundColor(Color.secondaryLabel)
             }
         }
@@ -176,7 +169,7 @@ struct WriteView: View {
         return Image(uiImage: image) // uiImage를 Image 뷰에 할당.
             .resizable()
             .scaledToFill()
-            .frame(width: 82, height: 82)
+            .frame(width: UIScreen.getWidth(82), height: UIScreen.getHeight(82))
             .clipShape(
                 RoundedRectangle(cornerRadius: 4.5)
             )
@@ -194,24 +187,23 @@ struct WriteView: View {
             Image(systemName: "xmark")
                 .font(.system(size: 10, weight: .bold))
                 .foregroundColor(Color.gray3)
-                .frame(width: 20, height: 20)
+                .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
                 .background(
                     Circle()
                         .fill(Color.fill.opacity(0.8))
                 )
         }
-        .offset(y: -10)
-        .offset(x: 10)
-
+        .offset(y: -UIScreen.getHeight(10))
+        .offset(x: -UIScreen.getHeight(10))
     }
     
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
-            .font(.system(size: 18.33, weight: .semibold))
+            .font(Font.footnotefont())
             .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? Color.primaryLabel : Color.defaultRed) : Color.primaryLabel)
         + Text("/\(letterLimit)")
-            .font(.system(size: 18.33, weight: .regular))
-            .foregroundColor(Color.primaryLabel)
+            .font(Font.footnotefont())
+            .foregroundColor(Color.tertiaryLabel)
     }
     
     /// 글자 제한이 있는 TextField를 추가
@@ -221,10 +213,23 @@ struct WriteView: View {
     func letterLimitTextField(letterLimit: Int) -> some View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
-                    .font(.system(size: 18.33, weight: .regular))
+                    .font(Font.bodyfont())
                     .foregroundColor(Color.primaryLabel)
                     .multilineTextAlignment(.leading)
+                    .lineSpacing(12)
                     .focused($isFocused)
+    }
+    
+    func defaultImage() -> some View {
+        Image(Assets.galleryIcon)
+            .frame(width: UIScreen.getWidth(82), height: UIScreen.getHeight(82))
+            .background(
+                    RoundedRectangle(cornerRadius: 4.5)
+                        .fill(Color.gray4)
+            )
+            .onTapGesture {
+                    showPhotoPickerActionSheet = true
+            }
     }
     
 }
@@ -244,9 +249,9 @@ extension WriteView {
      }
 }
 
-//struct WriteView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WriteView(isShowingCurrentPage: <#Binding<Bool>#>)
-//            .environmentObject(WriteViewModel())
-//    }
-//}
+struct WriteView_Previews: PreviewProvider {
+    static var previews: some View {
+        WriteView(isShowingCurrentPage: .constant(true), color: "pink")
+            .environmentObject(WriteViewModel())
+    }
+}
