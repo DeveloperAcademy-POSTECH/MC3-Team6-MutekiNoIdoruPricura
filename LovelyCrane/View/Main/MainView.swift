@@ -69,7 +69,7 @@ struct MainView: View {
         }
         .onAppear {
             Task{
-                try await UserManager.shared.listenConnectPartner()}
+                try await UserManager.shared.getmyUserData()}
         }
     }
 

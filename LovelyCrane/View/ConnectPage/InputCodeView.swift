@@ -108,7 +108,6 @@ struct InputCodeView: View {
         .disabled(inputcode.isEmpty)
         .background(RoundedRectangle(cornerRadius: 8)
         .fill(inputcode.isEmpty ? Color.gray3 : Color.lightPink))
-
         .padding(.horizontal,UIScreen.getWidth(24))
     }
 }
