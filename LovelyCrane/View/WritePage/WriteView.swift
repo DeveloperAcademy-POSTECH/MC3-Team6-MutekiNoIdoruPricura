@@ -194,7 +194,6 @@ struct WriteView: View {
         }
         .offset(y: -UIScreen.getHeight(10))
         .offset(x: -UIScreen.getHeight(10))
-
     }
     
     func letterLimitLabel(letterLimit: Int) -> some View {
