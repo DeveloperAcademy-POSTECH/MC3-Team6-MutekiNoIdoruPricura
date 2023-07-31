@@ -19,15 +19,17 @@ struct SettingView: View {
       navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
     }
     
-//    let buttonNames = ["닉네임 수정", "연인 연결 관리", "로그아웃", "회원탈퇴", "만든 사람들"]
-    
     var body: some View {
             ZStack(alignment: .topLeading) {
                 Color(.backGround).ignoresSafeArea()
                 HStack {
                     VStack(alignment: .leading, spacing: 20) {
-                        makeCell(name: "닉네임 수정")
-                        makeCell(name: "연인 연결 관리")
+                        NavigationLink {
+                            UpdateNicknameView()
+                        } label: {
+                            makeCell(name: "닉네임 수정")
+                        }
+
                         makeCell(name: "로그아웃")
                             .onTapGesture {
                                 Task {
@@ -44,7 +46,6 @@ struct SettingView: View {
                             .onTapGesture {
                                 Task {
                                     do {
-                                        
                                         try await vm.deleteUser()
                                         try vm.logout()
                                         viewRouter.currentPage = .authenticationView
@@ -57,12 +58,14 @@ struct SettingView: View {
                     }
                     Spacer()
                 }
+                .padding(.horizontal, 16)
             }
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color.tertiaryLabel)
+                        .padding(.trailing, 15)
                         .onTapGesture {
                             dismiss()
                         }
@@ -73,13 +76,6 @@ struct SettingView: View {
     }
 }
 
-struct SettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingView()
-    }
-}
-
-
 extension SettingView {
     
     private func makeCell(name: String) -> some View {
@@ -88,5 +84,11 @@ extension SettingView {
                 .foregroundColor(.white)
                 .padding()
         }
+    }
+}
+
+struct SettingView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingView()
     }
 }

@@ -37,20 +37,20 @@ struct ReceivedHistoryCell: View {
                 
                 if let uiImage = image {
                     Image(uiImage: uiImage)
-                        .resizable()
-                        .frame(width: 70, height: 70)
+                        .frame(width: UIScreen.getWidth(70), height: UIScreen.getHeight(70))
                         .cornerRadius(10)
                 }
             }
             .padding(10)
             .frame(maxWidth: .infinity)
-            .frame(height: 92)
+            .frame(height: UIScreen.getHeight(92))
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .foregroundColor(.gray3)
             )
             
             RoundedRectangle(cornerRadius: 12)
+                .frame(height: UIScreen.getHeight(92))
                 .foregroundColor(Color.lightPink)
                 .opacity(letter.isRead ? 0 : 1)
                 .mask(
