@@ -9,14 +9,14 @@ import SwiftUI
 
 struct WriteView: View {
     
-    private let placeHolder = "상대방에게 전할 마음을 적어보세요 :)"
+    private let placeHolder = "상대방에게 전달할 마음을 적어보세요 :)"
     private let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
     @StateObject var vm = WriteViewModel()
     
     @FocusState private var isFocused: Bool
     
-    let nowDate = getNowDate()
+    let nowDate = DateFormatter.getNowDate()
 
     @State private var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
@@ -41,10 +41,11 @@ struct WriteView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
                             Text(nowDate)
-                                .font(.system(size: 14, weight: .regular))
+                                .font(Font.caption1font())
                                 .foregroundColor(Color.primaryLabel)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
+                                    .font(Font.bodyfont())
                                     .foregroundColor(Color.secondaryLabel)
                                     .opacity(vm.letterText.isEmpty ? 1 : 0)
                                 letterLimitTextField(letterLimit: letterLimit)
@@ -141,9 +142,9 @@ struct WriteView: View {
                     .foregroundColor(Color.tertiaryLabel)
                     .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
             }
-            
+            Spacer()
             Text("쪽지쓰기")
-                .font(.system(size: 20, weight: .regular))
+                .font(Font.headlinefont())
                 .foregroundColor(Color.primaryLabel)
                 .padding(.leading, UIScreen.getWidth(5.03))
             Spacer()
@@ -158,7 +159,7 @@ struct WriteView: View {
                 print("button")
             }){
                 Text("저장")
-                    .font(.system(size: 16.67, weight: .regular))
+                    .font(Font.headlinefont())
                     .foregroundColor(Color.secondaryLabel)
             }
         }
@@ -198,11 +199,11 @@ struct WriteView: View {
     
     func letterLimitLabel(letterLimit: Int) -> some View {
         return Text("\($vm.letterText.wrappedValue.count)")
-            .font(.system(size: 18.33, weight: .semibold))
+            .font(Font.footnotefont())
             .foregroundColor(isOverLetterLimit ? ($vm.letterText.wrappedValue.count < 300 ? Color.primaryLabel : Color.defaultRed) : Color.primaryLabel)
         + Text("/\(letterLimit)")
-            .font(.system(size: 18.33, weight: .regular))
-            .foregroundColor(Color.primaryLabel)
+            .font(Font.footnotefont())
+            .foregroundColor(Color.tertiaryLabel)
     }
     
     /// 글자 제한이 있는 TextField를 추가
@@ -212,9 +213,10 @@ struct WriteView: View {
     func letterLimitTextField(letterLimit: Int) -> some View {
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
-                    .font(.system(size: 18.33, weight: .regular))
+                    .font(Font.bodyfont())
                     .foregroundColor(Color.primaryLabel)
                     .multilineTextAlignment(.leading)
+                    .lineSpacing(12)
                     .focused($isFocused)
     }
     
@@ -247,9 +249,9 @@ extension WriteView {
      }
 }
 
-//struct WriteView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WriteView(isShowingCurrentPage: <#Binding<Bool>#>)
-//            .environmentObject(WriteViewModel())
-//    }
-//}
+struct WriteView_Previews: PreviewProvider {
+    static var previews: some View {
+        WriteView(isShowingCurrentPage: .constant(true), color: "pink")
+            .environmentObject(WriteViewModel())
+    }
+}

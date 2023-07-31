@@ -12,7 +12,6 @@ struct FadeAlertView: View {
     @Binding var showAlert: Bool
     let alertMessage: FadeAlertMessage = .nickNameSaved
 
-    
     var body: some View {
         VStack {
             if showAlert {
@@ -23,6 +22,7 @@ struct FadeAlertView: View {
                         .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
                     Text(alertMessage.rawValue)
                         .foregroundColor(.primaryLabel)
+                        .font(Font.headlinefont())
                         .padding(.top, UIScreen.getHeight(23))
                 }
                 .background(
@@ -33,12 +33,13 @@ struct FadeAlertView: View {
             }
         }
         .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.showAlert = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                withAnimation(.easeInOut(duration: 1.0)) {
+                    self.showAlert = false
+                }
             }
         }
     }
-    
 }
 
 enum FadeAlertMessage: String {

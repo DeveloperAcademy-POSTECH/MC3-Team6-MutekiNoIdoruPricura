@@ -20,7 +20,7 @@ struct ReceivedHistoryCell: View {
                 VStack(alignment: .leading) {
                     Text(Date.formatDate(letter.date))
                         .foregroundColor(.secondaryLabel)
-                        .font(.caption)
+                        .font(.caption1font())
                     
                     Spacer()
                     
@@ -28,7 +28,7 @@ struct ReceivedHistoryCell: View {
                         .foregroundColor(.white)
                         .lineLimit(2)
                         .padding(.trailing, 5)
-                        .font(.caption)
+                        .font(.footnotefont())
                         .padding(.bottom)
                 }
                 .padding(.leading, 5)

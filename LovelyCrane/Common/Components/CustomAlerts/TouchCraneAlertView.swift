@@ -40,18 +40,19 @@ struct TouchCraneAlertView: View {
     func alertUnfoldTitle() -> some View {
        return Text("종이학을 터치해서\n펼쳐보세요")
             .foregroundColor(.primaryLabel)
-            .font(.system(size: 24, weight: .regular))
+            .font(Font.title3font())
             .multilineTextAlignment(.center)
+            .lineSpacing(UIScreen.getHeight(10))
     }
     
     func alertFinalTitle() -> some View {
         return VStack(spacing: 0) {
             Text("종이학이 펴졌어요!")
                 .foregroundColor(.primaryLabel)
-                .font(.system(size: 24, weight: .regular))
+                .font(Font.title3font())
             Text("이제 쪽지를 읽을 수 있어요 :)")
                 .foregroundColor(.secondaryLabel)
-                .font(.system(size: 18, weight: .regular))
+                .font(Font.footnotefont())
                 .padding(.top, UIScreen.getHeight(24))
         }
     }
@@ -77,8 +78,10 @@ struct TouchCraneAlertView: View {
         }){
             Text("바로 연결")
                 .foregroundColor(.secondaryLabel)
+                .font(Font.footnotefont())
                 .underline()
         }
+        .padding(.top, UIScreen.getHeight(17))
     }
     func alertFinalButton() -> some View {
        return Button(action: {
@@ -86,6 +89,7 @@ struct TouchCraneAlertView: View {
        }){
            Text("열어보기")
                .foregroundColor(.gray3)
+               .font(Font.bodyfont())
                .padding(.vertical, UIScreen.getHeight(16.5))
                .padding(.horizontal, UIScreen.getWidth(34))
                .background(
@@ -93,7 +97,7 @@ struct TouchCraneAlertView: View {
                        .fill(Color.lightPink)
                )
        }
-       .padding(.top, UIScreen.getHeight(27))
+       .padding(.top, UIScreen.getHeight(3))
     }
 }
 

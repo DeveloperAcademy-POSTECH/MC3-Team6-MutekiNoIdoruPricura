@@ -13,22 +13,26 @@ struct MainView: View {
     let coreMotionManager = MotionManager.shared
     
     @State var partnerName = "직녀"
-    // MARK: 수신 발신 시나리오 테스트 시 카운트를 변경
-    // 카운트 리프레시는 수신 및 발신 작업 연결 단계에서 수행해 주세요.
-    @State var letterCount = 1
-    @State var receivedCount = 1
+    @State var letterCount = 912
+    @State var isWriteHistroyTapped = false
+    @State var isWriteTapped = false
+    @State var isSettingTapped = false
+    @EnvironmentObject var viewRouter : ViewRouter
+    @State var presentStrings: [String] = ["선", "물", "하", "기"]
     
-    @State var writeHistroyTapped = false
-    @State var noWriteHistoryTapped = false
-    
-    @State var noReceivedTapped = false
-    @State var receivedHistoryTapped = false
-    
-    @State var toWriteTapped = false
-    @State var settingTapped = false
-    
+    //todo: 여기부터는 목업데이터 입니다. 네트워크를 통해서 받아온 정보값을 추가해야해요
+    //싱글톤 객체 써도 되는데 그럼 environmentObject로 계속보내주는게 맞음.
+    // 전체 레터 카운트가 0 일때는 쪽지쓰기 안내
+    // 전체 레터 카운트는 존재하는데 보낼 쪾지가 0이면 모두선물했어요 기록보기
+    // 그게 아니라면 스프라이트 뷰
+    @State var letterNumber = 0
+    @State var needToSentLetter = 1
+    //만약 연결안되어있으면
+    @State var isConnection = false
+    @State var receiveLetterCount = 0
     
     @EnvironmentObject var viewRouter : ViewRouter
+    
     
     var body: some View {
         ZStack {
@@ -49,19 +53,6 @@ struct MainView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .menuIndicator(.hidden)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Image(systemName: "gift")
-                        .onTapGesture {
-                            if receivedCount == 0 {
-                                noReceivedTapped.toggle()
-                            } else {
-                                receivedHistoryTapped.toggle()
-                            }
-                        }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    sendButton()
-                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     settingButton()
                 }
@@ -82,29 +73,67 @@ struct MainView: View {
         }
     }
     private func presentedBottle() -> some View {
-        VStack {
-            Text("to. \(partnerName)")
-                .foregroundColor(.secondaryLabel)
-                .padding(.top)
-            Text("\(letterCount)")
-                .foregroundColor(.primaryLabel)
-                .font(.system(size: 50))
-            spriteView()
-            Spacer()
+        ZStack {
+            VStack {
+                Text("from. \(partnerName)")
+                    .foregroundColor(.secondaryLabel)
+                    .padding(.top)
+                Text("\(letterCount)")
+                    .foregroundColor(.primaryLabel)
+                    .font(.system(size: 50))
+                receiveSpriteView(bottle: Assets.redBottle)
+                Spacer()
+            }
+            HStack {
+                Image(Assets.doubleChevronLeft)
+                    .resizable()
+                    .foregroundColor(Color.gray4)
+                    .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
+                    .padding(.leading)
+                Spacer()
+            }
         }
     }
     
     private func mainBottle() -> some View {
-        VStack {
-            Text("to. \(partnerName)")
-                .foregroundColor(.secondaryLabel)
-                .padding(.top)
-            Text("\(letterCount)")
-                .foregroundColor(.primaryLabel)
-                .font(.system(size: 50))
-            spriteView()
-            Spacer()
-            bottomWriteButton()
+        ZStack {
+            HStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray4)
+                    .frame(width: UIScreen.getWidth(44), height: UIScreen.getHeight(134))
+                    .overlay {
+                        VStack {
+                            Image(Assets.send)
+                                .resizable()
+                                .renderingMode(.template)
+                                .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
+                                .foregroundColor(isSendButtonActivate() ? .deepPink : .gray5)
+                            ForEach(presentStrings, id: \.self) {
+                                Text("\($0)").font(.system(size: 14))
+                                    .foregroundColor(isSendButtonActivate() ? .defaultWhite : .gray5)
+                            }
+                        }
+                        .offset(x: UIScreen.getWidth(2))
+                    }
+                    .offset(x: UIScreen.getWidth(-7))
+                Spacer()
+                Image(Assets.doubleChevronRight)
+                    .resizable()
+                    .foregroundColor(Color.gray4)
+                    .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
+                    .padding(.trailing)
+            }
+            VStack {
+                Text("to. \(partnerName)")
+                    .foregroundColor(.secondaryLabel)
+                    .padding(.top)
+                Text("\(letterCount)")
+                    .foregroundColor(.primaryLabel)
+                    .font(.system(size: 50))
+                spriteView(bottle: Assets.bottle)
+                Spacer()
+                bottomWriteButton()
+            }
         }
     }
     
@@ -125,47 +154,98 @@ struct MainView: View {
         }
     }
     
-    private func spriteView() -> some View {
+    private func spriteView(bottle: String) -> some View {
         ZStack(alignment: .bottom) {
-            Image(Assets.bottle)
+            Image(bottle)
                 .resizable()
-            SpriteView(scene: makeScean())
-                .cornerRadius(20)
-                .padding()
-                .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.5)
-                .mask(Image(Assets.bottleIn).resizable().frame(height: CGSize.deviceHeight * 0.51))
-                .onTapGesture {
-                    Task{
-                        try await UserManager.shared.getAllLetterData()
-                        // MARK: 편지 발송 이후 letterCount를 0으로 바꿔줘야 합니다.+ 저장
-                        if letterCount == 0 {
-//                        if LetterListsManager.shared.isByMeLetters.count == 0 {
-                            noWriteHistoryTapped.toggle()
-                        } else {
-                            writeHistroyTapped.toggle()
-                        }
+                .frame(width: UIScreen.getWidth(242), height: UIScreen.getHeight(400))
+            if letterNumber == 0, needToSentLetter > 0 {
+                SpriteView(scene: makeScean())
+                    .cornerRadius(20)
+                    .padding()
+                    .frame(width: UIScreen.getWidth(246), height: UIScreen.getHeight(360))
+                    .onTapGesture {
+                        isWriteHistroyTapped.toggle()
                     }
                 }
         }
-        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.54)
+        .overlay {
+            if letterNumber == 0, needToSentLetter == 0 {
+                Text("아래의 + 버튼을 눌러서\n연인을 향한 첫번째\n종이학 쪽지를 써보세요 :)")
+                    .foregroundColor(Color.defaultWhite)
+                    .multilineTextAlignment(.center)
+                    .onTapGesture {
+                        isWriteTapped.toggle()
+                    }
+            }
+            else if letterNumber > 0, needToSentLetter == 0 {
+                VStack {
+                    Text("종이학을 모두 선물했어요!")
+                        .foregroundColor(Color.defaultWhite)
+                    Text("기록 보기").foregroundColor(.deepPink)
+                }
+            }
+        }
+        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
     }
     
-    //Todo: 랜덤하게 fill 컬러 추가해주고, 해당 컬러에 맞는 크레인 명을 color로 보내주어야 함
+    private func receiveSpriteView(bottle: String) -> some View {
+        ZStack(alignment: .bottom) {
+            Image(bottle)
+                .resizable()
+                .frame(width: UIScreen.getWidth(242), height: UIScreen.getHeight(400))
+            if isConnection, receiveLetterCount > 0 {
+                SpriteView(scene: makeScean())
+                    .cornerRadius(20)
+                    .padding()
+                    .frame(width: UIScreen.getWidth(246), height: UIScreen.getHeight(360))
+                    .onTapGesture {
+                        isWriteHistroyTapped.toggle()
+                    }
+                }
+        }
+        .overlay {
+            //MARK: - 디테일뷰가 아니라 커플링뷰로 연결해둬야함
+            if !isConnection {
+                VStack {
+                    Text("연인 연결 후\n쪽지를 받을수 있어요!")
+                        .foregroundColor(Color.defaultWhite)
+                        .multilineTextAlignment(.center)
+                    NavigationLink {
+                        DetailView()
+                    } label: {
+                        Text("연인 연결하기")
+                            .foregroundColor(Color.deepPink)
+                            .padding(.top)
+                    }
+                }
+            }
+            else if isConnection, receiveLetterCount == 0 {
+                Text("아직 연인에게\n선물받은 편지가 없어요!")
+                    .foregroundColor(Color.defaultWhite)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
+    }
+    
     private func bottomWriteButton() -> some View {
-        RoundedRectangle(cornerRadius: 20)
-            .fill(Color.deepPink)
-            .frame(width: CGSize.deviceWidth * 0.8)
-            .offset(y: CGSize.deviceHeight * 0.08)
+        let randomCrane = Assets.crans.randomElement()!.colors
+        return RoundedRectangle(cornerRadius: 20)
+            .fill(randomCrane.0)
+            .frame(width: CGSize.deviceWidth * 0.9)
+            .offset(y: CGSize.deviceHeight * 0.05)
             .ignoresSafeArea()
             .onTapGesture {
                 toWriteTapped.toggle()
             }
-            .fullScreenCover(isPresented: $toWriteTapped) {
-                WriteView(isShowingCurrentPage: $toWriteTapped, color: "pink")
-            }
             .overlay {
                 Text("+ 새로운 쪽지 작성하기")
                     .offset(y: CGSize.deviceHeight * 0.03)
+                    .foregroundColor(Color.gray4)
+            }
+            .fullScreenCover(isPresented: $isWriteTapped) {
+                WriteView(isShowingCurrentPage: $isWriteTapped, color: randomCrane.1)
             }
     }
     //MARK: - methods
@@ -176,9 +256,22 @@ struct MainView: View {
         scene.scaleMode = .resizeFill
         return scene
     }
+    
+    private func isSendButtonActivate() -> Bool {
+        if isConnection, needToSentLetter > 0 {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    
+    
 }
 
-struct MainView_Preview: PreviewProvider {
+
+struct View_Preview: PreviewProvider {
     static var previews: some View {
         MainView()
     }

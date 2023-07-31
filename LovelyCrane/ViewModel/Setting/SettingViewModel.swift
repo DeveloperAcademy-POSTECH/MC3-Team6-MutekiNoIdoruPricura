@@ -30,5 +30,6 @@ final class SettingViewModel: ObservableObject {
         try await AuthenticationManager.shared.reauthenticationUser()
         UserManager.shared.deleteUserDocument()
         try await AuthenticationManager.shared.deleteUser()
+        UserDefaults.standard.set("", forKey: "nickname")
     }
 }
