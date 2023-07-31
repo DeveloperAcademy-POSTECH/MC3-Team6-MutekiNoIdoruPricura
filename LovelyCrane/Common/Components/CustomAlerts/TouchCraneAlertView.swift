@@ -12,7 +12,7 @@ struct TouchCraneAlertView: View {
     @State private var craneUnfoldImages = Assets.touchCranes
     @State private var showFinalAlert = false
     @State private var craneIndex = 0
-    @Binding var buttonAction : ()->Void
+    @State var buttonAction : ()->Void = {}
     @Binding var showAlert: Bool
     
     var body: some View {
@@ -22,19 +22,14 @@ struct TouchCraneAlertView: View {
                     .fill(Color.gray3)
                     .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))
                 VStack(spacing: 0) {
-                    if showFinalAlert {
+                    switch showFinalAlert {
+                    case true :
                         alertFinalTitle()
-                    } else {
-                        alertUnfoldTitle()
-                    }
-                    if showFinalAlert {
                         alertFinalImage()
-                    } else {
-                        alertUnfoldImage()
-                    }
-                    if showFinalAlert {
                         alertFinalButton()
-                    } else {
+                    default :
+                        alertUnfoldTitle()
+                        alertUnfoldImage()
                         alertUnfoldButton()
                     }
                 }
@@ -57,7 +52,7 @@ struct TouchCraneAlertView: View {
             Text("이제 쪽지를 읽을 수 있어요 :)")
                 .foregroundColor(.secondaryLabel)
                 .font(.system(size: 18, weight: .regular))
-                .padding(.top, 24)
+                .padding(.top, UIScreen.getHeight(24))
         }
     }
     func alertUnfoldImage() -> some View {
@@ -70,7 +65,7 @@ struct TouchCraneAlertView: View {
                     showFinalAlert.toggle()
                 }
             }
-            .padding(.top, 24)
+            .padding(.top, UIScreen.getHeight(24))
     }
     func alertFinalImage() -> some View {
        return Image(craneUnfoldImages[3].rawValue)
@@ -91,19 +86,19 @@ struct TouchCraneAlertView: View {
        }){
            Text("열어보기")
                .foregroundColor(.gray3)
-               .padding(.vertical, 16.5)
-               .padding(.horizontal, 34)
+               .padding(.vertical, UIScreen.getHeight(16.5))
+               .padding(.horizontal, UIScreen.getWidth(34))
                .background(
                    RoundedRectangle(cornerRadius: 8)
                        .fill(Color.lightPink)
                )
        }
-       .padding(.top, 27)
+       .padding(.top, UIScreen.getHeight(27))
     }
 }
 
-//struct TouchCraneAlertView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TouchCraneAlertView()
-//    }
-//}
+struct TouchCraneAlertView_Previews: PreviewProvider {
+    static var previews: some View {
+        TouchCraneAlertView(showAlert: Binding.constant(true))
+    }
+}

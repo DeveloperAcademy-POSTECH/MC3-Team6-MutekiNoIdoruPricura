@@ -10,7 +10,7 @@ import SwiftUI
 struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
-    @Binding var alertMessage: String
+    @State var alertMessage: FadeAlertMessage = .nickNameSaved
 
     
     var body: some View {
@@ -21,9 +21,9 @@ struct FadeAlertView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
-                    Text(alertMessage)
+                    Text(alertMessage.rawValue)
                         .foregroundColor(.primaryLabel)
-                        .padding(.top, 23)
+                        .padding(.top, UIScreen.getHeight(23))
                 }
                 .background(
                     RoundedRectangle(cornerRadius: 16)
@@ -39,6 +39,12 @@ struct FadeAlertView: View {
         }
     }
     
+}
+
+enum FadeAlertMessage: String {
+    case nickNameSaved = "닉네임이 저장되었어요"
+    case presentCrane = "종이학을 선물했어요"
+    case savePaper = "쪽지가 저장되었어요."
 }
 
 //struct FadeAlertView_Previews: PreviewProvider {

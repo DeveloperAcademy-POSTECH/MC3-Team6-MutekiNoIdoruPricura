@@ -29,26 +29,25 @@ struct CouplingAlertView: View {
                     }
                     .foregroundColor(.primaryLabel)
                     .font(.system(size: partnerName.count > 5 || myName.count > 5 ? 18 : 24, weight: .regular))
-                    .padding(.top, 17)
+                    .padding(.top, UIScreen.getHeight(17))
                     Text("연인 연결이 되었어요!")
                         .foregroundColor(.secondaryLabel)
                         .font(.system(size: 16, weight: .regular))
                         .multilineTextAlignment(.center)
-                        .padding(.top, 26)
+                        .padding(.top, UIScreen.getHeight(26))
                     Button(action: {
                         showAlert = false
                     }){
                         Text("확인")
                             .foregroundColor(.gray3)
-                            .padding(.vertical, 16.5)
-                            .padding(.horizontal, 34)
+                            .padding(.vertical, UIScreen.getHeight(16.5))
+                            .padding(.horizontal, UIScreen.getWidth(34))
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.lightPink)
                             )
-                        
                     }
-                    .padding(.top, 50)
+                    .padding(.top, UIScreen.getHeight(50))
                 }
             }
         }
