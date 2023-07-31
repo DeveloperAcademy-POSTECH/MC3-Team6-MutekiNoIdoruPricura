@@ -32,8 +32,11 @@ struct ContentView: View {
                         .transition(AnyTransition.opacity)
 
                 case .nicknameView:
-                    NicknameView()
-                        .transition(AnyTransition.opacity)
+//                    NavigationView {
+                        NicknameView()
+//                            .navigationBarHidden(true)
+                            .transition(AnyTransition.opacity)
+//                    }
                 }
             }
             .environmentObject(viewRouter)

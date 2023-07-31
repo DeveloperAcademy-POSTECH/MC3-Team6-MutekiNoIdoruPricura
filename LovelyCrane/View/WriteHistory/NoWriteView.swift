@@ -18,6 +18,8 @@ struct NoWriteView: View {
             
             VStack {
                 Image(Assets.noWriteCrane)
+                    .resizable()
+                    .frame(width: UIScreen.getWidth(206), height: UIScreen.getHeight(158))
                 
                 VStack(spacing: 8) {
                     Text("아직 연인에게")
@@ -28,7 +30,6 @@ struct NoWriteView: View {
                 Button {
                     dismiss()
                     writeLetterButtonTapped.toggle()
-
                 } label: {
                     Text("쪽지 작성하기")
                         .foregroundColor(.lightPink)

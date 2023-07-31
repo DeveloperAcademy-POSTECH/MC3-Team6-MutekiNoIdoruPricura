@@ -1,19 +1,25 @@
+////
+////  updateNicknameView.swift
+////  LovelyCrane
+////
+////  Created by Toughie on 2023/07/30.
+////
 //
-//  NickNameView.swift
-//  LoveCrane
-//
-//  Created by 235 on 2023/07/17.
-//
-
 import Firebase
 import SwiftUI
 
-struct NicknameView: View {
+struct UpdateNicknameView: View {
     
     @StateObject private var viewModel = NicknameViewModel()
-    @EnvironmentObject var viewRouter: ViewRouter
-    
     @FocusState private var nicknameInFocus: Bool
+
+    @Environment(\.dismiss) var dismiss
+    
+    init() {
+      let navBarAppearance = UINavigationBar.appearance()
+      navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+      navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+    }
     
     var body: some View {
         
@@ -24,11 +30,12 @@ struct NicknameView: View {
                 Spacer()
                 
                 VStack(alignment: .center, spacing: 40) {
+
                     makeHeaderImageText()
-                    
+
                     VStack {
-                        makeNicknameTextField()
-                        makeNicknameCountCaution()
+                    makeNicknameTextField()
+                    makeNicknameCountCaution()
                     }
                 }
                 Spacer()
@@ -37,14 +44,27 @@ struct NicknameView: View {
             }
             .padding(.horizontal, 24)
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(Color.tertiaryLabel)
+                    .padding(.trailing, 15)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+        }
+        .navigationTitle("닉네임 수정")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             nicknameInFocus = true
         }
     }
 }
 
-extension NicknameView {
-
+extension UpdateNicknameView {
+    
     private func makeHeaderImageText() -> some View {
         VStack(spacing: 5) {
             Image(Assets.nicknameViewImage)
@@ -57,7 +77,7 @@ extension NicknameView {
     }
     
     private func makeNicknameTextField() -> some View {
-        TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
+        TextField("", text: $viewModel.nickname)
             .focused($nicknameInFocus)
             .foregroundColor(.primaryLabel)
             .multilineTextAlignment(TextAlignment.center)
@@ -66,8 +86,8 @@ extension NicknameView {
             .background (
                 ZStack {
                     Color.textFieldGray
-                    if viewModel.nickname.isEmpty {
-                        Text("닉네임을 입력해주세요")
+                    if viewModel.nickname.count == 0 {
+                        Text("닉네임을 입력해주세요.")
                             .foregroundColor(Color.tertiaryLabel)
                     }
                 }
@@ -91,32 +111,29 @@ extension NicknameView {
             Task{
                 do {
                     try await viewModel.updateNickName(nickName: viewModel.nickname)
-                    viewRouter.currentPage = .mainView
+                    dismiss()
                 }
                 catch{
                     print("error")
                 }
             }
         }, label: {
-            Text("완료")
-                .foregroundColor(viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? .quarternaryLabel : .gray1)
+            Text("저장하기")
+                .foregroundColor(viewModel.isValidNickName() ? .gray1 : .quarternaryLabel)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)
                 .background(
-                    viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? Color.gray3 : Color.lightPink
+                    viewModel.isValidNickName() ? Color.lightPink : Color.gray3
                 )
                 .cornerRadius(10)
         })
-        .padding(.bottom, 25)
         .disabled(viewModel.nickname.isEmpty || viewModel.nickname.count > 8)
+        .padding(.bottom, 25)
     }
 }
 
-struct NicknameView_Previews: PreviewProvider {
+struct UpdateNicknameView_Previews: PreviewProvider {
     static var previews: some View {
-        
-        let viewRouter = ViewRouter()
-        NicknameView()
-            .environmentObject(viewRouter)
+        UpdateNicknameView()
     }
 }

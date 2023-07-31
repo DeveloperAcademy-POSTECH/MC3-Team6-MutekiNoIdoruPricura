@@ -47,6 +47,8 @@
 		86682EBE2A73DC9000B21F9A /* NoReceivedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EBD2A73DC9000B21F9A /* NoReceivedView.swift */; };
 		86682EC02A73DCF800B21F9A /* ReceivedHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EBF2A73DCF800B21F9A /* ReceivedHistoryView.swift */; };
 		86682EC22A73E3E400B21F9A /* ReceivedHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EC12A73E3E400B21F9A /* ReceivedHistoryCell.swift */; };
+		86682EC42A76703B00B21F9A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86682EC32A76703B00B21F9A /* Launch Screen.storyboard */; };
+		86682EC62A768B4C00B21F9A /* UpdateNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86682EC52A768B4C00B21F9A /* UpdateNicknameView.swift */; };
 		86E502942A6690060001D88A /* SignInGoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E502932A6690060001D88A /* SignInGoogleHelper.swift */; };
 		86E502972A6691100001D88A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 86E502962A6691100001D88A /* GoogleSignIn */; };
 		86E502992A6691100001D88A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 86E502982A6691100001D88A /* GoogleSignInSwift */; };
@@ -76,7 +78,6 @@
 		C782106F2A6F9638002C0407 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C782106E2A6F9638002C0407 /* GoogleService-Info.plist */; };
 		C7C5C34A2A72FDE100B41F75 /* ToastAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C5C3492A72FDE100B41F75 /* ToastAlert.swift */; };
 		C7DE01372A73EAB1008F6F19 /* CoupleSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE01362A73EAB1008F6F19 /* CoupleSuccessView.swift */; };
-		C7DE01392A73EB29008F6F19 /* NoneReceiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE01382A73EB29008F6F19 /* NoneReceiveView.swift */; };
 		C7EB0EE72A69D9F200AAC2F4 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */; };
 		C7EB0EEE2A69DB7F00AAC2F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C7EB0EED2A69DB7F00AAC2F4 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
@@ -124,6 +125,8 @@
 		86682EBD2A73DC9000B21F9A /* NoReceivedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoReceivedView.swift; sourceTree = "<group>"; };
 		86682EBF2A73DCF800B21F9A /* ReceivedHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedHistoryView.swift; sourceTree = "<group>"; };
 		86682EC12A73E3E400B21F9A /* ReceivedHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedHistoryCell.swift; sourceTree = "<group>"; };
+		86682EC32A76703B00B21F9A /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		86682EC52A768B4C00B21F9A /* UpdateNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameView.swift; sourceTree = "<group>"; };
 		86E502932A6690060001D88A /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
 		86E5029B2A6691CF0001D88A /* SignWithGoogleResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignWithGoogleResult.swift; sourceTree = "<group>"; };
 		86E502AF2A6862E50001D88A /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
@@ -148,7 +151,6 @@
 		C782106E2A6F9638002C0407 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C7C5C3492A72FDE100B41F75 /* ToastAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastAlert.swift; sourceTree = "<group>"; };
 		C7DE01362A73EAB1008F6F19 /* CoupleSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoupleSuccessView.swift; sourceTree = "<group>"; };
-		C7DE01382A73EB29008F6F19 /* NoneReceiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneReceiveView.swift; sourceTree = "<group>"; };
 		C7EB0EE52A69CDE800AAC2F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C7EB0EE62A69D9F200AAC2F4 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -259,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				86682EB12A725E5000B21F9A /* SettingView.swift */,
+				86682EC52A768B4C00B21F9A /* UpdateNicknameView.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 			children = (
 				C782106E2A6F9638002C0407 /* GoogleService-Info.plist */,
 				C7EB0EE52A69CDE800AAC2F4 /* Info.plist */,
+				86682EC32A76703B00B21F9A /* Launch Screen.storyboard */,
 				8657733F2A65A41800D40B59 /* LovelyCrane.entitlements */,
 				0D46EB4C2A66AE6C00C65A7B /* Ext+ */,
 				0D46EB492A66AE4A00C65A7B /* SpriteKit */,
@@ -556,6 +560,7 @@
 			files = (
 				865773272A65A18C00D40B59 /* Preview Assets.xcassets in Resources */,
 				865773242A65A18C00D40B59 /* Assets.xcassets in Resources */,
+				86682EC42A76703B00B21F9A /* Launch Screen.storyboard in Resources */,
 				C782106F2A6F9638002C0407 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,6 +615,7 @@
 				0D46EB502A66AE8800C65A7B /* Color+.swift in Sources */,
 				C37461CD2A7262B70078C457 /* WriteView.swift in Sources */,
 				86428B8E2A65AD8700B2CA7D /* FirebaseNetwork.swift in Sources */,
+				86682EC62A768B4C00B21F9A /* UpdateNicknameView.swift in Sources */,
 				86E502942A6690060001D88A /* SignInGoogleHelper.swift in Sources */,
 				C7DE01372A73EAB1008F6F19 /* CoupleSuccessView.swift in Sources */,
 				0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */,
@@ -756,16 +762,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LovelyCrane/LovelyCrane.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LovelyCrane/Preview Content\"";
-				DEVELOPMENT_TEAM = NG2NLR2Z86;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LovelyCrane/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "LovelyCrane uses camera";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -793,16 +800,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LovelyCrane/LovelyCrane.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LovelyCrane/Preview Content\"";
-				DEVELOPMENT_TEAM = NG2NLR2Z86;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LovelyCrane/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "LovelyCrane uses camera";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

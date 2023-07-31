@@ -27,6 +27,7 @@ final class SettingViewModel: ObservableObject {
     }
     
     func deleteUser() async throws {
+        try await AuthenticationManager.shared.reauthenticationUser()
         UserManager.shared.deleteUserDocument()
         try await AuthenticationManager.shared.deleteUser()
     }

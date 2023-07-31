@@ -16,6 +16,8 @@ struct NoReceivedView: View {
             
             VStack {
                 Image(Assets.noReceivedViewImage)
+                    .resizable()
+                    .frame(width: UIScreen.getWidth(206), height: UIScreen.getHeight(158))
                 
                 VStack(spacing: 8) {
                     Text("아직 연인에게")
