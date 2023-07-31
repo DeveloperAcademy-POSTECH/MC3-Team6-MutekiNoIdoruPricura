@@ -18,17 +18,20 @@ struct InputCodeView: View {
             Color(.backGround)
                 .ignoresSafeArea()
             VStack{
-                Spacer().frame(maxHeight: UIScreen.getHeight(190))
-                Image(Assets.InputCodeImage)
+                Spacer()
+                    .frame(maxHeight: UIScreen.getHeight(190))
+                Image(Assets.inputpartner)
                 makeTextNoti()
                 makeinputCodeField()
                 Spacer()
                 if isShowingFaiulreMessage {
                     ToastAlert(label: "연결에 실패했어요 ㅠㅠ\n 다시 한 번 입력해보시겠어요?")
                         .frame(height: UIScreen.getHeight(78))
+                        .padding(.bottom, UIScreen.getHeight(10))
                 }
                 else{
                     makeConnectBtn()
+                        .padding(.bottom, UIScreen.getHeight(10))
                 }
             }        }
         .onAppear {
@@ -54,23 +57,27 @@ struct InputCodeView: View {
     }
     private func makeTextNoti() -> some View {
         Text("상대방의 코드를 입력 후\n종이학 편지를 선물할수 있어요")
+            .lineSpacing(UIScreen.getHeight(7))
             .foregroundColor(.primaryLabel)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, 80)
-            .padding(.bottom,36)
-            .padding(.top, 20)
+            .padding(.horizontal, UIScreen.getWidth(80))
+            .padding(.bottom,UIScreen.getHeight(36))
+            .padding(.top, UIScreen.getHeight(20))
+            .font(Font.bodyfont())
     }
     private func makeinputCodeField() -> some View {
         TextField("",text: $vm.inputcode,
                   prompt: Text("코드를 입력해주세요")
+            .font(Font.bodyfont())
             .foregroundColor(.quarternaryLabel))
-            .foregroundColor(.white)
-            .padding(.vertical,16)
+            .foregroundColor(.primaryLabel)
+            .font(Font.bodyfont())
+            .padding(.vertical,UIScreen.getHeight(15.5))
             .multilineTextAlignment(.center)
             .background(Color.gray4)
             .cornerRadius(8)
-            .padding(.horizontal,24)
-            .padding(.bottom,20)
+            .padding(.horizontal,UIScreen.getWidth(24))
+            .padding(.bottom,UIScreen.getHeight(20))
             .focused($isFocused)
     }
     private func makeConnectBtn() -> some View {
@@ -90,14 +97,17 @@ struct InputCodeView: View {
             }
         } label: {
             Text("연결하기")
+                .font(Font.bodyfont())
                 .foregroundColor(vm.inputcode.isEmpty ? Color.quarternaryLabel : Color.black)
-                .padding(.vertical,16)
+                .padding(.vertical,UIScreen.getHeight(18))
                 .frame(maxWidth: .infinity)
+
         }
         .disabled(vm.inputcode.isEmpty)
         .background(RoundedRectangle(cornerRadius: 8)
-            .fill(vm.inputcode.isEmpty ? Color.gray3 : Color.lightPink))
-        .padding(.horizontal,24)
+        .fill(vm.inputcode.isEmpty ? Color.gray3 : Color.lightPink))
+
+        .padding(.horizontal,UIScreen.getWidth(24))
     }
 }
 struct InputCodeView_Previews: PreviewProvider {

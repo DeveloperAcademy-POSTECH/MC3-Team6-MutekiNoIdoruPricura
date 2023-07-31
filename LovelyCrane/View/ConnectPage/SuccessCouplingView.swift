@@ -16,23 +16,29 @@ struct SuccessCouplingView: View {
                 CoupleSuccessView()
                 Spacer()
                 VStack{
-                    Text("사랑의 종이학들을 선물할까요?")
-                        .foregroundColor(.primaryLabel)
-                        .padding(.bottom,30)
+                    makeQuestionText()
                     makeretryBtn()
-                        .padding(.horizontal,24)
-                        .padding(.bottom,12)
+                        .padding(.horizontal,UIScreen.getWidth(24))
+                        .padding(.bottom,UIScreen.getHeight(12))
                     makesendNowBtn()
-                        .padding(.horizontal,24)
+                        .padding(.horizontal,UIScreen.getWidth(24))
+                        .padding(.bottom,UIScreen.getHeight(10))
                 }
             }}}
 }
 extension SuccessCouplingView {
+    func makeQuestionText() -> some View {
+        Text("사랑의 종이학들을 선물할까요?")
+            .foregroundColor(.primaryLabel)
+            .font(Font.bodyfont())
+            .padding(.bottom,UIScreen.getHeight(30))
+    }
     func makeretryBtn() -> some View {
         Button(action: {isOpenModal = false}) {
             Text("다음에 할게요")
                 .foregroundColor(.lightPink)
-                .padding(.vertical,16)
+                .padding(.vertical,UIScreen.getHeight(18))
+                .font(Font.bodyfont())
                 .frame(maxWidth: .infinity)
         }
         .background(Color.gray3)
@@ -42,7 +48,8 @@ extension SuccessCouplingView {
         Button(action: {isOpenModal = false}) {
             Text("네! 지금 선물할래요")
                 .foregroundColor(.gray1)
-                .padding(.vertical,16)
+                .padding(.vertical,UIScreen.getHeight(18))
+                .font(Font.bodyfont())
                 .frame(maxWidth: .infinity)
         }
         .background(Color.lightPink)
