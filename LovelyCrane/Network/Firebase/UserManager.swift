@@ -45,6 +45,7 @@ final class UserManager {
             .updateData(["send_count": sendCount+1], forDocument: getUserDocument())
         batch
             .setData(letterdata, forDocument: postdata)
+        try await batch.commit()
     }
     ///  모든편지데이터들을 가져와서 letterLists에 저장해놓기
     func getAllLetterData() async throws{
