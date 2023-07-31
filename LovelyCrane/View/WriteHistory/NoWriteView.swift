@@ -16,7 +16,7 @@ struct NoWriteView: View {
         ZStack {
             Color(.backGround).ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 20) {
                 Image(Assets.noWriteCrane)
                     .resizable()
                     .frame(width: UIScreen.getWidth(206), height: UIScreen.getHeight(158))
@@ -25,6 +25,7 @@ struct NoWriteView: View {
                     Text("아직 연인에게")
                     Text("쓴 쪽지가 없어요!")
                 }
+                .font(.headlinefont())
                 .foregroundColor(.white)
                 
                 Button {
@@ -32,9 +33,9 @@ struct NoWriteView: View {
                     writeLetterButtonTapped.toggle()
                 } label: {
                     Text("쪽지 작성하기")
+                        .font(.headlinefont())
                         .foregroundColor(.lightPink)
                 }
-                .padding(.top, 20)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -42,6 +43,7 @@ struct NoWriteView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray)
+                    .padding(.trailing, 15)
                     .onTapGesture {
                         dismiss()
                     }

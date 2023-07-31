@@ -14,7 +14,7 @@ struct NoReceivedView: View {
         ZStack {
             Color(.backGround).ignoresSafeArea()
             
-            VStack {
+            VStack(spacing: 20) {
                 Image(Assets.noReceivedViewImage)
                     .resizable()
                     .frame(width: UIScreen.getWidth(206), height: UIScreen.getHeight(158))
@@ -23,6 +23,7 @@ struct NoReceivedView: View {
                     Text("아직 연인에게")
                     Text("선물받은 쪽지가 없어요!")
                 }
+                .font(.headlinefont())
                 .foregroundColor(.white)
                 
                 Button {
@@ -30,9 +31,9 @@ struct NoReceivedView: View {
                     
                 } label: {
                     Text("메인으로 가기")
+                        .font(.headlinefont())
                         .foregroundColor(.lightPink)
                 }
-                .padding(.top, 20)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -40,6 +41,7 @@ struct NoReceivedView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray)
+                    .padding(.trailing, 15)
                     .onTapGesture {
                         dismiss()
                     }

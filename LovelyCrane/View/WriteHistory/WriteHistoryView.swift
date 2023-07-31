@@ -53,16 +53,17 @@ extension WriteHistoryView {
     
     private func makeHeaderImageText() -> some View {
         HStack(alignment: .center) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 16) {
                 Text("나의 쪽지")
+                    .font(.bodyfont())
                     .foregroundColor(.gray)
                 
                 HStack(alignment: .firstTextBaseline) {
                     Text("\(letterCount)")
-                        .font(.largeTitle)
+                        .font(.title1font())
                         .foregroundColor(.lightPink)
                     Text("마리")
-                        .font(.title2)
+                        .font(.title3font())
                         .foregroundColor(.white)
                 }
             }
@@ -100,11 +101,11 @@ extension WriteHistoryView {
                             .frame(width: UIScreen.getWidth(12.75), height: UIScreen.getHeight(11.46))
 
                         Text("\(sentLettersGroup.count)마리의 종이학을 발송했어요 :)")
-                            .font(.caption)
+                            .font(.caption1font())
                             .foregroundColor(.white)
                         
                         Text("-" + Date.formatDate(date))
-                            .font(.caption)
+                            .font(.caption2font())
                             .foregroundColor(Color.tertiaryLabel)
                     }
                     .padding(.leading, 20)
