@@ -73,14 +73,17 @@ final class UserManager {
         let snapshot = try await getUserDocument().getDocument()
         let partnerField = FieldNames.partner_id.rawValue
         guard let data = snapshot.data() else {return}
-        guard let partnertoken = data[partnerField] as? String else {return}
-        let partnerDocument = try await userCollection.document(partnertoken).getDocument()
+        if let partnerToken = data[partnerField] as? String {
+            let partnerDocument = try await userCollection.document(partnerToken).getDocument()
+            UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
+        }
+
         DispatchQueue.main.async {
             UserInfo.shared.nickName = data["nickname"] as! String
             UserInfo.shared.sendLetterCount = data["send_count"] as! Int
             UserInfo.shared.notSendLetterCount = data["notsend_count"] as! Int
             UserInfo.shared.receiveLetterCount = data["receive_count"] as! Int
-            UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
+
         }
     }
 
