@@ -28,15 +28,33 @@ struct PresentAlertView: View {
     let message: PresentAlertMessage = .presentCrane
     let buttonTitle: String = "열어보기"
     let buttonAction: ()->Void = {}
-    @State var showAlert = true
+    @Binding var showAlert: Bool
     
     var body: some View {
         if showAlert {
-            ZStack(alignment: .topTrailing) {
+            ZStack {
+                AlertBackGroundView()
                 ZStack {
                     RoundedRectangle(cornerRadius: 14)
                         .fill(Color.gray3)
                         .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))
+                        .overlay {
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        showAlert.toggle()
+                                    }) {
+                                        Image(systemName: "xmark")
+                                            .foregroundColor(.tertiaryLabel)
+                                            .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
+                                    }
+                                }
+                                Spacer()
+                            }
+                            .padding(.vertical, UIScreen.getHeight(15))
+                            .padding(.horizontal, UIScreen.getWidth(15))
+                        }
                     VStack(spacing: 0) {
                         Image(Assets.shakingBottle)
                             .resizable()
@@ -65,15 +83,6 @@ struct PresentAlertView: View {
                         .padding(.top, UIScreen.getHeight(28))
                     }
                 }
-                Button(action: {
-                    showAlert.toggle()
-                }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.tertiaryLabel)
-                            .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
-                }
-                .padding(.top, UIScreen.getHeight(20))
-                .padding(.trailing, UIScreen.getWidth(20))
             }
         }
     }

@@ -18,7 +18,7 @@ class UserInfo: ObservableObject {
     @Published var partnerNickName = ""
     
     //파트너 연결안되어있으면, true 아니면 false
-    func checkPartnerConnection() -> Bool {
-        return partnerNickName.isEmpty
+    func isConnection() -> Bool {
+        return !partnerNickName.isEmpty
     }
 }

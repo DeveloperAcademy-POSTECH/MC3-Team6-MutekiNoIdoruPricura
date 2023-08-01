@@ -28,7 +28,8 @@ struct MainView: View {
     @EnvironmentObject var viewRouter : ViewRouter
     
     
-    let center = NotificationCenter.default.publisher(for: Notification.Name("present"))
+    let presentCenter = NotificationCenter.default.publisher(for: Notification.Name("present"))
+    let updateCenter = NotificationCenter.default.publisher(for: Notification.Name("update"))
     
     var body: some View {
         ZStack {
@@ -49,16 +50,22 @@ struct MainView: View {
                     settingButton()
                 }
             }
-            .onReceive(center) { _ in
+            .onReceive(presentCenter) { _ in
                 self.showPresentAlert.toggle()
+            }
+            .onReceive(updateCenter) { _ in
+                Task{
+                    try await UserManager.shared.getmyUserData()
+                }
             }
             .onAppear {
                 Task {
                     try await UserManager.shared.getmyUserData()
+                    try await UserManager.shared.getAllLetterData()
                 }
             }
             if showPresentAlert {
-                PresentAlertView()
+                PresentAlertView(showAlert: $showPresentAlert)
                     .transition(.opacity.animation(.easeIn))
             }
         }
@@ -100,7 +107,7 @@ struct MainView: View {
         ZStack {
             HStack {
                 NavigationLink {
-                    PresentAlertView()
+                    PresentAlertView(showAlert: $showPresentAlert)
                 } label: {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.gray4)
@@ -119,7 +126,7 @@ struct MainView: View {
                             }
                             .offset(x: UIScreen.getWidth(2))
                             .onTapGesture {
-                                if userInfo.checkPartnerConnection() {
+                                if !userInfo.isConnection() {
                                     isCoupleingTapped.toggle()
                                 }
                                 else {
@@ -142,7 +149,7 @@ struct MainView: View {
                     .padding(.trailing)
             }
             VStack {
-                Text("나의 쪽지")
+                Text("보낼 쪽지")
                     .foregroundColor(.secondaryLabel)
                     .padding(.top)
                 Text("\(userInfo.notSendLetterCount)")
@@ -214,7 +221,7 @@ struct MainView: View {
             Image(bottle)
                 .resizable()
                 .frame(width: UIScreen.getWidth(242), height: UIScreen.getHeight(400))
-            if !userInfo.checkPartnerConnection(), userInfo.receiveLetterCount > 0 {
+            if userInfo.isConnection(), userInfo.receiveLetterCount > 0 {
                 SpriteView(scene: makeScean(letterCount: userInfo.receiveLetterCount))
                     .cornerRadius(20)
                     .padding()
@@ -226,7 +233,7 @@ struct MainView: View {
         }
         .overlay {
             //MARK: - 디테일뷰가 아니라 커플링뷰로 연결해둬야함
-            if userInfo.checkPartnerConnection() {
+            if !userInfo.isConnection() {
                 VStack {
                     Text("연인 연결 후\n쪽지를 받을수 있어요!")
                         .foregroundColor(Color.defaultWhite)
@@ -242,7 +249,7 @@ struct MainView: View {
                         }
                 }
             }
-            else if !userInfo.checkPartnerConnection(), userInfo.receiveLetterCount == 0 {
+            else if userInfo.isConnection(), userInfo.receiveLetterCount == 0 {
                 NavigationLink {
                     NoReceivedView()
                 } label: {
@@ -250,17 +257,6 @@ struct MainView: View {
                         .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
                 }
-
-            }
-            else if !userInfo.checkPartnerConnection(), userInfo.receiveLetterCount != 0 {
-                NavigationLink {
-                    ReceivedHistoryView()
-                } label: {
-                    Text("아직 연인에게\n선물받은 편지가 없어요!")
-                        .foregroundColor(Color.defaultWhite)
-                        .multilineTextAlignment(.center)
-                }
-
             }
         }
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
@@ -295,7 +291,7 @@ struct MainView: View {
     }
     
     private func isSendButtonActivate() -> Bool {
-        if !userInfo.checkPartnerConnection(), userInfo.notSendLetterCount > 0 {
+        if userInfo.notSendLetterCount > 0 {
             return true
         }
         else {

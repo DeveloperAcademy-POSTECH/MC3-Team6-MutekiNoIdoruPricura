@@ -78,10 +78,8 @@ final class UserManager {
         DispatchQueue.main.async {
             UserInfo.shared.nickName = data["nickname"] as! String
             UserInfo.shared.sendLetterCount = data["send_count"] as! Int
-            //여기는 notsend카운트 추가
-            //        UserInfo.shared.notSendCount =
+            UserInfo.shared.notSendLetterCount = data["notsend_count"] as! Int
             UserInfo.shared.receiveLetterCount = data["receive_count"] as! Int
-            //파트너 닉네임으로 변경해서 받아오도록하자
             UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
         }
     }

@@ -52,7 +52,7 @@ extension SuccessCouplingView {
     func makesendNowBtn() -> some View {
         Button {
             isOpenModal = false
-            NotificationCenter.default.publisher(for: Notification.Name("present"))
+            NotificationCenter.default.post(name: Notification.Name("present"), object: nil)
         } label: {
             Text("네! 지금 선물할래요")
                 .foregroundColor(.gray1)

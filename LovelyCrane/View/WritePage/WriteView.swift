@@ -154,6 +154,7 @@ struct WriteView: View {
                     if(await vm.saveImageStoarge()){
                     isShowingCurrentPage.toggle()
                     NotificationCenter.default.post(name: NSNotification.Name("write"), object: color)
+                    NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
                 }}
 
                 print("button")
