@@ -68,14 +68,20 @@ final class UserManager {
         }
         LetterListsManager.shared.letterListArray = letterLists
     }
-    // 내 정보 가져오기 런치스크린에서 하면될듯
+    // Todo
     func getmyUserData() async throws {
         let snapshot = try await getUserDocument().getDocument()
         let partnerField = FieldNames.partner_id.rawValue
         guard let data = snapshot.data() else {return}
         guard let partnertoken = data[partnerField] as? String else {return}
         let partnerDocument = try await userCollection.document(partnertoken).getDocument()
-        print(partnerDocument[FieldNames.nickname.rawValue])
+        DispatchQueue.main.async {
+            UserInfo.shared.nickName = data["nickname"] as! String
+            UserInfo.shared.sendLetterCount = data["send_count"] as! Int
+            UserInfo.shared.notSendLetterCount = data["notsend_count"] as! Int
+            UserInfo.shared.receiveLetterCount = data["receive_count"] as! Int
+            UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
+        }
     }
 
     // 읽었으면 해당 도큐멘트 is_read변경
@@ -131,9 +137,9 @@ final class UserManager {
                 .getDocuments()
             for document in snapshot.documents {
                 try await document.reference
-                    .updateData(["send_date": getNowDate()])
+                    .updateData(["send_date": Date.getNowDate()])
                 var letterData = document.data()
-                letterData["send_date"] = getNowDate()
+                letterData["send_date"] = Date.getNowDate()
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue)
                     .addDocument(data: letterData)
                 try await document.reference

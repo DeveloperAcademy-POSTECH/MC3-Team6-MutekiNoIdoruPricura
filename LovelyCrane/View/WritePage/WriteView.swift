@@ -16,7 +16,7 @@ struct WriteView: View {
     
     @FocusState private var isFocused: Bool
     
-    let nowDate = DateFormatter.getNowDate()
+    let nowDate = Date.getNowDate()
 
     @State private var isOverLetterLimit = false
     @Binding var isShowingCurrentPage: Bool
@@ -154,6 +154,7 @@ struct WriteView: View {
                     if(await vm.saveImageStoarge()){
                     isShowingCurrentPage.toggle()
                     NotificationCenter.default.post(name: NSNotification.Name("write"), object: color)
+                    NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
                 }}
 
                 print("button")

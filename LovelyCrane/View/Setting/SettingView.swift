@@ -79,7 +79,7 @@ struct SettingView: View {
                 .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.inline)
             
-            FadeAlertView(showAlert: $savedNickname)
+            FadeAlertView(showAlert: $savedNickname, alertType: .nickNameSaved)
         }
     }
 }

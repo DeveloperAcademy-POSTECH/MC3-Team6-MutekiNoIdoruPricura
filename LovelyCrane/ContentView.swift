@@ -12,8 +12,6 @@ struct ContentView: View {
 
     @EnvironmentObject var viewRouter: ViewRouter
 
-    var currentNickname: String? = UserDefaults.standard.string(forKey: "nickname") ?? ""
-
     var body: some View {
         NavigationView {
             ZStack {
@@ -30,13 +28,9 @@ struct ContentView: View {
                 case .mainView:
                     MainView()
                         .transition(AnyTransition.opacity)
-
                 case .nicknameView:
-//                    NavigationView {
-                        NicknameView()
-//                            .navigationBarHidden(true)
-                            .transition(AnyTransition.opacity)
-//                    }
+                    NicknameView()
+                        .transition(AnyTransition.opacity)
                 }
             }
             .environmentObject(viewRouter)
@@ -48,21 +42,18 @@ extension ContentView {
 
     func checkAuthenticationStatus() {
         if let authUser = try? AuthenticationManager.shared.getAuthenticatedUser() {
-            checkDocumentNickName(auth: authUser)
+            Task {
+                try await UserManager.shared.getmyUserData()
+                await checkDocumentNickName()
+            }
+
         } else {
             viewRouter.currentPage = .authenticationView
         }
     }
 
-    func checkDocumentNickName(auth: AuthDataResult) {
-        Task {
-            let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
-            guard
-                let _ = try? await userCollection.document(auth.uid).getDocument(),
-                let nickName = currentNickname else { return }
-
-            viewRouter.currentPage = nickName.isEmpty ? .nicknameView : .mainView
-        }
+    func checkDocumentNickName() async {
+        viewRouter.currentPage = UserInfo.shared.nickName.isEmpty ? .nicknameView : .mainView
     }
 }
 
