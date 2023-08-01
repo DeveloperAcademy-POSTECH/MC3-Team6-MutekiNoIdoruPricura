@@ -41,7 +41,6 @@ enum Present: String {
 struct PresentAlertView: View {
     
     let alertType: Present
-    let buttonAction: ()->Void = {}
     @Binding var showAlert: Bool
     @State var showTouchCraneAlert = false
     

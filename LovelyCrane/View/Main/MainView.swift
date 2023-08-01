@@ -10,8 +10,7 @@ import SpriteKit
 import CoreMotion
 
 /* todo -
-    1. 쪽지수신은 어캐 불러오는건지 모르겟음 메소드적으로
-    2. 대충보이는거는 다 연결해둿는데 데이터 변경이 안되서 체크를못함 내일 체크합시다.
+    1. 천개
  */
 
 
@@ -70,22 +69,15 @@ struct MainView: View {
             .onReceive(successPresentCenter) { _ in
                 isPresented.toggle()
             }
-            .onAppear {
-                Task {
-                    try await UserManager.shared.getmyUserData()
-                    try await UserManager.shared.getAllLetterData()
-                }
-            }
             if showPresentAlert {
                 PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
                     .transition(.opacity.animation(.easeIn))
             }
             if isPresented {
-                FadeAlertView(showAlert: $isPresented)
+                FadeAlertView(showAlert: $isPresented, alertType: .presentCrane)
                     .transition(.opacity.animation(.easeIn))
             }
         }
-
     }
 
     //MARK: - Views
