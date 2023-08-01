@@ -25,12 +25,12 @@ struct MainView: View {
     @State private var isCoupleingTapped = false
     @State private var showPresentAlert = false
     @State private var presentStrings: [String] = ["선", "물", "하", "기"]
-    @EnvironmentObject var viewRouter : ViewRouter
-    
-    
+        @EnvironmentObject var viewRouter : ViewRouter
+
+
     let presentCenter = NotificationCenter.default.publisher(for: Notification.Name("present"))
     let updateCenter = NotificationCenter.default.publisher(for: Notification.Name("update"))
-    
+
     var body: some View {
         ZStack {
             NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
@@ -61,8 +61,12 @@ struct MainView: View {
             .onAppear {
                 Task {
                     try await UserManager.shared.getmyUserData()
+                    UserManager.shared.listenConnectPartner()
                     try await UserManager.shared.getAllLetterData()
                 }
+            }
+            .onDisappear {
+                UserManager.shared.removeSnapShotListenr()
             }
             if showPresentAlert {
                 PresentAlertView(showAlert: $showPresentAlert)
@@ -102,7 +106,7 @@ struct MainView: View {
             }
         }
     }
-    
+
     private func mainBottle() -> some View {
         ZStack {
             HStack {
@@ -161,7 +165,7 @@ struct MainView: View {
             }
         }
     }
-    
+
     private func sendButton() -> some View {
         Button {
             Task{
@@ -172,7 +176,7 @@ struct MainView: View {
             Image(Assets.send)
         }
     }
-    
+
     private func spriteView(bottle: String) -> some View {
         ZStack(alignment: .bottom) {
             Image(bottle)
@@ -215,7 +219,7 @@ struct MainView: View {
         }
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
     }
-    
+
     private func receiveSpriteView(bottle: String) -> some View {
         ZStack(alignment: .bottom) {
             Image(bottle)
@@ -261,7 +265,7 @@ struct MainView: View {
         }
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
     }
-    
+
     private func bottomWriteButton() -> some View {
         let randomCrane = Assets.crans.randomElement()!.colors
         return RoundedRectangle(cornerRadius: 20)
@@ -289,7 +293,7 @@ struct MainView: View {
         scene.scaleMode = .resizeFill
         return scene
     }
-    
+
     private func isSendButtonActivate() -> Bool {
         if userInfo.notSendLetterCount > 0 {
             return true
@@ -298,13 +302,10 @@ struct MainView: View {
             return false
         }
     }
-    
+
     private func showAlert() {
         self.showPresentAlert.toggle()
     }
-    
-    
-    
 }
 
 

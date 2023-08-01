@@ -13,6 +13,8 @@ import FirebaseFirestoreSwift
 final class UserManager {
     static let shared = UserManager()
     private init() {}
+    var partnerNickname: String?
+    private var snapshotListener: ListenerRegistration?
 
     private let userCollection = Firestore.firestore().collection("Users")
     /// 테스트 위해서 uid가 없으면 일단은 "none"
@@ -81,6 +83,9 @@ final class UserManager {
             UserInfo.shared.notSendLetterCount = data["notsend_count"] as! Int
             UserInfo.shared.receiveLetterCount = data["receive_count"] as! Int
             UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
+            if let partnerData = partnerDocument.data(), let partnernickname = partnerData[FieldNames.nickname.rawValue] as? String {
+                self.partnerNickname = partnernickname
+            }
         }
     }
 
@@ -164,19 +169,20 @@ final class UserManager {
     }
 // 이거를 어디서 계속 감지하고 있을지 뷰가 온어피어될때마다 키는건 비효율
     func listenConnectPartner() {
-            getUserDocument().addSnapshotListener { snapshot, error in
-            guard let documents = snapshot else {return}
-            guard let data = documents.data() else {return}
-            print(data)
-            guard let partnerId = data["partner_id"] as? String else {return}
-            guard let receivecount = data["receive_count"] as? Int else {return}
-            /* 기존에 내가 갖고 있던거랑 receivecount가 달라지면 그것은 상대로부터 받은거기에 receive Modal
-            if(receivecount != 내가갖고있는것)
-             elif(partnerId != 내가가지고 있는것)
-             마찬가지로 파트너도 달라지면 최초 파트너 모달띄워주기
-             */
-
+        snapshotListener = getUserDocument().addSnapshotListener { snapshot, error in
+        guard let documents = snapshot else {return}
+        guard let data = documents.data() else {return}
+        guard let receivecount = data["receive_count"] as? Int else {return}
+        if self.partnerNickname != UserInfo.shared.partnerNickName {
+            NotificationCenter.default.post(name: Notification.Name("receivePartner"), object: nil)
+        } else if receivecount != UserInfo.shared.receiveLetterCount {
+            NotificationCenter.default.post(name: Notification.Name("receive"), object: nil)
         }
+    }
+    }
+    func removeSnapShotListenr() {
+        snapshotListener?.remove()
+        snapshotListener = nil
     }
 }
 
