@@ -61,6 +61,7 @@ struct Assets {
     static let receiveConnect = "receiveConnect"
     static let connectbottle = "connectbottle"
     static let galleryIcon = "galleryIcon"
+    static let inputpartner = "inputpartner"
     static let doubleChevronRight = "doubleChevron.right"
     static let doubleChevronLeft = "doubleChevron.left"
 }

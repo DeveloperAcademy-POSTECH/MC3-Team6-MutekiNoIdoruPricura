@@ -40,8 +40,10 @@ final class UserManager {
             "is_sent": letter.isSent,
         ]
         let userDocument =  try await getUserDocument().getDocument()
-        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int else { return }
+        guard let userdata = userDocument.data(), let sendCount = userdata["send_count"] as? Int, let notsendCount = userdata["notsend_count"] as? Int else { return }
         let postdata =  getUserDocument().collection("letter_lists").document()
+        batch
+            .updateData(["notsend_count" : notsendCount + 1], forDocument: getUserDocument())
         batch
             .updateData(["send_count": sendCount+1], forDocument: getUserDocument())
         batch
@@ -68,8 +70,12 @@ final class UserManager {
     }
     // 내 정보 가져오기 런치스크린에서 하면될듯
     func getmyUserData() async throws {
-        let snapshot = try await  getUserDocument().getDocument()
-        print(snapshot.data())
+        let snapshot = try await getUserDocument().getDocument()
+        let partnerField = FieldNames.partner_id.rawValue
+        guard let data = snapshot.data() else {return}
+        guard let partnertoken = data[partnerField] as? String else {return}
+        let partnerDocument = try await userCollection.document(partnertoken).getDocument()
+        print(partnerDocument[FieldNames.nickname.rawValue])
     }
 
     // 읽었으면 해당 도큐멘트 is_read변경
@@ -136,6 +142,8 @@ final class UserManager {
                 batch
                     .updateData(["receive_count": partnerreceiveCount + 1], forDocument: partnerUserDocument)
             }
+            batch
+                .updateData(["notsend_count": 0], forDocument: getUserDocument())
             try await batch
                 .commit()
         }

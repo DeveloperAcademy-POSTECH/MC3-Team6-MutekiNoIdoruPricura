@@ -57,13 +57,10 @@ struct MainView: View {
                     settingButton()
                 }
             }
-//            .fullScreenCover(isPresented: $firsttap) {
-//                CouplingView(isOpen: $firsttap)
-//            }
         }
         .onAppear {
             Task{
-                try await UserManager.shared.listenConnectPartner()}
+                try await UserManager.shared.getmyUserData()}
         }
     }
 

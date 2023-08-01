@@ -12,6 +12,7 @@ struct DBUser: Codable {
     let partnerId: String?
     let receiveCount: Int?
     let sendCount: Int?
+    let notSendCount: Int?
 
     enum CodingKeys: String, CodingKey {
         case uuid = "uuid"
@@ -19,6 +20,7 @@ struct DBUser: Codable {
         case partnerId = "partner_id"
         case receiveCount = "receive_count"
         case sendCount = "send_count"
+        case notSendCount = "notsend_count"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -27,6 +29,7 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.nickname, forKey: .nickname)
         try container.encodeIfPresent(self.receiveCount, forKey: .receiveCount)
         try container.encodeIfPresent(self.sendCount, forKey: .sendCount)
+        try container.encodeIfPresent(self.notSendCount, forKey: .notSendCount)
     }
 
     init(from decoder: Decoder) throws {
@@ -36,6 +39,7 @@ struct DBUser: Codable {
         self.partnerId = try container.decodeIfPresent(String.self, forKey: .partnerId)
         self.receiveCount = try container.decodeIfPresent(Int.self, forKey: .receiveCount)
         self.sendCount = try container.decodeIfPresent(Int.self, forKey: .sendCount)
+        self.notSendCount = try container.decodeIfPresent(Int.self, forKey: .notSendCount)
     }
 
     init(auth: AuthDataResult) {
@@ -44,5 +48,6 @@ struct DBUser: Codable {
         self.partnerId = ""
         self.receiveCount = 0
         self.sendCount = 0
+        self.notSendCount = 0
     }
 }
