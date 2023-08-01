@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum FadeAlertMessage: String {
+    case nickNameSaved = "닉네임이 저장되었어요"
+    case presentCrane = "종이학을 선물했어요"
+    case savePaper = "쪽지가 저장되었어요."
+}
+
+
 struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
@@ -46,11 +53,6 @@ struct FadeAlertView: View {
     }
 }
 
-enum FadeAlertMessage: String {
-    case nickNameSaved = "닉네임이 저장되었어요"
-    case presentCrane = "종이학을 선물했어요"
-    case savePaper = "쪽지가 저장되었어요."
-}
 
 struct FadeAlertView_Previews: PreviewProvider {
     

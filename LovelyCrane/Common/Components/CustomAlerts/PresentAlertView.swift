@@ -9,26 +9,41 @@ import SwiftUI
 
 
 
-enum PresentAlertTitle: String {
-    case craneArrived = "종이학이 도착했어요"
-    case presentCrane = "종이학 선물하기"
-    case fullBottle = "유리병이 꽉 찼어요"
-}
-
-enum PresentAlertMessage: String {
-    case craneArrived = "사랑스러운 연인에게\n종이학 쪽지가 도착했나봐요"
-    case presentCrane = "선물 후, 유리병은 비워지지만\n쪽지 내용은 남아있어요 :)"
-    case fullBottle = "학 천마리가 가득 찼어요\n연인에게 선물해주세요 :)"
+enum Present: String {
+    case craneArrived, presentCrane, fullBottle
+    
+    var title: String {
+        switch self {
+        case .craneArrived: return "종이학이 도착했어요"
+        case .presentCrane: return "종이학 선물하기"
+        case .fullBottle: return "유리병이 꽉 찼어요"
+        }
+    }
+    var message: String {
+        switch self {
+        case .craneArrived: return "사랑스러운 연인에게\n종이학 쪽지가 도착했나봐요"
+        case .presentCrane: return "선물 후, 유리병은 비워지지만\n쪽지 내용은 남아있어요 :)"
+        case .fullBottle: return "학 천마리가 가득 찼어요\n연인에게 선물해주세요 :)"
+        }
+    }
+    
+    var buttonTitle: String {
+        switch self {
+        case .craneArrived: return "열어보기"
+        case .presentCrane: return "네, 선물할게요!"
+        case .fullBottle: return "네, 알겠어요!"
+        }
+    }
 }
 
 
 
 struct PresentAlertView: View {
-    let title: PresentAlertTitle = .presentCrane
-    let message: PresentAlertMessage = .presentCrane
-    let buttonTitle: String = "열어보기"
+    
+    let alertType: Present
     let buttonAction: ()->Void = {}
     @Binding var showAlert: Bool
+    @State var showTouchCraneAlert = false
     
     var body: some View {
         if showAlert {
@@ -59,18 +74,29 @@ struct PresentAlertView: View {
                         Image(Assets.shakingBottle)
                             .resizable()
                             .frame(width: UIScreen.getWidth(80), height: UIScreen.getHeight(108))
-                        Text(title.rawValue)
+                        Text(alertType.title)
                             .foregroundColor(.primaryLabel)
                             .font(Font.title3font())
                             .padding(.top, UIScreen.getHeight(35))
-                        Text(message.rawValue)
+                        Text(alertType.message)
                             .foregroundColor(.secondaryLabel)
                             .font(Font.footnotefont())
                             .multilineTextAlignment(.center)
                             .lineSpacing(UIScreen.getHeight(5))
                             .padding(.top, UIScreen.getHeight(22))
-                        Button(action: buttonAction) {
-                            Text(buttonTitle)
+                        Button {
+                            switch alertType {
+                                //todo : present와 arrive의 케이스가 변경되어있음
+                            case .craneArrived:
+                                self.showTouchCraneAlert.toggle()
+                            case .presentCrane:
+                                NotificationCenter.default.post(name: Notification.Name("successPresent"), object: nil)
+                                self.showAlert.toggle()
+                            case .fullBottle:
+                                self.showAlert.toggle()
+                            }
+                        } label: {
+                            Text(alertType.buttonTitle)
                                 .foregroundColor(.gray3)
                                 .font(Font.bodyfont())
                                 .padding(.vertical, UIScreen.getHeight(16.5))
@@ -82,6 +108,10 @@ struct PresentAlertView: View {
                         }
                         .padding(.top, UIScreen.getHeight(28))
                     }
+                }
+                if showTouchCraneAlert {
+                    TouchCraneAlertView(showAlert: $showAlert)
+                        .transition(.opacity.animation(.easeIn))
                 }
             }
         }

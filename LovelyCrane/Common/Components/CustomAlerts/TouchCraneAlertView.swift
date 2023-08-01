@@ -12,7 +12,6 @@ struct TouchCraneAlertView: View {
     private let craneUnfoldImages = Assets.touchCranes
     @State private var showFinalAlert = false
     @State private var craneIndex = 0
-    let buttonAction : ()->Void = {}
     @Binding var showAlert: Bool
     
     var body: some View {
@@ -87,7 +86,8 @@ struct TouchCraneAlertView: View {
     }
     func alertFinalButton() -> some View {
        return Button(action: {
-           buttonAction()
+           showAlert.toggle()
+           NotificationCenter.default.post(name: Notification.Name("open"), object: nil)
        }){
            Text("열어보기")
                .foregroundColor(.gray3)

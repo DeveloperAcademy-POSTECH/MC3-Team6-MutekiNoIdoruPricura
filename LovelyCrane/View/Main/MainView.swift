@@ -24,19 +24,23 @@ struct MainView: View {
     @State private var isSettingTapped = false
     @State private var isCoupleingTapped = false
     @State private var showPresentAlert = false
+    @State private var isPresented = false
     @State private var presentStrings: [String] = ["선", "물", "하", "기"]
+    @State private var selection = 0
     @EnvironmentObject var viewRouter : ViewRouter
     
     
     let presentCenter = NotificationCenter.default.publisher(for: Notification.Name("present"))
     let updateCenter = NotificationCenter.default.publisher(for: Notification.Name("update"))
+    let successPresentCenter = NotificationCenter.default.publisher(for: Notification.Name("successPresent"))
+    let openCenter = NotificationCenter.default.publisher(for: Notification.Name("open"))
     
     var body: some View {
         ZStack {
             NavigationLink("", destination: WriteHistoryView(), isActive: $isWriteHistroyTapped)
             NavigationLink("", destination: ReceivedHistoryView(), isActive: $isReceiveHistroyTapped)
             BackGroundView()
-            TabView {
+            TabView(selection: $selection) {
                 mainBottle()
                     .tag(0)
                 presentedBottle()
@@ -50,6 +54,11 @@ struct MainView: View {
                     settingButton()
                 }
             }
+            .onReceive(openCenter) { _ in
+                withAnimation(.easeIn(duration: 1)) {
+                    self.selection = 1
+                }
+            }
             .onReceive(presentCenter) { _ in
                 self.showPresentAlert.toggle()
             }
@@ -58,6 +67,9 @@ struct MainView: View {
                     try await UserManager.shared.getmyUserData()
                 }
             }
+            .onReceive(successPresentCenter) { _ in
+                isPresented.toggle()
+            }
             .onAppear {
                 Task {
                     try await UserManager.shared.getmyUserData()
@@ -65,7 +77,11 @@ struct MainView: View {
                 }
             }
             if showPresentAlert {
-                PresentAlertView(showAlert: $showPresentAlert)
+                PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
+                    .transition(.opacity.animation(.easeIn))
+            }
+            if isPresented {
+                FadeAlertView(showAlert: $isPresented)
                     .transition(.opacity.animation(.easeIn))
             }
         }
@@ -107,7 +123,7 @@ struct MainView: View {
         ZStack {
             HStack {
                 NavigationLink {
-                    PresentAlertView(showAlert: $showPresentAlert)
+                    PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
                 } label: {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.gray4)
