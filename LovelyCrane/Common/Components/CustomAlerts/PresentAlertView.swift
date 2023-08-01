@@ -17,7 +17,7 @@ struct PresentAlertView: View {
     var body: some View {
         if showAlert {
             ZStack {
-                Color.black.opacity(0.6).ignoresSafeArea()
+                Color.overLay.ignoresSafeArea()
                 ZStack(alignment: .topTrailing) {
                     ZStack { // vstack + 네모
                         RoundedRectangle(cornerRadius: 14)

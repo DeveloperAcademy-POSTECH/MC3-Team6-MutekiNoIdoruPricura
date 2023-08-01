@@ -15,7 +15,7 @@ struct FadeAlertView: View {
     var body: some View {
         if showAlert {
             ZStack {
-                Color.black.opacity(0.6).ignoresSafeArea()
+                Color.overLay.ignoresSafeArea()
                 VStack {
                     VStack(spacing: 0) {
                         Image(Assets.bigStrokeCrane)
