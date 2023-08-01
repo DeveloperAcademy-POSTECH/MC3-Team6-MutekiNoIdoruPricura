@@ -15,8 +15,10 @@ struct CoupleSuccessView: View {
             Text("직녀 X 견우")
                 .padding(.bottom, 26)
                 .foregroundColor(.primaryLabel)
+                .font(Font.title3font())
             Text("연인 연결이 되었어요!")
                 .foregroundColor(.primaryLabel)
+                .font(Font.bodyfont())
         }
         .padding(.vertical,40)
         .frame(maxWidth: .infinity)

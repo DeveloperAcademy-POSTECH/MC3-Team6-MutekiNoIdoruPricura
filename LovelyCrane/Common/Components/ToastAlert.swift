@@ -18,5 +18,6 @@ struct ToastAlert: View {
             .cornerRadius(8)
             .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
             .padding(.horizontal,30)
+            .font(Font.bodyfont())
     }
 }
