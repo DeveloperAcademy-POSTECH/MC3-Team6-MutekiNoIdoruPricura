@@ -174,7 +174,7 @@ final class UserManager {
             guard let data = documents.data() else {return}
             guard let receivecount = data["receive_count"] as? Int else {return}
             if self.partnerNickName != UserInfo.shared.partnerNickName {
-                NotificationCenter.default.post(name: Notification.Name("successPresent"), object: nil)
+                NotificationCenter.default.post(name: Notification.Name("connectPartner"), object: nil)
             } else if receivecount != UserInfo.shared.receiveLetterCount {
                 NotificationCenter.default.post(name: Notification.Name("open"), object: nil)
             }

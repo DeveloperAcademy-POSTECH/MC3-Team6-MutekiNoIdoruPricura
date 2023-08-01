@@ -9,7 +9,7 @@ import SwiftUI
 struct CouplingView: View {
     private let mycode = UserManager.shared.currentUserUID
     @State private var clickPasteBtn = false
-    @State var isOpen = true
+    @Binding var isOpen : Bool
     var body: some View {
         NavigationView {
             VStack{
