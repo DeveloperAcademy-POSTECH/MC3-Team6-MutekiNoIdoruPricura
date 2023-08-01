@@ -49,16 +49,17 @@ extension ReceivedHistoryView {
     
     private func makeHeaderImageText() -> some View {
         HStack(alignment: .center) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 16) {
                 Text("받은 쪽지")
+                    .font(.bodyfont())
                     .foregroundColor(.gray)
                 
                 HStack(alignment: .firstTextBaseline) {
                     Text("\(receivedLettersCount)")
-                        .font(.largeTitle)
+                        .font(.title1font())
                         .foregroundColor(.lightPink)
                     Text("마리")
-                        .font(.title2)
+                        .font(.title3font())
                         .foregroundColor(.white)
                 }
             }
@@ -81,11 +82,11 @@ extension ReceivedHistoryView {
                             .frame(width: UIScreen.getWidth(9.94), height: UIScreen.getHeight(14.21))
                         
                         Text("\(receivedLettersGroup.count)마리의 종이학을 선물받았어요 :)")
-                            .font(.caption)
+                            .font(.caption1font())
                             .foregroundColor(.white)
                         
                         Text("-" + Date.formatDate(date))
-                            .font(.caption)
+                            .font(.caption2font())
                             .foregroundColor(Color.tertiaryLabel)
                     }
                     .padding(.leading, 20)

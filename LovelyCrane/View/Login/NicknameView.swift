@@ -26,7 +26,7 @@ struct NicknameView: View {
                 VStack(alignment: .center, spacing: 40) {
                     makeHeaderImageText()
                     
-                    VStack {
+                    VStack(spacing: 16) {
                         makeNicknameTextField()
                         makeNicknameCountCaution()
                     }
@@ -46,18 +46,19 @@ struct NicknameView: View {
 extension NicknameView {
 
     private func makeHeaderImageText() -> some View {
-        VStack(spacing: 5) {
+        VStack(spacing: 16) {
             Image(Assets.nicknameViewImage)
                 .resizable()
                 .frame(width: UIScreen.getWidth(124), height: UIScreen.getHeight(48))
 
             Text("사용하실 닉네임을 알려주세요")
+                .font(.headlinefont())
                 .foregroundColor(.primaryLabel)
         }
     }
     
     private func makeNicknameTextField() -> some View {
-        TextField("닉네임을 입력해주세요", text: $viewModel.nickname)
+        TextField("", text: $viewModel.nickname)
             .focused($nicknameInFocus)
             .foregroundColor(.primaryLabel)
             .multilineTextAlignment(TextAlignment.center)
@@ -68,6 +69,7 @@ extension NicknameView {
                     Color.textFieldGray
                     if viewModel.nickname.isEmpty {
                         Text("닉네임을 입력해주세요")
+                            .font(.bodyfont())
                             .foregroundColor(Color.tertiaryLabel)
                     }
                 }
@@ -82,6 +84,7 @@ extension NicknameView {
                 .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
                 .opacity(viewModel.nickname.count > 8 ? 1 : 0)
             Text("닉네임은 8자 이하로 입력해주세요")
+                .font(.footnotefont())
                 .foregroundColor(viewModel.nickname.count > 8 ? Color.defaultYellow : Color.tertiaryLabel)
         }
     }
@@ -99,6 +102,7 @@ extension NicknameView {
             }
         }, label: {
             Text("완료")
+                .font(.bodyfont())
                 .foregroundColor(viewModel.nickname.isEmpty || viewModel.nickname.count > 8 ? .quarternaryLabel : .gray1)
                 .frame(height: 55)
                 .frame(maxWidth: .infinity)

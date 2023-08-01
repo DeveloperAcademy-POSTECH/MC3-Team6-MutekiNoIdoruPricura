@@ -18,7 +18,6 @@
 		86428B872A65AD8700B2CA7D /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B632A65AD8700B2CA7D /* DetailView.swift */; };
 		86428B8B2A65AD8700B2CA7D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B6B2A65AD8700B2CA7D /* MainView.swift */; };
 		86428B8E2A65AD8700B2CA7D /* FirebaseNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B702A65AD8700B2CA7D /* FirebaseNetwork.swift */; };
-		86428B8F2A65AD8700B2CA7D /* SampleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B722A65AD8700B2CA7D /* SampleManager.swift */; };
 		86428B902A65AD8700B2CA7D /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B742A65AD8700B2CA7D /* DBUser.swift */; };
 		86428B912A65AD8700B2CA7D /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B762A65AD8700B2CA7D /* Font.swift */; };
 		86428B922A65AD8700B2CA7D /* ReciveHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86428B792A65AD8700B2CA7D /* ReciveHistoryViewModel.swift */; };
@@ -78,7 +77,6 @@
 		C7599C972A70803E003FE9B7 /* SuccessCouplingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7599C962A70803E003FE9B7 /* SuccessCouplingView.swift */; };
 		C7607B502A6857D400565D62 /* CouplingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7607B4F2A6857D400565D62 /* CouplingView.swift */; };
 		C7607B522A69010600565D62 /* InputCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7607B512A69010600565D62 /* InputCodeView.swift */; };
-		C78210692A6F0FBC002C0407 /* InputCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78210682A6F0FBC002C0407 /* InputCodeViewModel.swift */; };
 		C782106B2A6F90DC002C0407 /* UIScreen+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782106A2A6F90DC002C0407 /* UIScreen+.swift */; };
 		C782106D2A6F9102002C0407 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = C782106C2A6F9102002C0407 /* Font+.swift */; };
 		C782106F2A6F9638002C0407 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C782106E2A6F9638002C0407 /* GoogleService-Info.plist */; };
@@ -101,7 +99,6 @@
 		86428B632A65AD8700B2CA7D /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		86428B6B2A65AD8700B2CA7D /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		86428B702A65AD8700B2CA7D /* FirebaseNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseNetwork.swift; sourceTree = "<group>"; };
-		86428B722A65AD8700B2CA7D /* SampleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleManager.swift; sourceTree = "<group>"; };
 		86428B742A65AD8700B2CA7D /* DBUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
 		86428B762A65AD8700B2CA7D /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		86428B792A65AD8700B2CA7D /* ReciveHistoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReciveHistoryViewModel.swift; sourceTree = "<group>"; };
@@ -158,7 +155,6 @@
 		C7599C962A70803E003FE9B7 /* SuccessCouplingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessCouplingView.swift; sourceTree = "<group>"; };
 		C7607B4F2A6857D400565D62 /* CouplingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouplingView.swift; sourceTree = "<group>"; };
 		C7607B512A69010600565D62 /* InputCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCodeView.swift; sourceTree = "<group>"; };
-		C78210682A6F0FBC002C0407 /* InputCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCodeViewModel.swift; sourceTree = "<group>"; };
 		C782106A2A6F90DC002C0407 /* UIScreen+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+.swift"; sourceTree = "<group>"; };
 		C782106C2A6F9102002C0407 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		C782106E2A6F9638002C0407 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -218,6 +214,14 @@
 				C7DE01362A73EAB1008F6F19 /* CoupleSuccessView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		0DF6CFE02A76437F007DF515 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C7599C942A704D03003FE9B7 /* LetterLists.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 		86428B5F2A65AD8700B2CA7D /* View */ = {
@@ -315,7 +319,6 @@
 				0D46EB472A66AE1E00C65A7B /* MotionManager.swift */,
 				86682EB92A72B90500B21F9A /* LetterListsManager.swift */,
 				86428BAD2A666C6200B2CA7D /* Helpers */,
-				86428B722A65AD8700B2CA7D /* SampleManager.swift */,
 				86428B9F2A666ABC00B2CA7D /* AuthenticationManager.swift */,
 				86428B9E2A666ABC00B2CA7D /* TopViewControllerManager.swift */,
 				C37461C12A67ABD60078C457 /* DateManager.swift */,
@@ -328,6 +331,7 @@
 		86428B732A65AD8700B2CA7D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0DF6CFE02A76437F007DF515 /* Domain */,
 				86428B742A65AD8700B2CA7D /* DBUser.swift */,
 				86428BA92A666B8600B2CA7D /* SignWithAppleResult.swift */,
 				C37461C32A67AD220078C457 /* LetterModel.swift */,
@@ -513,7 +517,6 @@
 		C78210672A6F0F42002C0407 /* ConnectPage */ = {
 			isa = PBXGroup;
 			children = (
-				C78210682A6F0FBC002C0407 /* InputCodeViewModel.swift */,
 			);
 			path = ConnectPage;
 			sourceTree = "<group>";
@@ -630,7 +633,6 @@
 				86E502B02A6862E50001D88A /* ViewRouter.swift in Sources */,
 				C7553CB02A65E5C100C2104B /* UserManager.swift in Sources */,
 				C37461C42A67AD220078C457 /* LetterModel.swift in Sources */,
-				86428B8F2A65AD8700B2CA7D /* SampleManager.swift in Sources */,
 				0D46EB4B2A66AE5B00C65A7B /* SpriteScene.swift in Sources */,
 				C329BDA02A75754300EE4CB0 /* PresentAlertView.swift in Sources */,
 				C729D9DD2A737F580003A9EB /* ContentView.swift in Sources */,
@@ -656,7 +658,6 @@
 				0DB89B602A67C8D30055FD93 /* HistoryListCell.swift in Sources */,
 				86428BA32A666ABD00B2CA7D /* AuthenticationView.swift in Sources */,
 				C7C5C34A2A72FDE100B41F75 /* ToastAlert.swift in Sources */,
-				C78210692A6F0FBC002C0407 /* InputCodeViewModel.swift in Sources */,
 				86428BA82A666B3900B2CA7D /* AppleLoginButton.swift in Sources */,
 				86682EC02A73DCF800B21F9A /* ReceivedHistoryView.swift in Sources */,
 				0D46EB542A66AEBB00C65A7B /* Assets.swift in Sources */,
@@ -817,7 +818,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.muteki.LovelyCrane;
+				PRODUCT_BUNDLE_IDENTIFIER = com.muteki.LovelyCrane.it;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -855,7 +856,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.muteki.LovelyCrane;
+				PRODUCT_BUNDLE_IDENTIFIER = com.muteki.LovelyCrane.it;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

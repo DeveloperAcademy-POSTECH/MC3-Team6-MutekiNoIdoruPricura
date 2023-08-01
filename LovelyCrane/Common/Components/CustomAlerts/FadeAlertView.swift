@@ -11,7 +11,7 @@ struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
     var alertMessage: FadeAlertMessage = .nickNameSaved
-    
+ 
     var body: some View {
         if showAlert {
             ZStack {

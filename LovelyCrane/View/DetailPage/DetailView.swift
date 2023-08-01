@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    
+  
     @StateObject var vm = DetailViewModel()
     @State var letter = LetterModel(id: "s", image: "", date: .now, text: "안녕하세요! 스위머입니당", isByme: true, isSent: false, isRead: false)
     @State private var showEnlargedImageView = false

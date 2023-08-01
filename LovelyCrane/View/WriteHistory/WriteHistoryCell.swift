@@ -20,7 +20,7 @@ struct WriteHistoryCell: View {
                 VStack(alignment: .leading) {
                     Text(Date.formatDate(letter.date))
                         .foregroundColor(.secondaryLabel)
-                        .font(.caption)
+                        .font(.caption1font())
                     
                     Spacer()
                     
@@ -28,7 +28,7 @@ struct WriteHistoryCell: View {
                         .foregroundColor(.white)
                         .lineLimit(2)
                         .padding(.trailing, 5)
-                        .font(.caption)
+                        .font(.footnotefont())
                         .padding(.bottom)
                 }
                 .padding(.leading, 5)
@@ -74,7 +74,7 @@ extension WriteHistoryCell {
 struct WriteHistoryCell_Previews: PreviewProvider {
     
     static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
-    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
+    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "adsfadsfasdfadsgsdgdsgadsgasdgadsgadsgasdgadsgasdgadsgsadgadsg", isByme: true, isSent: false, isRead: false)
     
     
     static var previews: some View {
