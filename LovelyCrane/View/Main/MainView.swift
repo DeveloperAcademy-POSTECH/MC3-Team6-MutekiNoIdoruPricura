@@ -23,11 +23,12 @@ struct MainView: View {
     @State private var isWriteTapped = false
     @State private var isSettingTapped = false
     @State private var isCoupleingTapped = false
+    @State private var showPresentAlert = false
     @State private var presentStrings: [String] = ["선", "물", "하", "기"]
     @EnvironmentObject var viewRouter : ViewRouter
     
     
-    
+    let center = NotificationCenter.default.publisher(for: Notification.Name("present"))
     
     var body: some View {
         ZStack {
@@ -48,10 +49,17 @@ struct MainView: View {
                     settingButton()
                 }
             }
+            .onReceive(center) { _ in
+                self.showPresentAlert.toggle()
+            }
             .onAppear {
                 Task {
                     try await UserManager.shared.getmyUserData()
                 }
+            }
+            if showPresentAlert {
+                PresentAlertView()
+                    .transition(.opacity.animation(.easeIn))
             }
         }
 
@@ -110,6 +118,17 @@ struct MainView: View {
                                 }
                             }
                             .offset(x: UIScreen.getWidth(2))
+                            .onTapGesture {
+                                if userInfo.checkPartnerConnection() {
+                                    isCoupleingTapped.toggle()
+                                }
+                                else {
+                                    showPresentAlert.toggle()
+                                }
+                            }
+                            .fullScreenCover(isPresented: $isCoupleingTapped) {
+                                CouplingView()
+                            }
                         }
                         .offset(x: UIScreen.getWidth(-7))
                 }
@@ -164,18 +183,26 @@ struct MainView: View {
         }
         .overlay {
             if userInfo.sendLetterCount == 0, userInfo.notSendLetterCount == 0 {
-                Text("아래의 + 버튼을 눌러서\n연인을 향한 첫번째\n종이학 쪽지를 써보세요 :)")
-                    .foregroundColor(Color.defaultWhite)
-                    .multilineTextAlignment(.center)
-                    .onTapGesture {
-                        isWriteTapped.toggle()
-                    }
+                NavigationLink {
+                    NoWriteView()
+                } label: {
+                    Text("아래의 + 버튼을 눌러서\n연인을 향한 첫번째\n종이학 쪽지를 써보세요 :)")
+                        .foregroundColor(Color.defaultWhite)
+                        .multilineTextAlignment(.center)
+                }
+
             }
             else if userInfo.sendLetterCount > 0, userInfo.notSendLetterCount == 0 {
                 VStack {
                     Text("종이학을 모두 선물했어요!")
                         .foregroundColor(Color.defaultWhite)
-                    Text("기록 보기").foregroundColor(.deepPink)
+                        .padding(.bottom)
+                    Button {
+                        isWriteHistroyTapped.toggle()
+                    } label: {
+                        Text("기록 보기").foregroundColor(.deepPink)
+                    }
+
                 }
             }
         }
@@ -204,19 +231,36 @@ struct MainView: View {
                     Text("연인 연결 후\n쪽지를 받을수 있어요!")
                         .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
-                    NavigationLink {
-                        CouplingView()
-                    } label: {
-                        Text("연인 연결하기")
-                            .foregroundColor(Color.deepPink)
-                            .padding(.top)
-                    }
+                    Text("연인 연결하기")
+                        .foregroundColor(Color.deepPink)
+                        .padding(.top)
+                        .onTapGesture {
+                            isCoupleingTapped.toggle()
+                        }
+                        .fullScreenCover(isPresented: $isCoupleingTapped) {
+                            CouplingView()
+                        }
                 }
             }
             else if !userInfo.checkPartnerConnection(), userInfo.receiveLetterCount == 0 {
-                Text("아직 연인에게\n선물받은 편지가 없어요!")
-                    .foregroundColor(Color.defaultWhite)
-                    .multilineTextAlignment(.center)
+                NavigationLink {
+                    NoReceivedView()
+                } label: {
+                    Text("아직 연인에게\n선물받은 편지가 없어요!")
+                        .foregroundColor(Color.defaultWhite)
+                        .multilineTextAlignment(.center)
+                }
+
+            }
+            else if !userInfo.checkPartnerConnection(), userInfo.receiveLetterCount != 0 {
+                NavigationLink {
+                    ReceivedHistoryView()
+                } label: {
+                    Text("아직 연인에게\n선물받은 편지가 없어요!")
+                        .foregroundColor(Color.defaultWhite)
+                        .multilineTextAlignment(.center)
+                }
+
             }
         }
         .frame(width: CGSize.deviceWidth * 0.8, height: CGSize.deviceHeight * 0.57)
@@ -257,6 +301,10 @@ struct MainView: View {
         else {
             return false
         }
+    }
+    
+    private func showAlert() {
+        self.showPresentAlert.toggle()
     }
     
     
