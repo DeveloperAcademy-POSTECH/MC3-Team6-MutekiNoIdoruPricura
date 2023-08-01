@@ -10,36 +10,37 @@ import SwiftUI
 struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
-    let alertMessage: FadeAlertMessage = .nickNameSaved
-
+    var alertMessage: FadeAlertMessage = .nickNameSaved
     
     var body: some View {
-        VStack {
-            if showAlert {
-                VStack(spacing: 0) {
-                    Image(Assets.bigStrokeCrane)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
-                    Text(alertMessage.rawValue)
-                        .foregroundColor(.primaryLabel)
-                        .font(Font.headlinefont())
-                        .padding(.top, UIScreen.getHeight(23))
+        if showAlert {
+            ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
+                VStack {
+                    VStack(spacing: 0) {
+                        Image(Assets.bigStrokeCrane)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
+                        Text(alertMessage.rawValue)
+                            .foregroundColor(.primaryLabel)
+                            .font(Font.headlinefont())
+                            .padding(.top, UIScreen.getHeight(23))
+                    }
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.gray3)
+                            .frame(width: UIScreen.getWidth(262), height: UIScreen.getHeight(200))
+                    )
                 }
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.gray3)
-                        .frame(width: UIScreen.getWidth(262), height: UIScreen.getHeight(200))
-                )
             }
-        }
-        .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                self.showAlert = false
+            .onAppear() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.showAlert = false
+                }
             }
         }
     }
-    
 }
 
 enum FadeAlertMessage: String {

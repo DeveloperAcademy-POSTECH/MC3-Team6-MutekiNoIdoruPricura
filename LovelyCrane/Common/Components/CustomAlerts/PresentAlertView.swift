@@ -8,56 +8,59 @@
 import SwiftUI
 
 struct PresentAlertView: View {
-    let title: PresentAlertTitle = .presentCrane
-    let message: PresentAlertMessage = .presentCrane
-    let buttonTitle: String = "열어보기"
-    let buttonAction: ()->Void = {}
+    var title: PresentAlertTitle = .presentCrane
+    var message: PresentAlertMessage = .presentCrane
+    var buttonTitle: String = "열어보기"
+    var buttonAction: ()->Void = {}
     @Binding var showAlert: Bool
     
     var body: some View {
         if showAlert {
-            ZStack(alignment: .topTrailing) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(Color.gray3)
-                        .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))
-                    VStack(spacing: 0) {
-                        Image(Assets.shakingBottle)
-                            .resizable()
-                            .frame(width: UIScreen.getWidth(80), height: UIScreen.getHeight(108))
-                        Text(title.rawValue)
-                            .foregroundColor(.primaryLabel)
-                            .font(Font.title3font())
-                            .padding(.top, UIScreen.getHeight(35))
-                        Text(message.rawValue)
-                            .foregroundColor(.secondaryLabel)
-                            .font(Font.footnotefont())
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(UIScreen.getHeight(5))
-                            .padding(.top, UIScreen.getHeight(22))
-                        Button(action: buttonAction) {
-                            Text(buttonTitle)
-                                .foregroundColor(.gray3)
-                                .font(Font.bodyfont())
-                                .padding(.vertical, UIScreen.getHeight(16.5))
-                                .padding(.horizontal, UIScreen.getWidth(34))
-                                .background(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.lightPink)
-                                )
+            ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
+                ZStack(alignment: .topTrailing) {
+                    ZStack { // vstack + 네모
+                        RoundedRectangle(cornerRadius: 14)
+                            .fill(Color.gray3)
+                            .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))
+                        VStack(spacing: 0) {
+                            Image(Assets.shakingBottle)
+                                .resizable()
+                                .frame(width: UIScreen.getWidth(80), height: UIScreen.getHeight(108))
+                            Text(title.rawValue)
+                                .foregroundColor(.primaryLabel)
+                                .font(Font.title3font())
+                                .padding(.top, UIScreen.getHeight(35))
+                            Text(message.rawValue)
+                                .foregroundColor(.secondaryLabel)
+                                .font(Font.footnotefont())
+                                .multilineTextAlignment(.center)
+                                .lineSpacing(UIScreen.getHeight(5))
+                                .padding(.top, UIScreen.getHeight(22))
+                            Button(action: buttonAction) {
+                                Text(buttonTitle)
+                                    .foregroundColor(.gray3)
+                                    .font(Font.bodyfont())
+                                    .padding(.vertical, UIScreen.getHeight(16.5))
+                                    .padding(.horizontal, UIScreen.getWidth(34))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color.lightPink)
+                                    )
+                            }
+                            .padding(.top, UIScreen.getHeight(28))
                         }
-                        .padding(.top, UIScreen.getHeight(28))
                     }
-                }
-                Button(action: {
-                    showAlert.toggle()
-                }) {
+                    Button(action: {
+                        showAlert.toggle()
+                    }) {
                         Image(systemName: "xmark")
                             .foregroundColor(.tertiaryLabel)
                             .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
+                    }
+                    .padding(.top, UIScreen.getHeight(20))
+                    .padding(.trailing, UIScreen.getWidth(20))
                 }
-                .padding(.top, UIScreen.getHeight(20))
-                .padding(.trailing, UIScreen.getWidth(20))
             }
         }
     }

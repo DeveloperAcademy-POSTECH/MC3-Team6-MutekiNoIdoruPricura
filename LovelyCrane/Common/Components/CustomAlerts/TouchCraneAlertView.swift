@@ -18,6 +18,7 @@ struct TouchCraneAlertView: View {
     var body: some View {
         if showAlert {
             ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color.gray3)
                     .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))

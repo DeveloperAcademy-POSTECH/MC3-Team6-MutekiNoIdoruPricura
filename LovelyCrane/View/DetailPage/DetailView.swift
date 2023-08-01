@@ -10,9 +10,10 @@ import SwiftUI
 struct DetailView: View {
     
     @StateObject var vm = DetailViewModel()
-    @State var letter = LetterModel(id: "s", image: "", date: .now, text: "가나다라마바사", isByme: true, isSent: false, isRead: false)
+    @State var letter = LetterModel(id: "s", image: "", date: .now, text: "안녕하세요! 스위머입니당", isByme: true, isSent: false, isRead: false)
     @State private var showEnlargedImageView = false
     @State private var showDeleteAlert = false
+    @State private var showWriteUpdateView = false
     @State private var image : UIImage?
     
     var body: some View {
@@ -49,6 +50,10 @@ struct DetailView: View {
         .fullScreenCover(isPresented: $showEnlargedImageView) {
             EnlargedImageView(image: $vm.image)
         }
+        .fullScreenCover(isPresented: $showWriteUpdateView) {
+            WriteUpdateView(letter: $letter)
+        }
+        
         .alert("쪽지를 삭제할까요?", isPresented: $showDeleteAlert) {
             Button("취소", role: .cancel) {
                 
@@ -81,6 +86,7 @@ struct DetailView: View {
             if letter.isByme { // 내가 보낸 편지일 경우 상단 메뉴 버튼이 존재
                 Menu {
                     Button(action: {
+                        showWriteUpdateView.toggle()
                     }) {
                         HStack {
                             Text("수정하기")

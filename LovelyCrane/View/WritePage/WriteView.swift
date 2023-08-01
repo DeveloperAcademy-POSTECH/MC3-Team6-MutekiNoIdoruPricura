@@ -23,6 +23,7 @@ struct WriteView: View {
     @State private var showPhotoPickerActionSheet = false
     @State private var showEnlargedImageView = false
     @State private var showDismissAlert = false
+    @State private var showFadeAlert = false
 
     var color: String
     
@@ -86,6 +87,8 @@ struct WriteView: View {
                 .padding(.top, UIScreen.getHeight(20))
                 .padding(.horizontal, UIScreen.getWidth(28))
                 .padding(.bottom, UIScreen.getHeight(24))
+                
+                FadeAlertView(showAlert: $showFadeAlert, alertMessage: .savePaper)
             }
 
             .onAppear{
@@ -151,6 +154,7 @@ struct WriteView: View {
             Spacer()
             Button(action: {
                 // 쪽지 저장
+                showFadeAlert.toggle()
                 Task{
                     if(await vm.saveImageStoarge()){
                     isShowingCurrentPage.toggle()
@@ -212,12 +216,13 @@ struct WriteView: View {
     ///   - letterLimit: 글자 수 제한의 글자수.
     /// - Returns: TextField View
     private func letterLimitTextField(letterLimit: Int) -> some View {
+
         TextField("", text: $vm.letterText, axis: .vertical)
                     .lineLimit(Int(letterLimit/20), reservesSpace: true)
                     .font(Font.bodyfont())
                     .foregroundColor(Color.primaryLabel)
                     .multilineTextAlignment(.leading)
-                    .lineSpacing(12)
+                    .lineSpacing(UIScreen.getHeight(12))
                     .focused($isFocused)
     }
     
