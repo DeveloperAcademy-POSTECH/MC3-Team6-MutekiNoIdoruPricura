@@ -78,6 +78,9 @@ struct MainView: View {
                     .transition(.opacity.animation(.easeIn))
             }
         }
+        .onAppear {
+            UserManager.shared.listenConnectPartner()
+        }
     }
 
     //MARK: - Views
