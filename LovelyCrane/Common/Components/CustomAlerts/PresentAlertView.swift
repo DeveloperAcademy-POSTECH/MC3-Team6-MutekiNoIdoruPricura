@@ -114,7 +114,6 @@ struct PresentAlertView: View {
                 }
                 if showTouchCraneAlert {
                     TouchCraneAlertView(showAlert: $showAlert)
-                        .transition(.opacity.animation(.easeIn))
                 }
             }
         }

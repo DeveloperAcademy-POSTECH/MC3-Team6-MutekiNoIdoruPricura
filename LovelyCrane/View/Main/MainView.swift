@@ -25,6 +25,7 @@ struct MainView: View {
     @State private var showPresentAlert = false
     @State private var isPresented = false
     @State private var isConnectFirst = false
+    @State private var isReceiveLetters = false
     @State private var presentStrings: [String] = ["선", "물", "하", "기"]
     @State private var selection = 0
     @EnvironmentObject var viewRouter : ViewRouter
@@ -35,6 +36,7 @@ struct MainView: View {
     let successPresentCenter = NotificationCenter.default.publisher(for: Notification.Name("successPresent"))
     let openCenter = NotificationCenter.default.publisher(for: Notification.Name("open"))
     let partnerConnectCenter = NotificationCenter.default.publisher(for: Notification.Name("connectPartner"))
+    let receiveLetterCenter = NotificationCenter.default.publisher(for: Notification.Name("receiveLetter"))
     
     var body: some View {
         ZStack {
@@ -73,6 +75,17 @@ struct MainView: View {
             }
             .onReceive(partnerConnectCenter) { _ in
                 isConnectFirst.toggle()
+            }
+            .onReceive(receiveLetterCenter) { _ in
+                isReceiveLetters.toggle()
+            }
+            if isReceiveLetters {
+                PresentAlertView(alertType: .craneArrived, showAlert: $isReceiveLetters)
+                    .transition(.opacity.animation(.easeIn))
+            }
+            if isConnectFirst {
+                CouplingAlertView(showAlert: $isConnectFirst)
+                    .transition(.opacity.animation(.easeIn))
             }
             if showPresentAlert {
                 PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
