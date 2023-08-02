@@ -18,7 +18,26 @@ struct LovelyCraneApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(viewRouter)
+                .onAppear {
+                    checkAuthenticationStatus()
+                }
         }
+
+    }
+
+    func checkAuthenticationStatus() {
+        if let authUser = try? AuthenticationManager.shared.getAuthenticatedUser() {
+            Task {
+                try await UserManager.shared.getmyUserData()
+                await checkDocumentNickName()
+            }
+        } else {
+            viewRouter.currentPage = .authenticationView
+        }
+    }
+
+    func checkDocumentNickName() async {
+        viewRouter.currentPage = UserInfo.shared.nickName.isEmpty ? .nicknameView : .mainView
     }
 }
 

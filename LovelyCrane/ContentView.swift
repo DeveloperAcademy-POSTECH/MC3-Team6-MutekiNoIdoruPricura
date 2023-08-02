@@ -18,9 +18,6 @@ struct ContentView: View {
                 switch viewRouter.currentPage {
                 case .launchsScreenView:
                     LaunchScreenView()
-                        .onAppear {
-                            checkAuthenticationStatus()
-                        }
                         .transition(AnyTransition.opacity)
                 case .authenticationView:
                     AuthenticationView()
@@ -38,23 +35,7 @@ struct ContentView: View {
     }
 }
 
-extension ContentView {
 
-    func checkAuthenticationStatus() {
-        if let authUser = try? AuthenticationManager.shared.getAuthenticatedUser() {
-            Task {
-                try await UserManager.shared.getmyUserData()
-                await checkDocumentNickName()
-            }
-        } else {
-            viewRouter.currentPage = .authenticationView
-        }
-    }
-
-    func checkDocumentNickName() async {
-        viewRouter.currentPage = UserInfo.shared.nickName.isEmpty ? .nicknameView : .mainView
-    }
-}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

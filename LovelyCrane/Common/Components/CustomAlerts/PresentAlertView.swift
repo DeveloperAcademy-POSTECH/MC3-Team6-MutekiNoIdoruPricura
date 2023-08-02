@@ -92,6 +92,7 @@ struct PresentAlertView: View {
                                 NotificationCenter.default.post(name: Notification.Name("successPresent"), object: nil)
                                 Task {
                                     try await UserManager.shared.sendletterLists()
+                                    try await UserManager.shared.getmyUserData()
                                 }
                                 self.showAlert.toggle()
                             case .fullBottle:
