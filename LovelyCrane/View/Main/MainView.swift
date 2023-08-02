@@ -100,11 +100,12 @@ struct MainView: View {
         ZStack {
             VStack {
                 Text("받은 쪽지")
+                    .font(Font.headlinefont())
                     .foregroundColor(.secondaryLabel)
                     .padding(.top)
                 Text("\(userInfo.receiveLetterCount)")
                     .foregroundColor(.primaryLabel)
-                    .font(.system(size: 50))
+                    .font(Font.title1font())
                 receiveSpriteView(bottle: Assets.redBottle)
                 Spacer()
             }
@@ -136,7 +137,8 @@ struct MainView: View {
                                     .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
                                     .foregroundColor(isSendButtonActivate() ? .deepPink : .gray5)
                                 ForEach(presentStrings, id: \.self) {
-                                    Text("\($0)").font(.system(size: 14))
+                                    Text("\($0)")
+                                        .font(Font.bodyfont())
                                         .foregroundColor(isSendButtonActivate() ? .defaultWhite : .gray5)
                                 }
                             }
@@ -166,11 +168,12 @@ struct MainView: View {
             }
             VStack {
                 Text("보낼 쪽지")
+                    .font(Font.headlinefont())
                     .foregroundColor(.secondaryLabel)
                     .padding(.top)
                 Text("\(userInfo.notSendLetterCount)")
                     .foregroundColor(.primaryLabel)
-                    .font(.system(size: 50))
+                    .font(Font.title1font())
                 spriteView(bottle: Assets.bottle)
                 Spacer()
                 bottomWriteButton()
@@ -210,6 +213,8 @@ struct MainView: View {
                     NoWriteView()
                 } label: {
                     Text("아래의 + 버튼을 눌러서\n연인을 향한 첫번째\n종이학 쪽지를 써보세요 :)")
+                        .font(Font.bodyfont())
+                        .lineSpacing(UIScreen.getHeight(5))
                         .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
                 }
@@ -218,12 +223,15 @@ struct MainView: View {
             else if userInfo.sendLetterCount > 0, userInfo.notSendLetterCount == 0 {
                 VStack {
                     Text("종이학을 모두 선물했어요!")
+                        .font(Font.bodyfont())
                         .foregroundColor(Color.defaultWhite)
                         .padding(.bottom)
                     Button {
                         isWriteHistroyTapped.toggle()
                     } label: {
-                        Text("기록 보기").foregroundColor(.deepPink)
+                        Text("기록 보기")
+                            .foregroundColor(.deepPink)
+                            .font(Font.headlinefont())
                     }
 
                 }
@@ -252,10 +260,13 @@ struct MainView: View {
             if !userInfo.isConnection() {
                 VStack {
                     Text("연인 연결 후\n쪽지를 받을수 있어요!")
+                        .lineSpacing(UIScreen.getHeight(5))
                         .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
+                        .font(Font.bodyfont())
                     Text("연인 연결하기")
                         .foregroundColor(Color.deepPink)
+                        .font(Font.headlinefont())
                         .padding(.top)
                         .onTapGesture {
                             isCoupleingTapped.toggle()
@@ -270,6 +281,8 @@ struct MainView: View {
                     NoReceivedView()
                 } label: {
                     Text("아직 연인에게\n선물받은 편지가 없어요!")
+                        .lineSpacing(UIScreen.getHeight(5))
+                        .font(Font.bodyfont())
                         .foregroundColor(Color.defaultWhite)
                         .multilineTextAlignment(.center)
                 }
@@ -290,7 +303,8 @@ struct MainView: View {
             }
             .overlay {
                 Text("+ 새로운 쪽지 작성하기")
-                    .offset(y: CGSize.deviceHeight * 0.03)
+                    .font(Font.headlinefont())
+                    .offset(y: CGSize.deviceHeight * 0.02)
                     .foregroundColor(Color.gray4)
             }
             .fullScreenCover(isPresented: $isWriteTapped) {
@@ -318,9 +332,6 @@ struct MainView: View {
     private func showAlert() {
         self.showPresentAlert.toggle()
     }
-    
-    
-    
 }
 
 
@@ -330,10 +341,3 @@ struct View_Preview: PreviewProvider {
         MainView()
     }
 }
-
-//extension MainView {
-//    func fetchData() async {
-//        let sentLetters = LetterListsManager.shared.sentLettersGroupedByDate
-//        let notSentLetters = LetterListsManager.shared.notSentLettersGroupedByDate
-//    }
-//}
