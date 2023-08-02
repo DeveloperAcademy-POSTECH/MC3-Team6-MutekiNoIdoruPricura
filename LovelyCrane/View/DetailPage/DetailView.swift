@@ -71,7 +71,10 @@ struct DetailView: View {
           }
         }
         .onAppear() {
-            loadImage()
+            Task {
+                loadImage()
+                try await UserManager.shared.updateisRead(letterid: letter.id)
+            }
         }
         
     }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WriteHistoryView: View {
+    
     @Environment(\.dismiss) var dismiss
 
     var body: some View {

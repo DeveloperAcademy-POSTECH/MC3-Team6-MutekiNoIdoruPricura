@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReceivedHistoryCell: View {
     
-    let letter: LetterModel
+    @State var letter: LetterModel
     @State private var image: UIImage?
     
     var body: some View {
