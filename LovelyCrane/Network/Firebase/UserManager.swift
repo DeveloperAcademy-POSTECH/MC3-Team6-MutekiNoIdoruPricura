@@ -57,17 +57,20 @@ final class UserManager {
         var letterLists : [LetterModel] = []
         let snapshot = try await getUserDocument().collection("letter_lists")
             .getDocuments()
-        for document in snapshot.documents {
+    for document in snapshot.documents {
             guard let stamp = document["date"] as? Timestamp,
                   let image = document["image"] as? String,
                   let text = document["text"] as? String,
                   let is_byme = document["is_byme"] as? Bool,
                   let is_sent = document["is_sent"] as? Bool,
-                  let is_read = document["is_read"] as? Bool,
-                  let sent_date = document["sent_date"] as? Date else { continue }
+                  let is_read = document["is_read"] as? Bool else {return}
             let date = stamp.dateValue()
-            let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read, sentDate: sent_date)
-            letterLists.append(letterData)
+            if let sent_date = document["sent_date"] as? Date {
+                letterLists.append(LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read, sentDate: sent_date))
+            }
+            else{
+                letterLists.append(LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read, sentDate: nil))
+            }
         }
         LetterListsManager.shared.letterListArray = letterLists
     }

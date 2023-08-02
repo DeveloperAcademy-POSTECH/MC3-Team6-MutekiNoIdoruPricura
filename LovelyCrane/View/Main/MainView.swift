@@ -216,7 +216,10 @@ struct MainView: View {
                     .padding()
                     .frame(width: UIScreen.getWidth(246), height: UIScreen.getHeight(360))
                     .onTapGesture {
-                        isWriteHistroyTapped.toggle()
+                        Task {
+                            try await UserManager.shared.getAllLetterData()
+                            isWriteHistroyTapped.toggle()
+                        }
                     }
                 }
         }
