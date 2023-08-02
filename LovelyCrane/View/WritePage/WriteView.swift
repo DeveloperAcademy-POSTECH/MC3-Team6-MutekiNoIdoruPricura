@@ -61,8 +61,8 @@ struct WriteView: View {
                                 }
                             }
                         }
-                    }
                         .padding(.top, 30)
+                    }
                         .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
                     
                     Spacer()
@@ -200,7 +200,7 @@ struct WriteView: View {
                 )
         }
         .offset(y: -UIScreen.getHeight(10))
-        .offset(x: -UIScreen.getHeight(10))
+        .offset(x: UIScreen.getHeight(10))
     }
     
     private func letterLimitLabel(letterLimit: Int) -> some View {
