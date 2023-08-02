@@ -57,13 +57,12 @@ struct WriteView: View {
                                         isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
                                         vm.letterText = trimmedText
                                     }
-                                    //isOverLetterLimit = vm.letterText.count > letterLimit
                                 }
                             }
                         }
                         .padding(.top, 30)
                     }
-                        .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
+                    .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
                     
                     Spacer()
                     
