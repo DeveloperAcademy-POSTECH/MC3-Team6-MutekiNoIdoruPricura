@@ -127,6 +127,10 @@ final class UserManager {
                     .updateData(["partner_id": partnertoken], forDocument: getUserDocument())
                 batch
                     .updateData(["partner_id": currentUserUID], forDocument: partnerUserDocument)
+                guard let partnerName = partnerDocument[FieldNames.nickname.rawValue] as? String else { return false}
+                DispatchQueue.main.async {
+                    UserInfo.shared.partnerNickName = partnerName
+                }
                 try await batch
                     .commit()
                 return true
