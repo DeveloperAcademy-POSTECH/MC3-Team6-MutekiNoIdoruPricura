@@ -63,9 +63,10 @@ final class UserManager {
                   let text = document["text"] as? String,
                   let is_byme = document["is_byme"] as? Bool,
                   let is_sent = document["is_sent"] as? Bool,
-                  let is_read = document["is_read"] as? Bool else { continue }
+                  let is_read = document["is_read"] as? Bool,
+                  let sent_date = document["sent_date"] as? Date else { continue }
             let date = stamp.dateValue()
-            let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read)
+            let letterData = LetterModel(id: document.documentID, image: image, date: date, text: text, isByme: is_byme, isSent: is_sent, isRead: is_read, sentDate: sent_date)
             letterLists.append(letterData)
         }
         LetterListsManager.shared.letterListArray = letterLists
@@ -137,18 +138,24 @@ final class UserManager {
             let partnerUserDocument = userCollection.document(partnerId)
             guard let partnerUserData = try await partnerUserDocument.getDocument().data(),
                   partnerUserData[partnerField] as? String == currentUserUID else { return }
+            
             let snapshot = try await getUserDocument().collection(FieldNames.letter_lists.rawValue)
                 .whereField("is_sent", isEqualTo: false)
                 .getDocuments()
+            
             for document in snapshot.documents {
                 try await document.reference
-                    .updateData(["send_date": Date.getNowDate()])
-                var letterData = document.data()
-                letterData["send_date"] = Date.getNowDate()
+                    .updateData(["sent_date": Date.getNowDate()])
+                
+                let letterData = document.data()
+//                letterData["send_date"] = Date.getNowDate()
+                
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue)
                     .addDocument(data: letterData)
+                
                 try await document.reference
                     .updateData(["is_sent":true])
+                
                 guard let partnerreceiveCount = partnerUserData["receive_count"] as? Int else { return }
                 batch
                     .updateData(["receive_count": partnerreceiveCount + 1], forDocument: partnerUserDocument)

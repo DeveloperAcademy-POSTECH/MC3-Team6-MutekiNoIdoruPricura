@@ -27,7 +27,7 @@ final class LetterListsManager {
     }
     
     var sentLettersGroupedByDate: [Date: [LetterModel]] {
-        let groupByDate = Dictionary(grouping: sentLetters, by: { Calendar.current.startOfDay(for: $0.date) })
+        let groupByDate = Dictionary(grouping: sentLetters, by: { Calendar.current.startOfDay(for: $0.sentDate ?? Date()) })
         return sortGroupedLettersByDateDescending(groupByDate)
     }
     
@@ -42,7 +42,7 @@ final class LetterListsManager {
     }
     
     var receivedLettersGroupedByDate: [Date: [LetterModel]] {
-        let groupByDate = Dictionary(grouping: receivedLetters, by: { Calendar.current.startOfDay(for: $0.date) })
+        let groupByDate = Dictionary(grouping: receivedLetters, by: { Calendar.current.startOfDay(for: $0.sentDate ?? Date()) })
         return sortGroupedLettersByDateDescending(groupByDate)
     }
     

@@ -73,8 +73,8 @@ extension WriteHistoryCell {
 
 struct WriteHistoryCell_Previews: PreviewProvider {
     
-    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false)
-    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "adsfadsfasdfadsgsdgdsgadsgasdgadsgadsgasdgadsgasdgadsgsadgadsg", isByme: true, isSent: false, isRead: false)
+    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: true, isSent: false, isRead: false, sentDate: nil)
+    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "adsfadsfasdfadsgsdgdsgadsgasdgadsgadsgasdgadsgasdgadsgsadgadsg", isByme: true, isSent: false, isRead: false, sentDate: nil)
     
     
     static var previews: some View {

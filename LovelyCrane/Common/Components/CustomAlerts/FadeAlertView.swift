@@ -23,12 +23,13 @@ struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
     let alertType: FadeAlert
-
+    
     var body: some View {
-        ZStack{
-            AlertBackGroundView()
-            VStack {
-                if showAlert {
+        if showAlert {
+            ZStack{
+                Color.overLay.ignoresSafeArea()
+
+                VStack {
                     VStack {
                         Image(Assets.bigStrokeCrane)
                             .resizable()
@@ -45,16 +46,15 @@ struct FadeAlertView: View {
                             .frame(width: UIScreen.getWidth(262), height: UIScreen.getHeight(200))
                     )
                 }
-            }            
-        }
-        .ignoresSafeArea()
-        .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                withAnimation(.easeInOut(duration: 1.0)) {
-                    self.showAlert = false
+            }
+            .ignoresSafeArea()
+            .onAppear(){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    withAnimation(.easeInOut(duration: 1.0)) {
+                        self.showAlert = false
+                    }
                 }
             }
         }
     }
 }
-
