@@ -9,7 +9,6 @@ import SwiftUI
 import UIKit
 
 struct LetterModel : Codable, Hashable {
-
     let id: String?
     let image: String?
     let date: Date
@@ -19,7 +18,7 @@ struct LetterModel : Codable, Hashable {
     let isRead: Bool
     let sentDate: Date?
     
-    enum CodingKeys: String, CodingKey{
+    enum CodingKeys: String, CodingKey {
         case id
         case image
         case date

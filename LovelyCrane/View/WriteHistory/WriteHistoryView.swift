@@ -83,7 +83,11 @@ extension WriteHistoryView {
             LazyVStack(alignment: .leading) {
                 if let notSentLettersGroup = notSentLetters[date] {
                     ForEach(notSentLettersGroup, id: \.self) { letter in
-                        WriteHistoryCell(letter: letter)
+                        NavigationLink(destination: {
+                            DetailView(letter: letter)
+                        }, label: {
+                            WriteHistoryCell(letter: letter)
+                        })
                     }
                 }
             }

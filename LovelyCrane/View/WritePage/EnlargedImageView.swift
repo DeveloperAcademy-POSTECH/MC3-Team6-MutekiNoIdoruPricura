@@ -15,6 +15,8 @@ struct EnlargedImageView: View {
 
     var body: some View {
         ZStack(alignment: .leading){
+            Color.black
+                .ignoresSafeArea()
             Image(uiImage: image!)
                 .resizable()
                 .scaledToFit()

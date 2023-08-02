@@ -18,7 +18,13 @@ extension Date {
     
     static func formatDate(_ date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd"
+        dateFormatter.dateFormat = "yyyy.M.d"
+        return dateFormatter.string(from: date)
+    }
+    
+    static func formatDateForDetailView(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 HH시 mm분"
         return dateFormatter.string(from: date)
     }
 }

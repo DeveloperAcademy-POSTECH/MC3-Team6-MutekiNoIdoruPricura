@@ -39,7 +39,6 @@ enum Present: String {
 
 
 struct PresentAlertView: View {
-    
     let alertType: Present
     @Binding var showAlert: Bool
     @State var showTouchCraneAlert = false
@@ -109,7 +108,6 @@ struct PresentAlertView: View {
                                         .fill(Color.lightPink)
                                 )
                         }
-                        .padding(.top, UIScreen.getHeight(28))
                     }
                 }
                 if showTouchCraneAlert {

@@ -92,7 +92,11 @@ extension ReceivedHistoryView {
                     .padding(.leading, 20)
                     
                     ForEach(receivedLettersGroup, id: \.self) { letter in
-                        ReceivedHistoryCell(letter: letter)
+                        NavigationLink(destination: {
+                            DetailView(letter: letter)
+                        }, label: {
+                            ReceivedHistoryCell(letter: letter)
+                        })
                     }
                 }
             }

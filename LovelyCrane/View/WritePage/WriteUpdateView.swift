@@ -1,31 +1,30 @@
 //
-//  WriteView.swift
+//  WriteUpdateView.swift
 //  LovelyCrane
 //
-//  Created by 황지우2 on 2023/07/19.
+//  Created by 황지우2 on 2023/08/01.
 //
 
 import SwiftUI
 
-struct WriteView: View {
+struct WriteUpdateView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
     
     private let placeHolder = "상대방에게 전달할 마음을 적어보세요 :)"
     private let letterLimit = 300 // 혹시 글자수 제한 바뀔 수 있어서 변수로 빼둠.
     
-    @StateObject var vm = WriteViewModel()
+    @StateObject var vm = WriteUpdateViewModel()
     
     @FocusState private var isFocused: Bool
-    
-    let nowDate = Date.getNowDate()
 
     @State private var isOverLetterLimit = false
-    @Binding var isShowingCurrentPage: Bool
     @State private var showPhotoPickerActionSheet = false
     @State private var showEnlargedImageView = false
     @State private var showDismissAlert = false
     @State private var showFadeAlert = false
-
-    var color: String
+    
+    @Binding var letter: LetterModel
     
     @ObservedObject var keyboard = KeyboardObserver()
 
@@ -38,13 +37,13 @@ struct WriteView: View {
                 
                 VStack(alignment: .leading) { // 가장 큰 VStack
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
-                    showWriteViewHeader()
+                    showWriteUpdateViewHeader()
                         .padding(.bottom, UIScreen.getHeight(16))
                     ScrollView {
                         VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
-                            Text(nowDate)
-                                .font(Font.caption1font())
-                                .foregroundColor(Color.primaryLabel)
+                                Text(Date.formatDate(letter.date))
+                                    .font(Font.caption1font())
+                                    .foregroundColor(Color.primaryLabel)
                             ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
                                 Text(placeHolder)
                                     .font(Font.bodyfont())
@@ -88,15 +87,17 @@ struct WriteView: View {
                 .padding(.horizontal, UIScreen.getWidth(28))
                 .padding(.bottom, UIScreen.getHeight(24))
                 
-                FadeAlertView(showAlert: $showFadeAlert, alertMessage: .savePaper)
+                FadeAlertView(showAlert: $showFadeAlert)
             }
 
-            .onAppear{
+            .onAppear {
                 //keyboard Observer
                 self.keyboard.addObserver()
                 UIScrollView.appearance().bounces = false
+                vm.letterText = letter.text
+                loadImage()
             }
-            .onDisappear{
+            .onDisappear {
                 self.keyboard.removeObserver()
             }
             //Keyboard 관련
@@ -125,9 +126,9 @@ struct WriteView: View {
             .fullScreenCover(isPresented: $showEnlargedImageView) {
                 EnlargedImageView(image: $vm.image)
             }
-            .alert("쪽지 작성을 그만둘까요?", isPresented: $showDismissAlert) {
+            .alert("쪽지 수정을 그만둘까요?", isPresented: $showDismissAlert) {
                 Button("확인", role: .cancel) {
-                    isShowingCurrentPage.toggle()
+                    presentationMode.wrappedValue.dismiss()
               }
                 Button("취소", role: .destructive) {
                   
@@ -136,7 +137,7 @@ struct WriteView: View {
         }
     }
     
-    private func showWriteViewHeader() -> some View {
+    private func showWriteUpdateViewHeader() -> some View {
         return HStack {
             Button(action: {
                 // full screen cover dismiss
@@ -147,22 +148,14 @@ struct WriteView: View {
                     .frame(width: UIScreen.getWidth(20), height: UIScreen.getHeight(20))
             }
             Spacer()
-            Text("쪽지쓰기")
+            Text("쪽지 수정하기")
                 .font(Font.headlinefont())
                 .foregroundColor(Color.primaryLabel)
                 .padding(.leading, UIScreen.getWidth(5.03))
             Spacer()
             Button(action: {
-                // 쪽지 저장
                 showFadeAlert.toggle()
-                Task{
-                    if(await vm.saveImageStoarge()){
-                    isShowingCurrentPage.toggle()
-                    NotificationCenter.default.post(name: NSNotification.Name("write"), object: color)
-                    NotificationCenter.default.post(name: Notification.Name("update"), object: nil)
-                }}
-
-                print("button")
+                // ⭐️ 쪽지 내용 update
             }){
                 Text("저장")
                     .font(Font.headlinefont())
@@ -241,24 +234,23 @@ struct WriteView: View {
     
 }
 
-extension WriteView {
-    
-    // placeHolder 색상을 커스텀하게 바꾸기 위한 extension
-    func placeholder<Content: View>(
-         when shouldShow: Bool,
-         alignment: Alignment = .leading,
-         @ViewBuilder placeholder: () -> Content) -> some View {
+extension WriteUpdateView {
 
-         ZStack(alignment: alignment) {
-             placeholder().opacity(shouldShow ? 1 : 0)
-             self
-         }
-     }
-}
-
-struct WriteView_Previews: PreviewProvider {
-    static var previews: some View {
-        WriteView(isShowingCurrentPage: .constant(true), color: "pink")
-            .environmentObject(WriteViewModel())
+    private func loadImage() {
+        guard let imageUrl = letter.image else { return }
+        Task {
+            do {
+                let imageData = try await StorageManager.shared.getImage(url: imageUrl)
+                self.vm.image = UIImage(data: imageData)
+            } catch {
+                print("Error loading image: \(error)")
+            }
+        }
     }
 }
+
+//struct WriteUpdateView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WriteUpdateView()
+//    }
+//}
