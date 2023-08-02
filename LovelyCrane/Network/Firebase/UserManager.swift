@@ -84,8 +84,8 @@ final class UserManager {
             }
         }
         guard let sendCount = data["send_count"] as? Int else {fatalError()}
-        guard let notSendCount = data["receive_count"] as? Int else {fatalError()}
-        guard let receiveCount = data["notsend_count"] as? Int else {fatalError()}
+        guard let receiveCount = data["receive_count"] as? Int else {fatalError()}
+        guard let notSendCount = data["notsend_count"] as? Int else {fatalError()}
         guard let myNickname = data["nickname"] as? String else {fatalError()}
         DispatchQueue.main.async {
             UserInfo.shared.sendLetterCount = sendCount
