@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WriteHistoryView: View {
+    
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -116,7 +117,11 @@ extension WriteHistoryView {
                     .padding(.leading, 20)
                     
                     ForEach(sentLettersGroup, id: \.self) { letter in
-                        WriteHistoryCell(letter: letter)
+                        NavigationLink(destination: {
+                            DetailView(letter: letter)
+                        }, label: {
+                            WriteHistoryCell(letter: letter)
+                        })
                     }
                 }
             }

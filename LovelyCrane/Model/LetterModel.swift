@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct LetterModel : Codable, Hashable {
-    let id: String?
+    let id: String
     let image: String?
     let date: Date
     let text: String
