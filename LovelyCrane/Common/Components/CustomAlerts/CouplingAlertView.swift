@@ -14,7 +14,8 @@ struct CouplingAlertView: View {
     
     var body: some View {
             ZStack {
-                AlertBackGroundView()
+                Color.overLay.ignoresSafeArea()
+                
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color.gray3)
                     .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))

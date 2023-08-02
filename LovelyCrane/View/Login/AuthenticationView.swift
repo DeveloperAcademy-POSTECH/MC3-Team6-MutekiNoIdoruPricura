@@ -9,6 +9,7 @@ import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
 import Firebase
+import FirebaseFirestore
 
 struct AuthenticationView: View {
     @StateObject private var vm = AuthenticaitonViewModel()
@@ -26,8 +27,51 @@ struct AuthenticationView: View {
                     makeLoginImageTextView()
                     
                     VStack {
-                        signInWithAppleButton()
-                        customSignInWithGoogleButton()
+                        Button {
+                            Task {
+                                do {
+                                    let authUser = try await vm.signInApple()
+                                    let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
+                                    guard
+                                        let myDocument = try? await userCollection.document(authUser.uid).getDocument(),
+                                        let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
+                                    
+                                    viewRouter.currentPage = myNickname.isEmpty ? .nicknameView : .mainView
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } label: {
+                            Image("appleidButton")
+                                .resizable()
+                                .frame(height: UIScreen.getHeight(45))
+                                .padding(.horizontal)
+                        }
+                        
+                        Button {
+                            Task {
+                                do {
+                                    let authUser = try await vm.signInGoogle()
+                                    let userCollection = Firestore.firestore().collection(FieldNames.Users.rawValue)
+                                    guard
+                                        let myDocument = try? await userCollection.document(authUser.uid).getDocument(),
+                                        let myNickname = myDocument[FieldNames.nickname.rawValue] as? String else { return }
+                                    
+                                    viewRouter.currentPage = myNickname.isEmpty ? .nicknameView : .mainView
+                                } catch {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                        } label: {
+                            Image("googleidButton")
+                                .resizable()
+                                .frame(height: UIScreen.getHeight(45))
+                                .padding(.horizontal)
+                        }
+
+
+//                        signInWithAppleButton()
+//                        customSignInWithGoogleButton()
                     }
                     Spacer()
                 }

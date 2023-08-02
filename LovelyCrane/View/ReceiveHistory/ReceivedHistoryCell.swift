@@ -86,8 +86,8 @@ extension ReceivedHistoryCell {
 
 struct ReceivedHistoryCell_Previews: PreviewProvider {
     
-    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: false)
-    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: true)
+    static let testLetter1 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: false, sentDate: nil)
+    static let testLetter2 = LetterModel(id: "s", image: "", date: .now, text: "dhdhdh", isByme: false, isSent: false, isRead: true, sentDate: nil)
     
     
     static var previews: some View {
