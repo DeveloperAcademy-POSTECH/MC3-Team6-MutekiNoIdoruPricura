@@ -40,7 +40,7 @@ struct SettingView: View {
                                     Task {
                                         do {
                                             try vm.logout()
-                                            viewRouter.currentPage = .launchsScreenView
+                                            viewRouter.currentPage = .authenticationView
                                             
                                         } catch {
                                             print(error.localizedDescription)
