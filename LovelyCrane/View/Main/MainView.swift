@@ -24,6 +24,7 @@ struct MainView: View {
     @State private var isCoupleingTapped = false
     @State private var showPresentAlert = false
     @State private var isPresented = false
+    @State private var isConnectFirst = false
     @State private var presentStrings: [String] = ["선", "물", "하", "기"]
     @State private var selection = 0
     @EnvironmentObject var viewRouter : ViewRouter
@@ -33,6 +34,7 @@ struct MainView: View {
     let updateCenter = NotificationCenter.default.publisher(for: Notification.Name("update"))
     let successPresentCenter = NotificationCenter.default.publisher(for: Notification.Name("successPresent"))
     let openCenter = NotificationCenter.default.publisher(for: Notification.Name("open"))
+    let partnerConnectCenter = NotificationCenter.default.publisher(for: Notification.Name("connectPartner"))
     
     var body: some View {
         ZStack {
@@ -69,6 +71,9 @@ struct MainView: View {
             .onReceive(successPresentCenter) { _ in
                 isPresented.toggle()
             }
+            .onReceive(partnerConnectCenter) { _ in
+                isConnectFirst.toggle()
+            }
             if showPresentAlert {
                 PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
                     .transition(.opacity.animation(.easeIn))
@@ -77,6 +82,9 @@ struct MainView: View {
                 FadeAlertView(showAlert: $isPresented, alertType: .presentCrane)
                     .transition(.opacity.animation(.easeIn))
             }
+        }
+        .onAppear {
+            UserManager.shared.listenConnectPartner()
         }
     }
 
@@ -142,7 +150,7 @@ struct MainView: View {
                                 }
                             }
                             .fullScreenCover(isPresented: $isCoupleingTapped) {
-                                CouplingView()
+                                CouplingView(isOpen: $isCoupleingTapped)
                             }
                         }
                         .offset(x: UIScreen.getWidth(-7))
@@ -253,7 +261,7 @@ struct MainView: View {
                             isCoupleingTapped.toggle()
                         }
                         .fullScreenCover(isPresented: $isCoupleingTapped) {
-                            CouplingView()
+                            CouplingView(isOpen: $isCoupleingTapped)
                         }
                 }
             }
