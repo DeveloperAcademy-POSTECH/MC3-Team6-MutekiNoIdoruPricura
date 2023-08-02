@@ -29,6 +29,7 @@ struct ReceivedHistoryView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray)
+                    .padding(.trailing, 35)
                     .onTapGesture {
                         dismiss()
                     }

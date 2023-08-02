@@ -41,7 +41,7 @@ struct NoReceivedView: View {
             ToolbarItem(placement: .navigationBarLeading) {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.gray)
-                    .padding(.trailing, 15)
+                    .padding(.trailing, 35)
                     .onTapGesture {
                         dismiss()
                     }
