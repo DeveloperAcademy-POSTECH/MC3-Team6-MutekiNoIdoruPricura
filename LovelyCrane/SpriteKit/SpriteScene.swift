@@ -22,7 +22,12 @@ final class SpriteScene: SKScene {
     init(size: CGSize, letterCount: Int) {
         self.letterCount = letterCount
         super.init(size: size)
-        self.craneCount = letterCount
+        if letterCount > 100 {
+            self.craneCount = 100
+        }
+        else {
+            self.craneCount = letterCount
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,7 +39,7 @@ final class SpriteScene: SKScene {
         motionManager?.setCoreMotionManager()
         backgroundColor = .backGround
         NotificationCenter.default.addObserver(self, selector: #selector(addNewCrane), name: NSNotification.Name("write"), object: nil)
-        for _ in 0..<letterCount {
+        for _ in 0..<craneCount {
             createCrane()
         }
     }
@@ -49,12 +54,13 @@ final class SpriteScene: SKScene {
             nodes.append(crane)
             addChild(crane)
         }
-        if craneCount == 100 {
-            nodes.first?.removeFromParent()
+        if craneCount > 100 {
+            nodes.popLast()?.removeFromParent()
+            print(nodes.count)
             let newCrane = notification.object as! String
             let crane = SKSpriteNode(imageNamed: newCrane)
             crane.physicsBody = SKPhysicsBody(texture: crane.texture!, size: crane.texture!.size())
-            crane.position = CGPoint(x: CGFloat.random(in: size.width * 0.1...size.width * 0.9), y: size.width * 1)
+            crane.position = CGPoint(x: size.width * 0.5, y: size.height * 0.9)
             nodes.append(crane)
             addChild(crane)
         }

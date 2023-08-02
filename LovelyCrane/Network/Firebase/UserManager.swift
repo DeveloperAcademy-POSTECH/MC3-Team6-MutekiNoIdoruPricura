@@ -77,7 +77,10 @@ final class UserManager {
         guard let data = snapshot.data() else {return}
         if let partnerToken = data[partnerField] as? String {
             let partnerDocument = try await userCollection.document(partnerToken).getDocument()
-            UserInfo.shared.partnerNickName = partnerDocument[FieldNames.nickname.rawValue] as! String
+            guard let partnerName = partnerDocument[FieldNames.nickname.rawValue] as? String else { return }
+            DispatchQueue.main.async {
+                UserInfo.shared.partnerNickName = partnerName
+            }
         }
 
         DispatchQueue.main.async {
@@ -173,9 +176,16 @@ final class UserManager {
             guard let documents = snapshot else {return}
             guard let data = documents.data() else {return}
             guard let receivecount = data["receive_count"] as? Int else {return}
-            if self.partnerNickName != UserInfo.shared.partnerNickName {
-                NotificationCenter.default.post(name: Notification.Name("connectPartner"), object: nil)
-            } else if receivecount != UserInfo.shared.receiveLetterCount {
+            if let partnerID = data["partner_id"] as? String {
+                self.userCollection.document(partnerID).getDocument { document, err in
+                    guard let partnerData = document?.data(), let nickname = partnerData["nickname"] as? String else {return}
+                    self.partnerNickName = nickname
+                    if self.partnerNickName != UserInfo.shared.partnerNickName {
+                        NotificationCenter.default.post(name: Notification.Name("connectPartner"), object: nil)
+                    }
+                }
+            }
+            if receivecount != UserInfo.shared.receiveLetterCount {
                 NotificationCenter.default.post(name: Notification.Name("open"), object: nil)
             }
         }

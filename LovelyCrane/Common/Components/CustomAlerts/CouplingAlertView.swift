@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct CouplingAlertView: View {
-    @Binding var myName: String
-    @Binding var partnerName: String
     @Binding var showAlert: Bool
     
     var body: some View {
@@ -23,12 +21,12 @@ struct CouplingAlertView: View {
                         .resizable()
                         .frame(width: UIScreen.getWidth(37), height: UIScreen.getHeight(75))
                     Group {
-                        Text(myName) +
+                        Text(UserInfo.shared.nickName) +
                         Text(" X ").foregroundColor(.secondaryLabel) +
-                        Text(partnerName)
+                        Text(UserInfo.shared.partnerNickName)
                     }
                     .foregroundColor(.primaryLabel)
-                    .font(partnerName.count > 5 || myName.count > 5 ? Font.bodyfont() : Font.title3font())
+                    .font(UserInfo.shared.partnerNickName.count > 5 || UserInfo.shared.nickName.count > 5 ? Font.bodyfont() : Font.title3font())
                     .padding(.top, UIScreen.getHeight(33))
                     Text("연인 연결이 되었어요!")
                         .foregroundColor(.secondaryLabel)
@@ -55,8 +53,8 @@ struct CouplingAlertView: View {
         }
 }
 
-struct CouplingAlertView_Previews: PreviewProvider {
-    static var previews: some View {
-        CouplingAlertView(myName: .constant("위머"), partnerName: .constant("위머"), showAlert: .constant(true))
-    }
-}
+//struct CouplingAlertView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CouplingAlertView(myName: .constant("위머"), partnerName: .constant("위머"), showAlert: .constant(true))
+//    }
+//}

@@ -74,6 +74,9 @@ struct MainView: View {
             .onReceive(partnerConnectCenter) { _ in
                 isConnectFirst.toggle()
             }
+            if isConnectFirst {
+                CouplingAlertView(showAlert: $isConnectFirst)
+            }
             if showPresentAlert {
                 PresentAlertView(alertType: .presentCrane, showAlert: $showPresentAlert)
                     .transition(.opacity.animation(.easeIn))
