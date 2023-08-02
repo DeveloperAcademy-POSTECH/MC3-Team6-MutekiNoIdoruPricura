@@ -243,7 +243,10 @@ struct MainView: View {
                         .foregroundColor(Color.defaultWhite)
                         .padding(.bottom)
                     Button {
-                        isWriteHistroyTapped.toggle()
+                        Task {
+                            try await UserManager.shared.getAllLetterData()
+                            isWriteHistroyTapped.toggle()
+                        }
                     } label: {
                         Text("기록 보기")
                             .foregroundColor(.deepPink)
@@ -267,7 +270,11 @@ struct MainView: View {
                     .padding()
                     .frame(width: UIScreen.getWidth(246), height: UIScreen.getHeight(360))
                     .onTapGesture {
-                        isReceiveHistroyTapped.toggle()
+                        Task {
+                            try await UserManager.shared.getAllLetterData()
+                            isReceiveHistroyTapped.toggle()
+                        }
+
                     }
                 }
         }

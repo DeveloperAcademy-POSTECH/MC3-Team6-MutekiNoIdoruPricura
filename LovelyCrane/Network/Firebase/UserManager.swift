@@ -159,11 +159,12 @@ final class UserManager {
                 try await document.reference
                     .updateData(["sent_date": Date.getNowDate()])
                 
-                let letterData = document.data()
+                var letterData = document.data()
 //                letterData["send_date"] = Date.getNowDate()
-                
+                letterData["is_byme"] = false
                 try await partnerUserDocument.collection(FieldNames.letter_lists.rawValue)
                     .addDocument(data: letterData)
+
                 
                 try await document.reference
                     .updateData(["is_sent":true])
