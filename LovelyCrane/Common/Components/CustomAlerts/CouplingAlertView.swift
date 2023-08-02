@@ -13,9 +13,8 @@ struct CouplingAlertView: View {
     @Binding var showAlert: Bool
     
     var body: some View {
-        if showAlert {
             ZStack {
-                Color.overLay.ignoresSafeArea()
+                AlertBackGroundView()
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color.gray3)
                     .frame(width: UIScreen.getWidth(280), height: UIScreen.getHeight(358))
@@ -52,8 +51,8 @@ struct CouplingAlertView: View {
                     .padding(.top, UIScreen.getHeight(63))
                 }
             }
+            .ignoresSafeArea()
         }
-    }
 }
 
 struct CouplingAlertView_Previews: PreviewProvider {

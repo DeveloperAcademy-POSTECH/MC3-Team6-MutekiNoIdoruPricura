@@ -14,12 +14,6 @@ final class NicknameViewModel: ObservableObject {
     
     @Published var nickname: String = ""
     
-    init() {
-        if let savedNickname = UserDefaults.standard.string(forKey: "nickname") {
-            self.nickname = savedNickname
-        }
-    }
-    
     func isValidNickName() -> Bool {
         if nickname.isEmpty || nickname.count > 8 {
             return false
@@ -35,6 +29,5 @@ final class NicknameViewModel: ObservableObject {
         let data: [String: Any] = [DBUser.CodingKeys.nickname.rawValue : nickname]
         try await document.updateData(data)
         self.nickname = nickName
-        UserDefaults.standard.set(nickName, forKey: "nickname")
     }
 }

@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
+import Combine
+
 struct SuccessCouplingView: View {
+    
     @Binding var isOpenModal:Bool
     var body: some View {
         ZStack{
@@ -24,7 +27,9 @@ struct SuccessCouplingView: View {
                         .padding(.horizontal,UIScreen.getWidth(24))
                         .padding(.bottom,UIScreen.getHeight(10))
                 }
-            }}}
+            }
+        }
+    }
 }
 extension SuccessCouplingView {
     func makeQuestionText() -> some View {
@@ -45,7 +50,10 @@ extension SuccessCouplingView {
         .cornerRadius(8)
     }
     func makesendNowBtn() -> some View {
-        Button(action: {isOpenModal = false}) {
+        Button {
+            isOpenModal = false
+            NotificationCenter.default.post(name: Notification.Name("present"), object: nil)
+        } label: {
             Text("네! 지금 선물할래요")
                 .foregroundColor(.gray1)
                 .padding(.vertical,UIScreen.getHeight(18))
@@ -54,6 +62,7 @@ extension SuccessCouplingView {
         }
         .background(Color.lightPink)
         .cornerRadius(8)
+
     }
 }
 struct SuccessCouplingView_Previews: PreviewProvider {

@@ -7,22 +7,34 @@
 
 import SwiftUI
 
+enum FadeAlert: String {
+    case nickNameSaved, presentCrane, savePaper
+    var message: String {
+        switch self {
+        case .presentCrane: return "종이학을 선물했어요"
+        case .nickNameSaved: return "닉네임이 저장되었어요"
+        case .savePaper: return "쪽지가 저장되었어요."
+        }
+    }
+}
+
+
 struct FadeAlertView: View {
     
     @Binding var showAlert: Bool
-    var alertMessage: FadeAlertMessage = .nickNameSaved
- 
+    let alertType: FadeAlert
+
     var body: some View {
-        if showAlert {
-            ZStack {
-                Color.overLay.ignoresSafeArea()
-                VStack {
-                    VStack(spacing: 0) {
+        ZStack{
+            AlertBackGroundView()
+            VStack {
+                if showAlert {
+                    VStack {
                         Image(Assets.bigStrokeCrane)
                             .resizable()
                             .scaledToFit()
                             .frame(width: UIScreen.getWidth(73.35), height: UIScreen.getHeight(63.98))
-                        Text(alertMessage.rawValue)
+                        Text(alertType.message)
                             .foregroundColor(.primaryLabel)
                             .font(Font.headlinefont())
                             .padding(.top, UIScreen.getHeight(23))
@@ -33,9 +45,12 @@ struct FadeAlertView: View {
                             .frame(width: UIScreen.getWidth(262), height: UIScreen.getHeight(200))
                     )
                 }
-            }
-            .onAppear() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            }            
+        }
+        .ignoresSafeArea()
+        .onAppear(){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                withAnimation(.easeInOut(duration: 1.0)) {
                     self.showAlert = false
                 }
             }
@@ -43,15 +58,3 @@ struct FadeAlertView: View {
     }
 }
 
-enum FadeAlertMessage: String {
-    case nickNameSaved = "닉네임이 저장되었어요"
-    case presentCrane = "종이학을 선물했어요"
-    case savePaper = "쪽지가 저장되었어요."
-}
-
-struct FadeAlertView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        FadeAlertView(showAlert: .constant(true))
-    }
-}
