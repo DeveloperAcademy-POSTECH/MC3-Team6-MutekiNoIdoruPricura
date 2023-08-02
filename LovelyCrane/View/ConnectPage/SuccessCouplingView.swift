@@ -10,7 +10,7 @@ import Combine
 
 struct SuccessCouplingView: View {
     
-    @Binding var isOpenModal:Bool
+    @Binding var isOpenModal: Bool
     var body: some View {
         ZStack{
             Color.backGround.ignoresSafeArea()

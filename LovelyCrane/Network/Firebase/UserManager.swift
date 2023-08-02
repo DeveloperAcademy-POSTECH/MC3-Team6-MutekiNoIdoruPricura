@@ -154,7 +154,8 @@ final class UserManager {
             let snapshot = try await getUserDocument().collection(FieldNames.letter_lists.rawValue)
                 .whereField("is_sent", isEqualTo: false)
                 .getDocuments()
-            
+            guard let partnerreceiveCount = partnerUserData["receive_count"] as? Int else { return }
+            var nowreceiveCount = partnerreceiveCount
             for document in snapshot.documents {
                 try await document.reference
                     .updateData(["sent_date": Date.getNowDate()])
@@ -169,12 +170,14 @@ final class UserManager {
                 try await document.reference
                     .updateData(["is_sent":true])
                 
-                guard let partnerreceiveCount = partnerUserData["receive_count"] as? Int else { return }
-                batch
-                    .updateData(["receive_count": partnerreceiveCount + 1], forDocument: partnerUserDocument)
+               nowreceiveCount += 1
+                
+               
             }
             batch
                 .updateData(["notsend_count": 0], forDocument: getUserDocument())
+            batch
+                .updateData(["receive_count": nowreceiveCount], forDocument: partnerUserDocument)
             try await batch
                 .commit()
         }

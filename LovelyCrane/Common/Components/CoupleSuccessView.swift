@@ -12,10 +12,15 @@ struct CoupleSuccessView: View {
             Image(Assets.connectbottle)
                 .resizable()
                 .frame(width: UIScreen.getWidth(60),height: UIScreen.getHeight(90))
-            Text("직녀 X 견우")
-                .padding(.bottom, 26)
-                .foregroundColor(.primaryLabel)
-                .font(Font.title3font())
+            Group {
+                Text(UserInfo.shared.nickName) +
+                Text(" X ").foregroundColor(.secondaryLabel) +
+                Text(UserInfo.shared.partnerNickName)
+            }
+            .foregroundColor(.primaryLabel)
+            .font(UserInfo.shared.partnerNickName.count > 5 || UserInfo.shared.nickName.count > 5 ? Font.bodyfont() : Font.title3font())
+            .padding(.top, UIScreen.getHeight(33))
+            .padding(.bottom, UIScreen.getHeight(10))
             Text("연인 연결이 되었어요!")
                 .foregroundColor(.primaryLabel)
                 .font(Font.bodyfont())
