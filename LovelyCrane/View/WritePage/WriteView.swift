@@ -35,35 +35,36 @@ struct WriteView: View {
             ZStack {
                 Color.backGround
                     .ignoresSafeArea()
-                
                 VStack(alignment: .leading) { // 가장 큰 VStack
                     // 상단 헤더 (x버튼 + 쪽지쓰기 타이틀 + 저장 버튼)
                     showWriteViewHeader()
                         .padding(.bottom, UIScreen.getHeight(16))
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
-                            Text(nowDate)
-                                .font(Font.caption1font())
-                                .foregroundColor(Color.primaryLabel)
-                            ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
-                                Text(placeHolder)
-                                    .font(Font.bodyfont())
-                                    .foregroundColor(Color.secondaryLabel)
-                                    .opacity(vm.letterText.isEmpty ? 1 : 0)
-                                letterLimitTextField(letterLimit: letterLimit)
-                                    .onReceive(vm.letterText.publisher.collect()) { collectionText in
-                                    let trimmedText = String(collectionText.prefix(letterLimit))
-                                    if vm.letterText != trimmedText {
-                                        isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
-                                        vm.letterText = trimmedText
-                                    }
+                    GeometryReader { geometry in
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 28) { // ScrollView에 들어갈 Vstack (날짜 + 텍스트필드)
+                                Text(nowDate)
+                                    .font(Font.caption1font())
+                                    .foregroundColor(Color.primaryLabel)
+                                ZStack(alignment: .topLeading) { // 플레이스홀더 + 텍스트필드
+                                    Text(placeHolder)
+                                        .font(Font.bodyfont())
+                                        .foregroundColor(Color.secondaryLabel)
+                                        .opacity(vm.letterText.isEmpty ? 1 : 0)
+                                    letterLimitTextField(letterLimit: letterLimit)
+                                        .onReceive(vm.letterText.publisher.collect()) { collectionText in
+                                            let trimmedText = String(collectionText.prefix(letterLimit))
+                                            if vm.letterText != trimmedText {
+                                                isOverLetterLimit = vm.letterText.count > letterLimit ? true : false
+                                                vm.letterText = trimmedText
+                                            }
+                                        }
                                 }
                             }
+                            .padding(.top, 30)
                         }
-                        .padding(.top, 30)
+                        .frame(maxHeight: isFocused ? UIScreen.getHeight(270) : geometry.size.height)
+                        .ignoresSafeArea(.keyboard, edges: .bottom)
                     }
-                    .frame(maxHeight: isFocused && vm.letterText.count > 0 ? UIScreen.getHeight(270) : 1000)
-                    
                     Spacer()
                     
                     HStack(alignment: .bottom) {
