@@ -116,7 +116,11 @@ extension WriteHistoryView {
                     .padding(.leading, 20)
                     
                     ForEach(sentLettersGroup, id: \.self) { letter in
-                        WriteHistoryCell(letter: letter)
+                        NavigationLink(destination: {
+                            DetailView(letter: letter)
+                        }, label: {
+                            WriteHistoryCell(letter: letter)
+                        })
                     }
                 }
             }

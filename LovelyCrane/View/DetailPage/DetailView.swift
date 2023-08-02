@@ -16,18 +16,15 @@ struct DetailView: View {
     @State private var showWriteUpdateView = false
     @State private var image : UIImage?
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         
         ZStack {
             Color.backGround
                 .ignoresSafeArea()
             ZStack() {
-                VStack {
-                    detailViewHeader()
-                        .padding(.horizontal, 30.5)
-                        .padding(.top, 19)
-                    Spacer()
-                }
+
                 VStack {
                     if let thisImage = image {
                         letterImageView(image: thisImage)
@@ -46,6 +43,17 @@ struct DetailView: View {
    
             }
             .padding(.bottom, 35)
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(Color.tertiaryLabel)
+                    .padding(.trailing, 35)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
         }
         .fullScreenCover(isPresented: $showEnlargedImageView) {
             EnlargedImageView(image: $vm.image)
@@ -69,19 +77,18 @@ struct DetailView: View {
     }
     
     private func backToHistoryButton() -> some View {
-        return NavigationLink {
-           // HistoryView로 되돌아갈 수 있도록.
-        } label: {
             Image(systemName: "chevron.left")
                 .scaledToFit()
                 .foregroundColor(.secondaryLabel)
                 .frame(width: UIScreen.getWidth(14), height: UIScreen.getHeight(14))
-        }
     }
     
     private func detailViewHeader() -> some View {
         return HStack {
-            backToHistoryButton()
+//            backToHistoryButton()
+//                .onTapGesture {
+//                    dismiss()
+//                }
             Spacer()
             if letter.isByme { // 내가 보낸 편지일 경우 상단 메뉴 버튼이 존재
                 Menu {
