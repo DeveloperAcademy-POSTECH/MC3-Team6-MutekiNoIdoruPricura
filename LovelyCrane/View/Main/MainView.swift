@@ -341,10 +341,3 @@ struct View_Preview: PreviewProvider {
         MainView()
     }
 }
-
-//extension MainView {
-//    func fetchData() async {
-//        let sentLetters = LetterListsManager.shared.sentLettersGroupedByDate
-//        let notSentLetters = LetterListsManager.shared.notSentLettersGroupedByDate
-//    }
-//}
