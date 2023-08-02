@@ -47,7 +47,8 @@ struct PresentAlertView: View {
     var body: some View {
         if showAlert {
             ZStack {
-                AlertBackGroundView()
+                Color.overLay.ignoresSafeArea()
+                
                 ZStack {
                     RoundedRectangle(cornerRadius: 14)
                         .fill(Color.gray3)

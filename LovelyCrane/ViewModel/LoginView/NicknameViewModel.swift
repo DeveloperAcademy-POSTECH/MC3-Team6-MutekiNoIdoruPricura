@@ -14,6 +14,9 @@ final class NicknameViewModel: ObservableObject {
     
     @Published var nickname: String = ""
     
+    init() {
+        self.nickname = UserInfo.shared.nickName
+    }
     func isValidNickName() -> Bool {
         if nickname.isEmpty || nickname.count > 8 {
             return false

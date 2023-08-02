@@ -12,6 +12,8 @@ struct LaunchScreenView: View {
         ZStack {
             Color.backGround
                 .ignoresSafeArea()
+            ProgressView()
+                .tint(.white)
         }
     }
 }

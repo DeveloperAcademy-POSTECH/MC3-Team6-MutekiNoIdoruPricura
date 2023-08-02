@@ -32,9 +32,9 @@ final class KeyboardObserver: ObservableObject {
         let keyboardSize = keyboardInfo.cgRectValue.size
         height = keyboardSize.height
     }
-    
     @objc func keyboardWillHide(_ notification: Notification) {
         isShowing = false
         height = 0
     }
 }
+

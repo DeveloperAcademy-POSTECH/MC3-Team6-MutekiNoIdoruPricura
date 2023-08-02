@@ -17,6 +17,7 @@ struct LetterModel : Codable, Hashable {
     let isByme: Bool
     let isSent: Bool
     let isRead: Bool
+    let sentDate: Date?
     
     enum CodingKeys: String, CodingKey{
         case id
@@ -26,5 +27,6 @@ struct LetterModel : Codable, Hashable {
         case isByme = "is_byme"
         case isSent = "is_sent"
         case isRead = "is_read"
+        case sentDate = "sent_date"
     }
 }
