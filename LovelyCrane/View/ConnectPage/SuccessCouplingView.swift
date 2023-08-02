@@ -39,7 +39,9 @@ extension SuccessCouplingView {
             .padding(.bottom,UIScreen.getHeight(30))
     }
     func makeretryBtn() -> some View {
-        Button(action: {isOpenModal = false}) {
+        Button(action: {
+            isOpenModal = false
+        }) {
             Text("다음에 할게요")
                 .foregroundColor(.lightPink)
                 .padding(.vertical,UIScreen.getHeight(18))
