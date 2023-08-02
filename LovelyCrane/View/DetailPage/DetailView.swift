@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailView: View {
   
     @StateObject var vm = DetailViewModel()
-    @State var letter = LetterModel(id: "s", image: "", date: .now, text: "안녕하세요! 스위머입니당", isByme: true, isSent: false, isRead: false)
+    @State var letter: LetterModel
     @State private var showEnlargedImageView = false
     @State private var showDeleteAlert = false
     @State private var showWriteUpdateView = false
@@ -175,10 +175,10 @@ extension DetailView {
 }
 
 
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            DetailView()
-        }
-    }
-}
+//struct DetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationStack {
+//            DetailView(
+//        }
+//    }
+//}

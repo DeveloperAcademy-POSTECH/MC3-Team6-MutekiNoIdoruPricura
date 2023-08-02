@@ -88,7 +88,7 @@ struct WriteView: View {
                 .padding(.horizontal, UIScreen.getWidth(28))
                 .padding(.bottom, UIScreen.getHeight(24))
                 
-                FadeAlertView(showAlert: $showFadeAlert, alertMessage: .savePaper)
+                FadeAlertView(showAlert: $showFadeAlert, alertType: .savePaper)
             }
 
             .onAppear{

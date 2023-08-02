@@ -23,9 +23,13 @@ final class AuthenticationManager {
     
     // MARK: 현재 로그인 된 유저의 정보를 가져옵니다.(locally)
     func getAuthenticatedUser() throws -> AuthDataResult {
+        print("⭐️로그인 되어 있는 유저 로드 시도")
         guard let user = Auth.auth().currentUser else {
+            print("⭐️현재 유저를 불러오지 못했습니다.")
             throw URLError(.badServerResponse)
         }
+        let currentResult = AuthDataResult(user: user)
+        print("\(currentResult.email), \(currentResult.uid)")
         return AuthDataResult(user: user)
     }
     

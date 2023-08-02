@@ -47,7 +47,7 @@ struct Assets {
     static let crans: [Cran] = Cran.allCases
     static let bigStrokeCrane = "bigStrokeCrane"
     static let shakingBottle = "shakingBottle2"
-    static let heartBottle = "HeartBottle3"
+    static let heartBottle = "heartBottle3"
     static let touchCranes : [FoldedCrane] = FoldedCrane.allCases
     static let writeViewCranes = "writeViewCranes"
     static let receivedHistoryBottle = "receivedHistoryBottle"
