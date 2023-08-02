@@ -70,7 +70,7 @@ struct SettingView: View {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Image(systemName: "chevron.left")
                             .foregroundColor(Color.tertiaryLabel)
-                            .padding(.trailing, 15)
+                            .padding(.trailing, 35)
                             .onTapGesture {
                                 dismiss()
                             }
