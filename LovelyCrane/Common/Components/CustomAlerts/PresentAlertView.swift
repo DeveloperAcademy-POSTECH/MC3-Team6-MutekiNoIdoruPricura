@@ -82,7 +82,7 @@ struct PresentAlertView: View {
                             .font(Font.footnotefont())
                             .multilineTextAlignment(.center)
                             .lineSpacing(UIScreen.getHeight(5))
-                            .padding(.top, UIScreen.getHeight(22))
+                            .padding(.vertical, UIScreen.getHeight(22))
                         Button {
                             switch alertType {
                                 //todo : present와 arrive의 케이스가 변경되어있음

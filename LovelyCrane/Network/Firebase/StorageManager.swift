@@ -29,6 +29,7 @@ final class StorageManager {
         let returnedMetaData = try await imageReference.child(path).putDataAsync(data, metadata: metaData)
         return path
     }
+
     
     func getImage(url: String) async throws -> Data {
         try await imageReference
