@@ -90,6 +90,9 @@ struct PresentAlertView: View {
                                 self.showTouchCraneAlert.toggle()
                             case .presentCrane:
                                 NotificationCenter.default.post(name: Notification.Name("successPresent"), object: nil)
+                                Task {
+                                    try await UserManager.shared.sendletterLists()
+                                }
                                 self.showAlert.toggle()
                             case .fullBottle:
                                 self.showAlert.toggle()

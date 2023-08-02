@@ -46,7 +46,6 @@ extension ContentView {
                 try await UserManager.shared.getmyUserData()
                 await checkDocumentNickName()
             }
-
         } else {
             viewRouter.currentPage = .authenticationView
         }
